@@ -9,18 +9,14 @@ type LayoutProps = {
 }
 
 function Layout({ children }: LayoutProps) {
-  const bg = useColorModeValue('blue.200', 'blue.700')
+  const bg = useColorModeValue('gray.200', 'gray.800')
 
   return (
-    <Container maxW="container.lg" bg={bg} mt="3" p="3">
+    <Container maxW="container.xl" bg={bg} mt="3" p="5">
       <Head>
         <title>IPA Trainer</title>
       </Head>
       <Grid
-        templateRows={{
-          base: 'repeat(4, 1fr)',
-          md: 'repeat(3, 1fr)',
-        }}
         templateColumns={'1fr 4fr'}
         gridTemplateAreas={{
           base: "'header header' 'main main' 'sidebar sidebar' 'footer footer'",
@@ -30,7 +26,7 @@ function Layout({ children }: LayoutProps) {
       >
         <Header gridArea="header" />
         <Sidebar gridArea="sidebar" />
-        <Box as="main" gridArea="main">
+        <Box as="main" gridArea="main" textAlign="justify">
           {children}
         </Box>
         <Footer gridArea="footer" />

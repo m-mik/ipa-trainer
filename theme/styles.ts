@@ -4,7 +4,7 @@ const styles = {
   global: (props: any) => ({
     body: {
       color: mode('gray.800', 'whiteAlpha.900')(props),
-      bg: mode('gray.200', 'gray.700')(props),
+      bg: mode('gray.300', 'gray.900')(props),
     },
   }),
 }

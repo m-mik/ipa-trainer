@@ -8,9 +8,8 @@ import {
   Text,
   FlexProps,
   useColorModeValue,
-  Link,
 } from '@chakra-ui/react'
-import NextLink from 'next/link'
+import Link from '@/components/Link'
 import ColorModeSwitch from '@/components/ColorModeSwitch'
 
 function Header(props: FlexProps) {
@@ -22,19 +21,17 @@ function Header(props: FlexProps) {
   return (
     <Flex as="header" {...props} minH="100">
       <Box>
-        <NextLink href="/" passHref>
-          <Link>
-            <Heading
-              as="h1"
-              size="2xl"
-              color={colors.heading}
-              textShadow="1px 2px 0px #000"
-              fontFamily="Indie Flower"
-            >
-              IPA Trainer
-            </Heading>
-          </Link>
-        </NextLink>
+        <Link href="/" chakraProps={{ _hover: { textDecoration: 'none' } }}>
+          <Heading
+            as="h1"
+            size="2xl"
+            color={colors.heading}
+            textShadow="1px 2px 0px #000"
+            fontFamily="Indie Flower"
+          >
+            IPA Trainer
+          </Heading>
+        </Link>
         <Text color={colors.ipaText} fontSize="md" fontFamily="Indie Flower">
           /ˌaɪ.piːˈeɪ/ /ˈtreɪ.nɚ/
         </Text>

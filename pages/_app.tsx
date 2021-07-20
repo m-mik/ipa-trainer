@@ -1,17 +1,25 @@
 import '@fontsource/roboto/400.css'
 import '@fontsource/indie-flower/400.css'
+import { AppProps } from 'next/app'
+import { Provider } from 'next-auth/client'
 import { ChakraProvider } from '@chakra-ui/react'
-import type { AppProps } from 'next/app'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import theme from '@/theme'
 import Layout from '@/components/Layout'
 
+const queryClient = new QueryClient()
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <Provider session={pageProps.session}>
+        <ChakraProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ChakraProvider>
+      </Provider>
+    </QueryClientProvider>
   )
 }
 

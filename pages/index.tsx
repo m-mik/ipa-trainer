@@ -29,6 +29,30 @@ export default function Home() {
         quos tempora, voluptas voluptates. A, ad eum exercitationem impedit iure
         natus numquam quidem quos similique soluta totam, voluptates!
       </Text>
+      <Text>
+        Beatae debitis delectus iste omnis vitae? Ab accusantium aliquid aperiam
+        at cupiditate dolorum, eveniet excepturi expedita fugit iste labore
+        magnam maxime neque nobis repellat rerum soluta. Aperiam architecto at
+        aut blanditiis ea eaque eos eum expedita explicabo facilis incidunt
+        ipsum laboriosam laudantium perspiciatis quia quibusdam, recusandae
+        repudiandae sed ullam, voluptas! Blanditiis consectetur cum eum facere
+        id minus molestiae nesciunt nihil rem voluptatum! Accusantium adipisci
+        aliquid dolores, dolorum excepturi fugiat in iure magni odio placeat
+        quos tempora, voluptas voluptates. A, ad eum exercitationem impedit iure
+        natus numquam quidem quos similique soluta totam, voluptates!
+      </Text>
+      <Text>
+        Beatae debitis delectus iste omnis vitae? Ab accusantium aliquid aperiam
+        at cupiditate dolorum, eveniet excepturi expedita fugit iste labore
+        magnam maxime neque nobis repellat rerum soluta. Aperiam architecto at
+        aut blanditiis ea eaque eos eum expedita explicabo facilis incidunt
+        ipsum laboriosam laudantium perspiciatis quia quibusdam, recusandae
+        repudiandae sed ullam, voluptas! Blanditiis consectetur cum eum facere
+        id minus molestiae nesciunt nihil rem voluptatum! Accusantium adipisci
+        aliquid dolores, dolorum excepturi fugiat in iure magni odio placeat
+        quos tempora, voluptas voluptates. A, ad eum exercitationem impedit iure
+        natus numquam quidem quos similique soluta totam, voluptates!
+      </Text>
     </Box>
   )
 }

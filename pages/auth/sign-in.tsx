@@ -4,13 +4,12 @@ import {
   Heading,
   SimpleGrid,
   Text,
-  useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import { FaGithub } from '@react-icons/all-files/fa/FaGithub'
-import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
+import { FaGithub } from 'react-icons/fa'
+import { FaGoogle } from 'react-icons/fa'
 import { signIn, useSession } from 'next-auth/client'
 import Card from '@/components/Card'
 import DividerWithText from '@/components/DividerWithText'
@@ -24,6 +23,7 @@ function SignIn({ demoCredentials }: SignInProps) {
     { name: 'Github', Icon: FaGithub },
     { name: 'Google', Icon: FaGoogle },
   ]
+
   const { username, password } = demoCredentials
   const router = useRouter()
   const [session] = useSession()

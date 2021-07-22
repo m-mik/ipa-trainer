@@ -1,6 +1,5 @@
 import { Box, BoxProps, Icon, Switch, useColorMode } from '@chakra-ui/react'
-import { FaMoon } from '@react-icons/all-files/fa/FaMoon'
-import { FaSun } from '@react-icons/all-files/fa/FaSun'
+import { FaMoon, FaSun } from 'react-icons/fa'
 
 function ColorModeSwitch(props: BoxProps) {
   const { colorMode, toggleColorMode } = useColorMode()

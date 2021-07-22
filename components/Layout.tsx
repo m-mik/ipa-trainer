@@ -1,18 +1,18 @@
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
 import Head from 'next/head'
 import { Box, Container, Grid, useColorModeValue } from '@chakra-ui/react'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import Sidebar from '@/components/Sidebar'
+import Navbar from '@/components/Navbar'
 
 type LayoutProps = {
   children: React.ReactNode
 }
 
 function Layout({ children }: LayoutProps) {
-  const bg = useColorModeValue('gray.200', 'gray.800')
-
   return (
-    <Container maxW="container.xl" bg={bg} mt="3" p="5">
+    <Container maxW="container.xl">
+      <Navbar />
       <Head>
         <title>IPA Trainer</title>
       </Head>

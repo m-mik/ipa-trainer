@@ -4,14 +4,13 @@ import {
   LinkProps as ChakraLinkProps,
 } from '@chakra-ui/react'
 
-type LinkProps = {
-  chakraProps?: ChakraLinkProps
-} & React.PropsWithChildren<NextLinkProps>
+type LinkProps = React.PropsWithChildren<ChakraLinkProps> &
+  Pick<NextLinkProps, 'href'>
 
-function Link({ children, chakraProps, ...props }: LinkProps) {
+function Link({ children, href, ...props }: LinkProps) {
   return (
-    <NextLink passHref {...props}>
-      <ChakraLink {...chakraProps}>{children}</ChakraLink>
+    <NextLink href={href} passHref>
+      <ChakraLink {...props}>{children}</ChakraLink>
     </NextLink>
   )
 }

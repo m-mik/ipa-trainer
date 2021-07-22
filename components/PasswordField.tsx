@@ -11,8 +11,8 @@ import {
   useMergeRefs,
 } from '@chakra-ui/react'
 import * as React from 'react'
-import { HiEye } from '@react-icons/all-files/hi/HiEye'
-import { HiEyeOff } from '@react-icons/all-files/hi/HiEyeOff'
+import { HiEye } from 'react-icons/hi'
+import { HiEyeOff } from 'react-icons/hi'
 
 export const PasswordField = React.forwardRef<HTMLInputElement, InputProps>(
   (props, ref) => {
@@ -21,7 +21,7 @@ export const PasswordField = React.forwardRef<HTMLInputElement, InputProps>(
 
     const mergeRef = useMergeRefs(inputRef, ref)
 
-    const onClickReveal = () => {
+    const handleClickReveal = () => {
       onToggle()
       const input = inputRef.current
       if (input) {
@@ -45,7 +45,7 @@ export const PasswordField = React.forwardRef<HTMLInputElement, InputProps>(
               variant="ghost"
               aria-label={isOpen ? 'Mask password' : 'Reveal password'}
               icon={isOpen ? <HiEyeOff /> : <HiEye />}
-              onClick={onClickReveal}
+              onClick={handleClickReveal}
             />
           </InputRightElement>
           <Input

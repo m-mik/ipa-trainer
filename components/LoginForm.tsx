@@ -1,5 +1,6 @@
 import {
-  Box,
+  Alert,
+  AlertIcon,
   Button,
   chakra,
   FormControl,
@@ -19,11 +20,9 @@ function LoginForm(props: HTMLChakraProps<'form'>) {
   const [password, setPassword] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const focusUsernameInput = () => inputRef.current?.focus()
-
   useEffect(() => {
     setPassword('')
-    focusUsernameInput()
+    inputRef.current?.focus()
   }, [isError])
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -34,17 +33,10 @@ function LoginForm(props: HTMLChakraProps<'form'>) {
   return (
     <>
       {isError && (
-        <Box
-          bg="red.100"
-          p="3"
-          mb="5"
-          color="red.700"
-          borderLeft="5px solid"
-          borderColor="red.700"
-          textAlign="center"
-        >
+        <Alert status="error" mb={6}>
+          <AlertIcon />
           Wrong username or password
-        </Box>
+        </Alert>
       )}
       <chakra.form onSubmit={onSubmit} {...props}>
         <Stack spacing="6">

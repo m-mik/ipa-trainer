@@ -1,9 +1,7 @@
 import Head from 'next/head'
-import { Box, Container, Grid, useColorModeValue } from '@chakra-ui/react'
-import Header from '@/components/Header'
+import { Box, Grid } from '@chakra-ui/react'
 import Footer from '@/components/Footer'
-import Sidebar from '@/components/Sidebar'
-import Navbar from '@/components/Navbar'
+import Header from '@/components/Header'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -11,27 +9,22 @@ type LayoutProps = {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <Container maxW="container.xl">
-      <Navbar />
+    <>
       <Head>
         <title>IPA Trainer</title>
       </Head>
       <Grid
-        templateColumns={'1fr 4fr'}
         gridTemplateAreas={{
-          base: "'header header' 'main main' 'sidebar sidebar' 'footer footer'",
-          md: "'header header' 'sidebar main' 'footer footer'",
+          base: "'header' 'content' 'footer'",
         }}
-        gap={4}
       >
         <Header gridArea="header" />
-        <Sidebar gridArea="sidebar" />
-        <Box as="main" gridArea="main" textAlign="justify">
+        <Box gridArea="content" as="main">
           {children}
         </Box>
         <Footer gridArea="footer" />
       </Grid>
-    </Container>
+    </>
   )
 }
 

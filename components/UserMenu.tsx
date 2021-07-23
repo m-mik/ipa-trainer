@@ -24,12 +24,9 @@ function UserMenu({ username, ...props }: UserMenuProps) {
   return (
     <Menu {...props}>
       <MenuButton>
-        <UserAvatar />
-      </MenuButton>
-      <MenuList>
-        <Flex m="2" justifyContent="center">
-          <UserAvatar name={username} />
-          <Box ml="3">
+        <Flex m="2">
+          <UserAvatar />
+          <Box ml="3" textAlign="left">
             <Text fontWeight="bold">
               {username}
               <Badge ml="1" colorScheme="yellow">
@@ -45,6 +42,8 @@ function UserMenu({ username, ...props }: UserMenuProps) {
             </Text>
           </Box>
         </Flex>
+      </MenuButton>
+      <MenuList>
         <MenuDivider />
         <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
         <MenuDivider />

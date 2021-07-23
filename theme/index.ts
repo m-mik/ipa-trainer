@@ -1,11 +1,9 @@
-import {
-  extendTheme,
-  ThemeConfig,
-  withDefaultColorScheme,
-} from '@chakra-ui/react'
+import { extendTheme, ThemeConfig } from '@chakra-ui/react'
 import styles from '@/theme/styles'
-import { fonts } from '@/theme/foundations/typography'
 import breakpoints from '@/theme/foundations/breakpoints'
+import { fonts } from '@/theme/foundations/typography'
+import colors from '@/theme/colors'
+import Button from '@/theme/components/Button'
 
 const config: ThemeConfig = {
   useSystemColorMode: false,
@@ -13,13 +11,14 @@ const config: ThemeConfig = {
 }
 
 const overrides = {
+  colors,
   styles,
   fonts,
   breakpoints,
+  components: {
+    Button,
+  },
   config,
 }
 
-export default extendTheme(
-  overrides,
-  withDefaultColorScheme({ colorScheme: 'orange' })
-)
+export default extendTheme(overrides)

@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { FaGithub } from 'react-icons/fa'
 import { FaGoogle } from 'react-icons/fa'
 import { signIn, useSession } from 'next-auth/client'
+import { IconType } from 'react-icons'
 import Card from '@/components/Card'
 import DividerWithText from '@/components/DividerWithText'
 import LoginForm from '@/components/LoginForm'
@@ -18,12 +19,16 @@ import { Credentials } from '@/hooks/useSignIn'
 
 type SignInProps = { demoCredentials: Credentials }
 
-function SignIn({ demoCredentials }: SignInProps) {
-  const providers = [
-    { name: 'Github', Icon: FaGithub },
-    { name: 'Google', Icon: FaGoogle },
-  ]
+interface Provider {
+  name: string
+  Icon: IconType
+}
+const providers: Array<Provider> = [
+  { name: 'Github', Icon: FaGithub },
+  { name: 'Google', Icon: FaGoogle },
+]
 
+function SignIn({ demoCredentials }: SignInProps) {
   const { username, password } = demoCredentials
   const router = useRouter()
   const [session] = useSession()

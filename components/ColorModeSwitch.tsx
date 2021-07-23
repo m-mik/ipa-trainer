@@ -8,15 +8,14 @@ function ColorModeSwitch(props: BoxProps) {
     <Box {...props}>
       <Switch
         aria-label="Switch color mode"
-        colorScheme="black"
         isChecked={isDark}
         onChange={toggleColorMode}
         mr="1"
       />
       {isDark ? (
-        <Icon color="orange" as={FaMoon} />
+        <Icon color="primary" as={FaMoon} />
       ) : (
-        <Icon color="yellow" as={FaSun} />
+        <Icon color="primary" as={FaSun} />
       )}
     </Box>
   )

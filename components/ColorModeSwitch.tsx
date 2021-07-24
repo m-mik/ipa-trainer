@@ -13,9 +13,9 @@ function ColorModeSwitch(props: BoxProps) {
         mr="1"
       />
       {isDark ? (
-        <Icon color="primary" as={FaMoon} />
+        <Icon color="dark.primary" as={FaMoon} />
       ) : (
-        <Icon color="primary" as={FaSun} />
+        <Icon color="light.primary" as={FaSun} />
       )}
     </Box>
   )

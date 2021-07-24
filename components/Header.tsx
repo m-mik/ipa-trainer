@@ -1,41 +1,37 @@
 import {
   Box,
+  BoxProps,
   Button,
   ButtonGroup,
-  CenterProps,
   Container,
   HStack,
   Spinner,
-  useColorModeValue,
 } from '@chakra-ui/react'
 import { useSession } from 'next-auth/client'
 import Link from '@/components/Link'
 import Logo from '@/components/Logo'
 import ColorModeSwitch from '@/components/ColorModeSwitch'
 import UserMenu from '@/components/UserMenu'
-import colors from '@/theme/colors'
+import useColors from '@/hooks/useColors'
 
-function Header(props: CenterProps) {
+function Header(props: BoxProps) {
   const [session, loading] = useSession()
   const username = session?.user?.name ? session.user.name : ''
 
   return (
     <Box
-      bg={useColorModeValue(colors.light, colors.dark)}
       as="header"
+      bg={useColors('bg')}
       position="sticky"
       top="0"
+      zIndex="1"
       {...props}
     >
-      <Container maxW="container.lg" h="70px">
-        <HStack
-          justifyContent="space-between"
-          alignItems="center"
-          height="100%"
-        >
+      <Container maxW="container.lg" height="70px">
+        <HStack justifyContent="space-between" alignItems="center">
           <Box>
-            <Link href="/" _hover={{ textDecoration: 'none' }}>
-              <Logo />
+            <Link _hover={{ textDecoration: 'none' }} href="/">
+              <Logo justifyContent="space-between" alignItems="center" />
             </Link>
             <ColorModeSwitch />
           </Box>

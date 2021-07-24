@@ -33,7 +33,7 @@ function LoginForm(props: HTMLChakraProps<'form'>) {
   return (
     <>
       {isError && (
-        <Alert status="error" mb={6}>
+        <Alert status="error" mb="6">
           <AlertIcon />
           Wrong username or password
         </Alert>

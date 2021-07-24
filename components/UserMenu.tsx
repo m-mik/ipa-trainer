@@ -9,12 +9,13 @@ import {
   MenuList,
   MenuProps,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react'
 import { signOut } from 'next-auth/client'
-import UserAvatar from '@/components/UserAvatar'
 import { CgLogOut } from 'react-icons/cg'
 import { FiSettings } from 'react-icons/fi'
+import { Portal } from 'next/dist/client/portal'
+import useColors from '@/hooks/useColors'
+import UserAvatar from '@/components/UserAvatar'
 
 type UserMenuProps = {
   username: string
@@ -36,24 +37,26 @@ function UserMenu({ username, ...props }: UserMenuProps) {
             <Text
               fontWeight="bold"
               fontSize="sm"
-              color={useColorModeValue('green.700', 'green.100')}
+              color={useColors('highlight')}
             >
               {(1000).toLocaleString()} points
             </Text>
           </Box>
         </Flex>
       </MenuButton>
-      <MenuList>
-        <MenuDivider />
-        <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
-        <MenuDivider />
-        <MenuItem
-          icon={<CgLogOut size="18" />}
-          onClick={() => signOut({ redirect: false })}
-        >
-          Sign Out
-        </MenuItem>
-      </MenuList>
+      <Portal type="menu">
+        <MenuList>
+          <MenuDivider />
+          <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
+          <MenuDivider />
+          <MenuItem
+            icon={<CgLogOut size="18" />}
+            onClick={() => signOut({ redirect: false })}
+          >
+            Sign Out
+          </MenuItem>
+        </MenuList>
+      </Portal>
     </Menu>
   )
 }

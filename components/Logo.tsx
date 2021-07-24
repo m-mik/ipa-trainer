@@ -1,15 +1,10 @@
-import { HeadingProps, Text, useColorModeValue } from '@chakra-ui/react'
-import colors from '@/theme/colors'
+import { HeadingProps, Text } from '@chakra-ui/react'
+import useColors from '@/hooks/useColors'
 
 function Logo(props: HeadingProps) {
   return (
     <>
-      <Text
-        color={useColorModeValue(colors.dark, colors.light)}
-        fontSize="2xl"
-        fontWeight="600"
-        {...props}
-      >
+      <Text color={useColors('fg')} fontSize="2xl" fontWeight="600" {...props}>
         IPA Trainer
       </Text>
     </>

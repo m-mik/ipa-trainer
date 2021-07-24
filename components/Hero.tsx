@@ -24,7 +24,6 @@ function Hero(props: BoxProps) {
         fontWeight="800"
         as="h1"
         position="relative"
-        zIndex="0"
         _after={{
           content: '""',
           bgGradient: useColorModeValue(
@@ -37,7 +36,7 @@ function Hero(props: BoxProps) {
           left: '0',
           width: '100%',
           height: '50%',
-          zIndex: '-1',
+          zIndex: 'hide',
           borderRadius: '40%',
           filter: 'blur(4px)',
         }}

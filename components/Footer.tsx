@@ -4,7 +4,7 @@ import { FaGithub } from 'react-icons/fa'
 
 function Footer(props: BoxProps) {
   return (
-    <Box as="footer" textAlign="right" {...props}>
+    <Box as="footer" p="5" textAlign="right" {...props}>
       <Link href="https://github.com/m-mik/ipa-trainer" isExternal>
         <Icon as={FaGithub} /> m-mik/ipa-trainer
       </Link>

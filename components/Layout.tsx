@@ -14,12 +14,16 @@ function Layout({ children }: LayoutProps) {
         <title>IPA Trainer</title>
       </Head>
       <Grid
-        gridTemplateAreas={{
+        templateAreas={{
           base: "'header' 'content' 'footer'",
         }}
+        autoRows={{
+          base: 'min-content auto min-content',
+        }}
+        minH="calc(100vh - 20px)"
       >
         <Header gridArea="header" />
-        <Box gridArea="content" as="main">
+        <Box gridArea="content" as="main" mt="50px">
           {children}
         </Box>
         <Footer gridArea="footer" />

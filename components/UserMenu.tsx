@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   Flex,
   Menu,
@@ -28,12 +27,7 @@ function UserMenu({ username, ...props }: UserMenuProps) {
         <Flex m="2">
           <UserAvatar />
           <Box ml="3" textAlign="left">
-            <Text fontWeight="bold">
-              {username}
-              <Badge ml="1" colorScheme="yellow">
-                Pro
-              </Badge>
-            </Text>
+            <Text fontWeight="bold">{username}</Text>
             <Text
               fontWeight="bold"
               fontSize="sm"
@@ -46,7 +40,6 @@ function UserMenu({ username, ...props }: UserMenuProps) {
       </MenuButton>
       <Portal type="menu">
         <MenuList>
-          <MenuDivider />
           <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
           <MenuDivider />
           <MenuItem

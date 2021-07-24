@@ -8,8 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import { FaGithub } from 'react-icons/fa'
-import { FaGoogle } from 'react-icons/fa'
+import { FaGithub, FaGoogle } from 'react-icons/fa'
 import { signIn, useSession } from 'next-auth/client'
 import { IconType } from 'react-icons'
 import Card from '@/components/Card'
@@ -38,7 +37,7 @@ function SignIn({ demoCredentials }: SignInProps) {
   }
 
   return (
-    <Box minH="100vh" px={{ base: '4', lg: '8' }}>
+    <Box px={{ base: '4', lg: '8' }}>
       <Box maxW="md" mx="auto">
         <Heading size="lg" fontWeight="extrabold" textAlign="center">
           Sign in to your account
@@ -55,7 +54,7 @@ function SignIn({ demoCredentials }: SignInProps) {
               <Button
                 key={name}
                 color="currentColor"
-                variant="outline"
+                variant="ghost"
                 onClick={() => signIn(name.toLowerCase())}
                 rightIcon={<Icon />}
               >

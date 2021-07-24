@@ -1,4 +1,5 @@
-import '@fontsource/roboto/400.css'
+import '@fontsource/roboto'
+import '@fontsource/montserrat'
 import { Provider as NextProvider } from 'next-auth/client'
 import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from 'react-query'

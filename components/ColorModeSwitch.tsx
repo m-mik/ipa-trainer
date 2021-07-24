@@ -1,11 +1,11 @@
-import { Box, BoxProps, Icon, Switch, useColorMode } from '@chakra-ui/react'
+import { BoxProps, Center, Icon, Switch, useColorMode } from '@chakra-ui/react'
 import { FaMoon, FaSun } from 'react-icons/fa'
 
 function ColorModeSwitch(props: BoxProps) {
   const { colorMode, toggleColorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   return (
-    <Box {...props}>
+    <Center {...props}>
       <Switch
         aria-label="Switch color mode"
         isChecked={isDark}
@@ -17,7 +17,7 @@ function ColorModeSwitch(props: BoxProps) {
       ) : (
         <Icon color="light.primary" as={FaSun} />
       )}
-    </Box>
+    </Center>
   )
 }
 

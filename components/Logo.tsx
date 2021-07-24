@@ -1,13 +1,21 @@
-import { HeadingProps, Text } from '@chakra-ui/react'
+import { Center, CenterProps, Icon, Text } from '@chakra-ui/react'
 import useColors from '@/hooks/useColors'
+import { IoMdSchool } from 'react-icons/io'
 
-function Logo(props: HeadingProps) {
+function Logo(props: CenterProps) {
   return (
-    <>
-      <Text color={useColors('fg')} fontSize="2xl" fontWeight="600" {...props}>
+    <Center {...props}>
+      <Icon color={useColors('primary')} as={IoMdSchool} boxSize="10" mr="2" />
+      <Text
+        as="span"
+        color={useColors('primary')}
+        fontSize="1xl"
+        fontWeight="600"
+        {...props}
+      >
         IPA Trainer
       </Text>
-    </>
+    </Center>
   )
 }
 

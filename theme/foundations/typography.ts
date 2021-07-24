@@ -1,5 +1,5 @@
 export const fonts = {
   body: 'Roboto, system-ui, sans-serif',
-  heading: 'Georgia, serif',
+  heading: 'Montserrat, serif',
   mono: 'Menlo, monospace',
 }

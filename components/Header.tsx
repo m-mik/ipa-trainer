@@ -27,16 +27,18 @@ function Header(props: BoxProps) {
       zIndex="1"
       {...props}
     >
-      <Container maxW="container.lg" height="70px">
-        <HStack justifyContent="space-between" alignItems="center">
-          <Box>
-            <Link _hover={{ textDecoration: 'none' }} href="/">
-              <Logo justifyContent="space-between" alignItems="center" />
-            </Link>
-            <ColorModeSwitch />
-          </Box>
+      <Container maxW="container.lg">
+        <HStack
+          justifyContent="space-between"
+          alignItems="center"
+          height="70px"
+        >
+          <Link _hover={{ textDecoration: 'none' }} href="/">
+            <Logo justifyContent="space-between" alignItems="center" />
+          </Link>
           <Box as="nav">
-            <ButtonGroup {...props} variant="link">
+            <ButtonGroup {...props} variant="link" spacing="5">
+              <ColorModeSwitch />
               {loading && <Spinner />}
               {session && <UserMenu username={username} />}
               {!loading && !session && (

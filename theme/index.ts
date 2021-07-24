@@ -5,6 +5,8 @@ import { fonts } from '@/theme/foundations/typography'
 import colors from '@/theme/colors'
 import Button from '@/theme/components/Button'
 import Switch from '@/theme/components/Switch'
+import Input from '@/theme/components/Input'
+import Menu from '@/theme/components/Menu'
 
 const config: ThemeConfig = {
   useSystemColorMode: false,
@@ -19,6 +21,8 @@ const overrides = {
   components: {
     Button,
     Switch,
+    Input,
+    Menu,
   },
   config,
 }

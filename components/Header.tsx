@@ -16,7 +16,14 @@ import useColors from '@/hooks/useColors'
 
 function Header(props: BoxProps) {
   const [session, loading] = useSession()
-  const username = session?.user?.name ? session.user.name : ''
+
+  const renderUserMenu = () => {
+    if (!session || !session.user) return null
+    const name = session.user.name ?? ''
+    const image = session.user.image ?? ''
+
+    return <UserMenu name={name} imageUrl={image} />
+  }
 
   return (
     <Box
@@ -40,7 +47,7 @@ function Header(props: BoxProps) {
             <ButtonGroup {...props} variant="link" spacing="5">
               <ColorModeSwitch />
               {loading && <Spinner />}
-              {session && <UserMenu username={username} />}
+              {renderUserMenu()}
               {!loading && !session && (
                 <Link href="/auth/sign-in">
                   <Button>Sign In</Button>

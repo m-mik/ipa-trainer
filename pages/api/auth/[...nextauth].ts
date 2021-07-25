@@ -1,11 +1,28 @@
-import NextAuth from 'next-auth'
+import NextAuth, { Profile, User as NextAuthUser } from 'next-auth'
 import Providers from 'next-auth/providers'
+import { NextApiRequest } from 'next'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import prisma from '@/prisma/db'
+
+export type Credentials = { username: string; password: string }
+
+interface NextAuthUserWithStringId extends NextAuthUser {
+  id: string
+}
 
 export default NextAuth({
   providers: [
     Providers.GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      profile(profile: Profile & { id: string }) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+        } as NextAuthUserWithStringId
+      },
     }),
     Providers.Google({
       clientId: process.env.GOOGLE_ID,
@@ -13,33 +30,25 @@ export default NextAuth({
     }),
     Providers.Credentials({
       name: 'Credentials',
-      credentials: {
-        username: {
-          label: 'Username',
-          type: 'text',
-          placeholder: process.env.DEMO_USERNAME,
-        },
-        password: {
-          label: 'Password',
-          type: 'password',
-          placeholder: process.env.DEMO_PASSWORD,
-        },
-      },
-      async authorize(credentials, req) {
+      async authorize(credentials: Credentials, req: NextApiRequest) {
+        console.log(process.env.DEMO_USERNAME)
         const { username, password } = credentials
         if (
           username === process.env.DEMO_USERNAME &&
           password === process.env.DEMO_PASSWORD
         ) {
-          return { id: 1, name: 'John Smith', email: 'jsmith@example.com' }
+          return { id: 21, name: 'John Smith', email: 'jsmith@example.com' }
         }
         return null
       },
     }),
   ],
-  theme: 'dark',
   pages: {
     signIn: '/auth/sign-in',
   },
-  //database: process.env.DATABASE_URL,
+  adapter: PrismaAdapter(prisma),
+  database: process.env.DATABASE_URL,
+  jwt: {
+    secret: process.env.NEXTAUTH_JWT_SECRET,
+  },
 })

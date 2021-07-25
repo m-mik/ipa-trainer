@@ -1,7 +1,6 @@
 import { useMutation } from 'react-query'
 import { signIn } from 'next-auth/client'
-
-export type Credentials = { username: string; password: string }
+import { Credentials } from '@/pages/api/auth/[...nextauth]'
 
 function useSignIn() {
   return useMutation(async ({ username, password }: Credentials) => {

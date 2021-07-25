@@ -17,17 +17,18 @@ import useColors from '@/hooks/useColors'
 import UserAvatar from '@/components/UserAvatar'
 
 type UserMenuProps = {
-  username: string
+  name: string
+  imageUrl: string
 } & Omit<MenuProps, 'children'>
 
-function UserMenu({ username, ...props }: UserMenuProps) {
+function UserMenu({ imageUrl, name, ...props }: UserMenuProps) {
   return (
     <Menu {...props}>
       <MenuButton>
         <Flex m="2">
-          <UserAvatar />
+          <UserAvatar src={imageUrl} />
           <Box ml="3" textAlign="left">
-            <Text fontWeight="bold">{username}</Text>
+            <Text fontWeight="bold">{name}</Text>
             <Text
               fontWeight="bold"
               fontSize="sm"

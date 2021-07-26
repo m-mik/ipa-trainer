@@ -19,10 +19,8 @@ function Header(props: BoxProps) {
 
   const renderUserMenu = () => {
     if (!session || !session.user) return null
-    const name = session.user.name ?? ''
-    const image = session.user.image ?? ''
-
-    return <UserMenu name={name} imageUrl={image} />
+    const { name, image, points } = session.user
+    return <UserMenu name={name} imageUrl={image ?? ''} points={points} />
   }
 
   return (
@@ -43,9 +41,18 @@ function Header(props: BoxProps) {
           <Link _hover={{ textDecoration: 'none' }} href="/">
             <Logo justifyContent="space-between" alignItems="center" />
           </Link>
-          <Box as="nav">
-            <ButtonGroup {...props} variant="link" spacing="5">
+          <Box>
+            <ButtonGroup
+              {...props}
+              variant="link"
+              spacing="5"
+              d="flex"
+              alignItems="center"
+            >
               <ColorModeSwitch />
+              <Link href="/leaderboard">
+                <Button>Leaderboard</Button>
+              </Link>
               {loading && <Spinner />}
               {renderUserMenu()}
               {!loading && !session && (

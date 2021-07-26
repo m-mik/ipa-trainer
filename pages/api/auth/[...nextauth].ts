@@ -1,8 +1,9 @@
-import NextAuth, { Profile, User as NextAuthUser } from 'next-auth'
+import NextAuth, { Profile, Session, User as NextAuthUser } from 'next-auth'
 import Providers from 'next-auth/providers'
 import { NextApiRequest } from 'next'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prisma from '@/prisma/db'
+import { findDemoUser } from '@/lib/user/service'
 
 export type Credentials = { username: string; password: string }
 
@@ -31,13 +32,15 @@ export default NextAuth({
     Providers.Credentials({
       name: 'Credentials',
       async authorize(credentials: Credentials, req: NextApiRequest) {
-        console.log(process.env.DEMO_USERNAME)
         const { username, password } = credentials
         if (
           username === process.env.DEMO_USERNAME &&
           password === process.env.DEMO_PASSWORD
         ) {
-          return { id: 21, name: 'John Smith', email: 'jsmith@example.com' }
+          const user = await findDemoUser()
+          if (user) {
+            return { id: user.id, name: user.name, image: null }
+          }
         }
         return null
       },
@@ -46,9 +49,30 @@ export default NextAuth({
   pages: {
     signIn: '/auth/sign-in',
   },
-  adapter: PrismaAdapter(prisma),
-  database: process.env.DATABASE_URL,
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
+  callbacks: {
+    async session(session, user) {
+      const { id, name, image } = session.user
+
+      return {
+        ...session,
+        user: {
+          id,
+          name,
+          image,
+          points: user.points,
+        },
+      } as Session
+    },
+    async jwt(token, user, account, profile, isNewUser) {
+      if (user) {
+        token.points = Math.floor(Math.random() * 10000)
+      }
+      return token
+    },
+  },
+  adapter: PrismaAdapter(prisma),
+  session: { jwt: true },
 })

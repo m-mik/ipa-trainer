@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "Answer" AS ENUM ('NONE', 'CORRECT', 'INCORRECT');
+
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
@@ -52,6 +55,34 @@ CREATE TABLE "VerificationRequest" (
     PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Word" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "usPronunciation" TEXT NOT NULL,
+    "ukPronunciation" TEXT NOT NULL,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Lesson" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Question" (
+    "id" TEXT NOT NULL,
+    "wordId" TEXT NOT NULL,
+    "lessonId" TEXT NOT NULL,
+    "answer" "Answer" NOT NULL DEFAULT E'NONE',
+
+    PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account.providerId_providerAccountId_unique" ON "Account"("providerId", "providerAccountId");
 
@@ -75,3 +106,12 @@ ALTER TABLE "Account" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELE
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Lesson" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Question" ADD FOREIGN KEY ("wordId") REFERENCES "Word"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Question" ADD FOREIGN KEY ("lessonId") REFERENCES "Lesson"("id") ON DELETE CASCADE ON UPDATE CASCADE;

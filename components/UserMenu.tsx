@@ -19,9 +19,10 @@ import UserAvatar from '@/components/UserAvatar'
 type UserMenuProps = {
   name: string
   imageUrl: string
+  points: number
 } & Omit<MenuProps, 'children'>
 
-function UserMenu({ imageUrl, name, ...props }: UserMenuProps) {
+function UserMenu({ name, imageUrl, points, ...props }: UserMenuProps) {
   return (
     <Menu {...props}>
       <MenuButton>
@@ -34,7 +35,7 @@ function UserMenu({ imageUrl, name, ...props }: UserMenuProps) {
               fontSize="sm"
               color={useColors('highlight')}
             >
-              {(1000).toLocaleString()} points
+              {points.toLocaleString()} points
             </Text>
           </Box>
         </Flex>

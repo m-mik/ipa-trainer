@@ -44,6 +44,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
+  Lesson        Lesson[]
 }
 
 model VerificationRequest {
@@ -57,3 +58,32 @@ model VerificationRequest {
   @@unique([identifier, token])
 }
 
+model Word {
+  id              String      @id @default(cuid())
+  name            String
+  usPronunciation String
+  ukPronunciation String
+  Question        Question[]
+}
+
+model Lesson {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  Question  Question[]
+}
+
+model Question {
+  id       String @id @default(cuid())
+  wordId   String
+  lessonId String
+  answer   Answer @default(NONE)
+  word     Word   @relation(fields: [wordId], references: [id])
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
+}
+
+enum Answer {
+  NONE
+  CORRECT
+  INCORRECT
+}

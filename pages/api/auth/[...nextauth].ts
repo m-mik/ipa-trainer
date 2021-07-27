@@ -3,7 +3,7 @@ import Providers from 'next-auth/providers'
 import { NextApiRequest } from 'next'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prisma from '@/prisma/db'
-import { findDemoUser } from '@/lib/user/service'
+import { calculateUserPoints, findDemoUser } from '@/lib/user/service'
 
 export type Credentials = { username: string; password: string }
 
@@ -68,7 +68,12 @@ export default NextAuth({
     },
     async jwt(token, user, account, profile, isNewUser) {
       if (user) {
-        token.points = Math.floor(Math.random() * 10000)
+        try {
+          token.points = await calculateUserPoints(user.id)
+        } catch (e) {
+          console.error('Could not calculate user points in JWT', e)
+          token.points = 0
+        }
       }
       return token
     },

@@ -44,7 +44,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
-  Lesson        Lesson[]
+  lesson        Lesson[]
 }
 
 model VerificationRequest {
@@ -63,14 +63,14 @@ model Word {
   name            String
   usPronunciation String
   ukPronunciation String
-  Question        Question[]
+  question        Question[]
 }
 
 model Lesson {
   id        String      @id @default(cuid())
   userId    String
   user      User        @relation(fields: [userId], references: [id])
-  Question  Question[]
+  question  Question[]
 }
 
 model Question {

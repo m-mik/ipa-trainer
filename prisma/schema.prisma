@@ -58,9 +58,9 @@ model VerificationRequest {
   @@unique([identifier, token])
 }
 
-model Word {
+model WordInfo {
   id           String       @id @default(cuid())
-  name         String
+  word         String
   ukIpa        String
   ukAudio      String
   ukIpaAlt     String
@@ -68,23 +68,31 @@ model Word {
   usIpaAlt     String
   usAudio      String
   partOfSpeech PartOfSpeech
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
   question     Question[]
+
+  @@unique([word, partOfSpeech])
 }
 
 model Lesson {
-  id       String     @id @default(cuid())
-  userId   String
-  user     User       @relation(fields: [userId], references: [id])
-  question Question[]
+  id        String     @id @default(cuid())
+  userId    String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  question  Question[]
+  user      User       @relation(fields: [userId], references: [id])
 }
 
 model Question {
-  id       String @id @default(cuid())
-  wordId   String
-  lessonId String
-  answer   Answer @default(NONE)
-  word     Word   @relation(fields: [wordId], references: [id])
-  lesson   Lesson @relation(fields: [lessonId], references: [id])
+  id         String   @id @default(cuid())
+  wordInfoId String
+  lessonId   String
+  answer     Answer   @default(NONE)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  wordInfo   WordInfo @relation(fields: [wordInfoId], references: [id])
+  lesson     Lesson   @relation(fields: [lessonId], references: [id])
 }
 
 enum Answer {

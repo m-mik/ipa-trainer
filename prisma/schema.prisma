@@ -59,18 +59,23 @@ model VerificationRequest {
 }
 
 model Word {
-  id              String      @id @default(cuid())
-  name            String
-  usPronunciation String
-  ukPronunciation String
-  question        Question[]
+  id           String       @id @default(cuid())
+  name         String
+  ukIpa        String
+  ukAudio      String
+  ukIpaAlt     String
+  usIpa        String
+  usIpaAlt     String
+  usAudio      String
+  partOfSpeech PartOfSpeech
+  question     Question[]
 }
 
 model Lesson {
-  id        String      @id @default(cuid())
-  userId    String
-  user      User        @relation(fields: [userId], references: [id])
-  question  Question[]
+  id       String     @id @default(cuid())
+  userId   String
+  user     User       @relation(fields: [userId], references: [id])
+  question Question[]
 }
 
 model Question {
@@ -86,4 +91,10 @@ enum Answer {
   NONE
   CORRECT
   INCORRECT
+}
+
+enum PartOfSpeech {
+  NOUN
+  VERB
+  ADJECTIVE
 }

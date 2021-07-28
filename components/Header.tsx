@@ -38,7 +38,11 @@ function Header(props: BoxProps) {
           alignItems="center"
           height="70px"
         >
-          <Link _hover={{ textDecoration: 'none' }} href="/">
+          <Link
+            styleActive={false}
+            _hover={{ textDecoration: 'none' }}
+            href="/"
+          >
             <Logo justifyContent="space-between" alignItems="center" />
           </Link>
           <Box>
@@ -52,6 +56,9 @@ function Header(props: BoxProps) {
               <ColorModeSwitch />
               <Link href="/leaderboard">
                 <Button>Leaderboard</Button>
+              </Link>
+              <Link href="/learn">
+                <Button>Learn</Button>
               </Link>
               {loading && <Spinner />}
               {renderUserMenu()}

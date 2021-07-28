@@ -1,33 +1,9 @@
+import { promises as fs } from 'fs'
+import PQueue from 'p-queue'
 import { createDemoUser, findDemoUser } from '@/lib/user/service'
 import prisma from '@/prisma/db'
-import { FetchedWordInfo } from '@/lib/wordInfo/fetcher'
-
-const wordInfos: FetchedWordInfo[] = [
-  {
-    word: 'dog',
-    ukIpa: 'dɒɡ',
-    ukIpaAlt: '',
-    ukAudio:
-      'https://dictionary.cambridge.org/media/english/uk_pron/u/ukd/ukdoc/ukdocud022.mp3',
-    usIpa: 'dɑːɡ',
-    usIpaAlt: '',
-    usAudio:
-      'https://dictionary.cambridge.org/media/english/us_pron/d/dog/dog__/dog.mp3',
-    partOfSpeech: 'NOUN',
-  },
-  {
-    word: 'dog',
-    ukIpa: 'dɒɡ',
-    ukIpaAlt: '',
-    ukAudio:
-      'https://dictionary.cambridge.org/media/english/uk_pron/u/ukd/ukdoc/ukdocud022.mp3',
-    usIpa: 'dɑːɡ',
-    usIpaAlt: '',
-    usAudio:
-      'https://dictionary.cambridge.org/media/english/us_pron/d/dog/dog__/dog.mp3',
-    partOfSpeech: 'VERB',
-  },
-]
+import fetchWordInfos from '@/lib/wordInfo/fetcher'
+import { createWordInfos } from '@/lib/wordInfo/service'
 
 async function initDemoUser() {
   const demoUser = await findDemoUser()
@@ -36,15 +12,45 @@ async function initDemoUser() {
 }
 
 async function initWordInfos() {
-  return await prisma.wordInfo.createMany({
-    data: wordInfos,
-    skipDuplicates: true,
+  const words = await loadWords()
+  const queue = new PQueue({ concurrency: 1, interval: 5000, intervalCap: 1 })
+  let count = 0
+
+  words.slice(0, 10).forEach((word) => {
+    queue
+      .add(() => fetchWordInfos(word))
+      .then((wordInfos) => {
+        createWordInfos(wordInfos)
+      })
+      .catch((e) =>
+        console.error(`Could not init wordInfo for '${word}': ${e}`)
+      )
   })
+
+  queue.on('active', () =>
+    console.log(
+      `Initializing info for word '${words[count++]}'. Size: ${
+        queue.size
+      } Pending: ${queue.pending}`
+    )
+  )
+
+  queue.on('idle', () => console.log('Finished initializing wordInfos'))
 }
 
 async function main() {
-  await initDemoUser()
   await initWordInfos()
+  await initDemoUser()
+}
+
+export async function loadWords() {
+  const path = __dirname + '/most-common-words.txt'
+  try {
+    const wordStr = await fs.readFile(path, 'utf-8')
+    return wordStr.trim().split('\n')
+  } catch (e) {
+    throw new Error(`Could not load words from ${path}: ${e.message}`)
+  }
 }
 
 main()

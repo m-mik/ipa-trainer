@@ -1,10 +1,11 @@
 import axios from 'axios'
-import { WordInfo } from '@prisma/client'
 import { cambridge } from '@/lib/wordInfo/fetcher/dict'
+import { RequiredWordInfo } from '@/lib/wordInfo/service'
+import { hasIpa } from '@/lib/wordInfo'
 
 export const DEFAULT_DICTIONARY = cambridge
 
-export type FetchedWordInfo = Omit<WordInfo, 'id' | 'createdAt' | 'updatedAt'>
+export type FetchedWordInfo = RequiredWordInfo
 
 export interface Dictionary {
   name: string
@@ -29,7 +30,7 @@ export const wordInfoFetcher =
   async (word: string) => {
     const url = buildUrl(searchUrl, word)
     const res = await axios.get<string>(url)
-    return parse(res.data)
+    return parse(res.data).filter(hasIpa)
   }
 
 const fetchWordInfos = wordInfoFetcher(DEFAULT_DICTIONARY)

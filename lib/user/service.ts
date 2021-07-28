@@ -1,14 +1,14 @@
 import prisma from '@/prisma/db'
 import { Answer, User } from '@prisma/client'
 
-export async function findUserById(id: string) {
-  return await prisma.user.findUnique({
+export function findUserById(id: string) {
+  return prisma.user.findUnique({
     where: { id },
   })
 }
 
-export async function findDemoUser() {
-  return await prisma.user.findFirst({
+export function findDemoUser() {
+  return prisma.user.findFirst({
     where: {
       name: process.env.DEMO_USERNAME,
       accounts: {
@@ -22,8 +22,8 @@ export async function createDemoUser() {
   await createUser({ name: process.env.DEMO_USERNAME })
 }
 
-export async function createUser(user: Partial<User>) {
-  return prisma.user.create({ data: user })
+export function createUser(user: Partial<User>) {
+  prisma.user.create({ data: user })
 }
 
 export async function calculateUserPoints(userId: User['id']) {

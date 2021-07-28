@@ -62,8 +62,8 @@ model WordInfo {
   id           String       @id @default(cuid())
   word         String
   ukIpa        String
-  ukAudio      String
   ukIpaAlt     String
+  ukAudio      String
   usIpa        String
   usIpaAlt     String
   usAudio      String
@@ -103,6 +103,11 @@ enum Answer {
 
 enum PartOfSpeech {
   NOUN
+  PRONOUN
   VERB
   ADJECTIVE
+  ADVERB
+  PREPOSITION
+  CONJUNCTION
+  DETERMINER
 }

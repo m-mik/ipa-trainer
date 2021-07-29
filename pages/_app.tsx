@@ -3,6 +3,7 @@ import '@fontsource/montserrat'
 import { Provider as NextProvider } from 'next-auth/client'
 import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { AppLayoutProps } from 'next/app'
 import theme from '@/theme'
 import Layout from '@/components/Layout'
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }: AppLayoutProps) {
           {getLayout(<Component {...pageProps} />)}
         </ChakraProvider>
       </NextProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }

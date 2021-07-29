@@ -26,6 +26,8 @@ function Link({ children, href, styleActive = true, ...props }: LinkProps) {
               child,
               shouldStyleActive ? activeProps : {}
             )
+          } else {
+            return child
           }
         })}
       </ChakraLink>

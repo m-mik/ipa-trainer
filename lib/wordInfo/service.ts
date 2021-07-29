@@ -2,6 +2,7 @@ import prisma from '@/prisma/db'
 import { WordInfo } from '@prisma/client'
 
 export type RequiredWordInfo = Omit<WordInfo, 'id' | 'createdAt' | 'updatedAt'>
+export type IpaLang = 'us' | 'uk'
 
 export function createWordInfos(wordInfos: RequiredWordInfo[]) {
   return prisma.wordInfo.createMany({
@@ -22,4 +23,12 @@ export function updateWordInfo(
     data: wordInfo,
     where: { id: wordInfoId },
   })
+}
+
+export function findRandomWordInfos(count: number) {
+  return prisma.$queryRaw<
+    WordInfo[]
+  >`SELECT id, word, "partOfSpeech", "ukIpa", "ukIpaAlt", "ukAudio", "usIpa", "usIpaAlt", "usAudio" 
+    FROM "WordInfo" 
+    ORDER BY RANDOM() LIMIT ${count};`
 }

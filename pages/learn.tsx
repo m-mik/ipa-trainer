@@ -1,16 +1,16 @@
-import { Container } from '@chakra-ui/react'
+import { Center, Container } from '@chakra-ui/react'
 import { NextLayoutPage } from 'next'
 import useLesson from '@/hooks/useLesson'
-import Keyboard from '@/components/Keyboard'
-import IpaLangControl from '@/components/IpaLangControl'
+import IpaKeyboard from '@/components/IpaKeyboard'
 
 const Learn: NextLayoutPage = () => {
   const lesson = useLesson()
 
   return (
     <Container maxW="container.lg">
-      <IpaLangControl />
-      <Keyboard />
+      <Center>
+        <IpaKeyboard />
+      </Center>
     </Container>
   )
 }

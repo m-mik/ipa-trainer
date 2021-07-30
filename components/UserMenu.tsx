@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   Menu,
   MenuButton,
@@ -7,34 +8,44 @@ import {
   MenuItem,
   MenuList,
   MenuProps,
+  Spinner,
   Text,
 } from '@chakra-ui/react'
-import { signOut } from 'next-auth/client'
+import { signOut, useSession } from 'next-auth/client'
 import { CgLogOut } from 'react-icons/cg'
 import { FiSettings } from 'react-icons/fi'
 import { Portal } from 'next/dist/client/portal'
 import useColors from '@/hooks/useColors'
 import UserAvatar from '@/components/UserAvatar'
+import Link from '@/components/Link'
 
-type UserMenuProps = {
-  name: string
-  imageUrl: string
-  points: number
-} & Omit<MenuProps, 'children'>
+type UserMenuProps = Omit<MenuProps, 'children'>
 
-function UserMenu({ name, imageUrl, points, ...props }: UserMenuProps) {
+function UserMenu(props: UserMenuProps) {
+  const [session, loading] = useSession()
+  const signInColor = useColors('highlight')
+
+  if (loading) return <Spinner />
+  if (!session || !session.user) {
+    return (
+      <Link href="/auth/sign-in">
+        <Button variant="link" color={signInColor}>
+          Sign In
+        </Button>
+      </Link>
+    )
+  }
+
+  const { name, image, points } = session.user
+
   return (
     <Menu {...props}>
       <MenuButton>
         <Flex m="2">
-          <UserAvatar src={imageUrl} />
+          <UserAvatar src={image ?? undefined} />
           <Box ml="3" textAlign="left">
             <Text fontWeight="bold">{name}</Text>
-            <Text
-              fontWeight="bold"
-              fontSize="sm"
-              color={useColors('highlight')}
-            >
+            <Text fontWeight="bold" fontSize="sm" color="primary">
               {points.toLocaleString()} points
             </Text>
           </Box>

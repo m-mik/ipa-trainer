@@ -2,7 +2,6 @@ import prisma from '@/prisma/db'
 import { WordInfo } from '@prisma/client'
 
 export type RequiredWordInfo = Omit<WordInfo, 'id' | 'createdAt' | 'updatedAt'>
-export type IpaLang = 'us' | 'uk'
 
 export function createWordInfos(wordInfos: RequiredWordInfo[]) {
   return prisma.wordInfo.createMany({

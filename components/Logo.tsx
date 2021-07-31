@@ -11,7 +11,6 @@ function Logo(props: CenterProps) {
         color={useColors('primary')}
         fontSize="1xl"
         fontWeight="600"
-        d={{ base: 'none', xs: 'unset' }}
         {...props}
       >
         IPA Trainer

@@ -9,7 +9,6 @@ type KeyboardProps = StackProps & {
 function Keyboard({ onKeyClick, keyRows, ...rest }: KeyboardProps) {
   const handleKeyClick = (key: string) => {
     onKeyClick?.(key)
-    console.log(key)
   }
 
   return (
@@ -36,10 +35,10 @@ type KeyRowBoxProps = {
 
 function KeyRowBox({ keyboardKeys, onKeyClick, ...rest }: KeyRowBoxProps) {
   return (
-    <Flex m="1" {...rest}>
-      {keyboardKeys.map(({ name }) => (
+    <Flex m="1" wrap="wrap" justifyContent="center" {...rest}>
+      {keyboardKeys.map(({ name }, index) => (
         <Button
-          key={name}
+          key={`${name}${index}`}
           m="1"
           variant="outline"
           px="0"

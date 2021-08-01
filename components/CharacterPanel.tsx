@@ -1,32 +1,46 @@
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { Box, HStack } from '@chakra-ui/react'
+import { Flex, HStack, StackProps } from '@chakra-ui/react'
 import { useCallback } from 'react'
+import useColors from '@/hooks/useColors'
+
+type Character = string
 
 type CharacterPanelProps = {
-  characters: string[]
-  onCharactersChange?: (
-    newCharacters: CharacterPanelProps['characters']
-  ) => void
-}
+  characters: Character[]
+  onCharactersChange?: (newCharacters: Character[]) => void
+  onCharacterClick?: (character: Character, index: number) => void
+} & StackProps
 
 function CharacterPanel({
   characters,
   onCharactersChange,
+  onCharacterClick,
+  ...rest
 }: CharacterPanelProps) {
-  const handleDragEnd = useCallback(({ source, destination }) => {
-    console.log({ source, destination })
-    if (!destination) return
-    const newCharacters = [...characters]
-    newCharacters[source.index] = characters[destination.index]
-    newCharacters[destination.index] = characters[source.index]
-    onCharactersChange?.(newCharacters)
-  }, [])
+  const handleDragEnd = useCallback(
+    (result) => {
+      const { source, destination } = result
+      if (!destination) return
+      const newCharacters = [...characters]
+      newCharacters.splice(source.index, 1)
+      newCharacters.splice(destination.index, 0, characters[source.index])
+      onCharactersChange?.(newCharacters)
+    },
+    [characters, onCharactersChange]
+  )
+
+  const characterBg = useColors('primary')
+  const characterColor = useColors('bg')
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="characters" direction="horizontal">
         {(provided, snapshot) => (
-          <HStack ref={provided.innerRef} {...provided.droppableProps}>
+          <HStack
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            {...rest}
+          >
             {characters.map((character, index) => (
               <Draggable
                 key={`${character}${index}`}
@@ -34,17 +48,25 @@ function CharacterPanel({
                 index={index}
               >
                 {(provided) => (
-                  <Box
+                  <Flex
+                    bg={characterBg}
+                    color={characterColor}
                     w="50px"
                     h="50px"
-                    bg="blue"
-                    //userSelect="none"
+                    px="0"
+                    py="0"
+                    justifyContent="center"
+                    alignItems="center"
+                    fontSize="2.5em"
+                    userSelect="none"
+                    _hover={{ cursor: 'move' }}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
+                    onClick={(_) => onCharacterClick?.(character, index)}
                   >
                     {character}
-                  </Box>
+                  </Flex>
                 )}
               </Draggable>
             ))}

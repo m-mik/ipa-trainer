@@ -1,11 +1,20 @@
 import { Box, BoxProps, Tooltip, VisuallyHidden } from '@chakra-ui/react'
-import { IpaLang } from '@/lib/wordInfo/service'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import usFlag from '@/public/images/united-states.svg'
 import ukFlag from '@/public/images/united-kingdom.svg'
-import { motion } from 'framer-motion'
+import { Lang } from '@/pages/learn'
 
-const languages = {
+type Image = {
+  src: string
+}
+
+type LangItem = {
+  value: string
+  image: Image
+}
+
+const languages: Record<Lang, LangItem> = {
   us: {
     value: 'us',
     image: usFlag,
@@ -16,16 +25,16 @@ const languages = {
   },
 }
 
-type IpaLangControlProps = {
-  selectedLang: IpaLang
-  onLangChange?: (ipaLang: IpaLang) => void
+type LangControlProps = {
+  selectedLang: Lang
+  onLangChange?: (ipaLang: Lang) => void
 } & BoxProps
 
-function IpaLangControl({
+function LangControl({
   selectedLang = 'us',
   onLangChange,
   ...rest
-}: IpaLangControlProps) {
+}: LangControlProps) {
   const { image, value } = languages[selectedLang]
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -33,7 +42,7 @@ function IpaLangControl({
   }
 
   return (
-    <Tooltip label="Change IPA language" aria-label="Change IPA language">
+    <Tooltip label="Change language" aria-label="Change language">
       <Box
         w="40px"
         h="40px"
@@ -46,7 +55,7 @@ function IpaLangControl({
           <Image
             src={image.src}
             alt={`${value.toUpperCase()} flag`}
-            aria-label="Change IPA language"
+            aria-label="Change language"
             height="40px"
             width="40px"
             draggable="false"
@@ -58,4 +67,4 @@ function IpaLangControl({
   )
 }
 
-export default IpaLangControl
+export default LangControl

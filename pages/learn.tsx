@@ -6,12 +6,13 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { NextLayoutPage } from 'next'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import useLesson from '@/hooks/useLesson'
 import Keyboard from '@/components/Keyboard'
 import LangControl from '@/components/LangControl'
 import IPA, { Alphabet, Character, Lang } from '@/lib/IPA'
+import { addToArray, removeByIndex, updateByIndex } from '@/lib/utils/array'
 
 const CharacterPanel = dynamic(() => import('@/components/CharacterPanel'), {
   ssr: false,
@@ -21,28 +22,42 @@ const Learn: NextLayoutPage = () => {
   const ref = React.useRef<HTMLDivElement>(null)
   useOutsideClick({
     ref,
-    handler: (props) => {
-      setTimeout(() => setActiveCharIndex(null), 0)
-    },
+    handler: (_) => setTimeout(() => setActiveCharIndex(null), 0),
   })
   const [activeCharIndex, setActiveCharIndex] = useState<null | number>(null)
   const [lang, setLang] = useState<Lang>('us')
   const [characters, setCharacters] = useState(['a', 'b'])
   const { isLoading, data } = useLesson()
-
+  const DELETE_KEY = '🗑'
+  const keyRows = KEY_ROWS[lang]
   console.log(data)
 
+  const addCharacter = (character: string) =>
+    setCharacters((prevChars) => addToArray(prevChars, character))
+
+  const removeCharacter = (index: number) =>
+    setCharacters((prevChars) => removeByIndex(prevChars, index))
+
+  const updateCharacter = (character: string, index: number) =>
+    setCharacters((prevChars) => updateByIndex(prevChars, index, character))
+
   const handleKeyClick = (key: string) => {
-    if (activeCharIndex === null) {
-      setCharacters((prevCharacters) => [...prevCharacters, key])
-    } else {
-      setCharacters(
-        characters.map((character, index) =>
-          index === activeCharIndex ? key : character
-        )
-      )
+    if (key === DELETE_KEY) handleDeleteKeyClick()
+    else if (activeCharIndex === null) addCharacter(key)
+    else {
+      updateCharacter(key, activeCharIndex)
       setActiveCharIndex(null)
     }
+  }
+
+  const handleDeleteKeyClick = () => {
+    if (activeCharIndex !== null) {
+      removeCharacter(activeCharIndex)
+    } else if (characters.length) {
+      const destination = characters.length - 1
+      removeCharacter(destination)
+    }
+    setActiveCharIndex(null)
   }
 
   const handleCharacterClick = (character: string, index: number) => {
@@ -54,9 +69,7 @@ const Learn: NextLayoutPage = () => {
   }
 
   const handleCharacterRightClick = (key: string, index: number) => {
-    setCharacters((prevCharacters) =>
-      prevCharacters.filter((_, i) => i !== index)
-    )
+    removeCharacter(index)
     const active = activeCharIndex
     if (active === null) return
     else if (active === index) setActiveCharIndex(null)
@@ -86,6 +99,11 @@ const Learn: NextLayoutPage = () => {
     setCharacters([])
   }
 
+  const keyRowsWithDelete = useMemo(() => {
+    const deleteCharKey = { name: DELETE_KEY }
+    return [[...keyRows[0], deleteCharKey]]
+  }, [keyRows])
+
   return (
     <Container maxW="container.lg">
       <VStack onContextMenu={(e) => e.preventDefault()}>
@@ -99,7 +117,7 @@ const Learn: NextLayoutPage = () => {
             onCharacterRightClick={handleCharacterRightClick}
           />
         </Box>
-        <Keyboard keyRows={KEY_ROWS[lang]} onKeyClick={handleKeyClick} />
+        <Keyboard keyRows={keyRowsWithDelete} onKeyClick={handleKeyClick} />
         <LangControl selectedLang={lang} onLangChange={handleLangChange} />
       </VStack>
     </Container>

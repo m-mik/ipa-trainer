@@ -4,7 +4,7 @@ import {
   Droppable,
   DropResult,
 } from 'react-beautiful-dnd'
-import { Box, Flex, HStack, StackProps } from '@chakra-ui/react'
+import { Flex, HStack, StackProps } from '@chakra-ui/react'
 import useColors from '@/hooks/useColors'
 
 type Character = string

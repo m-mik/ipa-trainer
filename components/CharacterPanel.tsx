@@ -1,39 +1,45 @@
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { Flex, HStack, StackProps } from '@chakra-ui/react'
-import { useCallback } from 'react'
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from 'react-beautiful-dnd'
+import { Box, Flex, HStack, StackProps } from '@chakra-ui/react'
 import useColors from '@/hooks/useColors'
 
 type Character = string
 
 type CharacterPanelProps = {
   characters: Character[]
-  onCharactersChange?: (newCharacters: Character[]) => void
+  activeCharIndex: number | null
   onCharacterClick?: (character: Character, index: number) => void
+  onCharacterRightClick?: (character: Character, index: number) => void
+  onCharacterDrop?: (result: DropResult) => void
 } & StackProps
 
 function CharacterPanel({
   characters,
-  onCharactersChange,
+  activeCharIndex,
   onCharacterClick,
+  onCharacterRightClick,
+  onCharacterDrop,
   ...rest
 }: CharacterPanelProps) {
-  const handleDragEnd = useCallback(
-    (result) => {
-      const { source, destination } = result
-      if (!destination) return
-      const newCharacters = [...characters]
-      newCharacters.splice(source.index, 1)
-      newCharacters.splice(destination.index, 0, characters[source.index])
-      onCharactersChange?.(newCharacters)
-    },
-    [characters, onCharactersChange]
-  )
-
   const characterBg = useColors('primary')
   const characterColor = useColors('bg')
+  const activeBorderColor = useColors('highlight')
+
+  const handleContextMenu = (
+    e: React.MouseEvent<HTMLDivElement>,
+    character: Character,
+    index: number
+  ) => {
+    e.preventDefault()
+    onCharacterRightClick?.(character, index)
+  }
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
+    <DragDropContext onDragEnd={(result) => onCharacterDrop?.(result)}>
       <Droppable droppableId="characters" direction="horizontal">
         {(provided, snapshot) => (
           <HStack
@@ -49,6 +55,8 @@ function CharacterPanel({
               >
                 {(provided) => (
                   <Flex
+                    border={index === activeCharIndex ? '3px solid' : ''}
+                    borderColor={activeBorderColor}
                     bg={characterBg}
                     color={characterColor}
                     w="50px"
@@ -61,9 +69,13 @@ function CharacterPanel({
                     userSelect="none"
                     _hover={{ cursor: 'move' }}
                     ref={provided.innerRef}
+                    aria-label="Select character"
+                    onClick={(_) => onCharacterClick?.(character, index)}
+                    onContextMenu={(e) =>
+                      handleContextMenu(e, character, index)
+                    }
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    onClick={(_) => onCharacterClick?.(character, index)}
                   >
                     {character}
                   </Flex>

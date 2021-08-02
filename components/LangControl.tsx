@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import usFlag from '@/public/images/united-states.svg'
 import ukFlag from '@/public/images/united-kingdom.svg'
-import { Lang } from '@/pages/learn'
+import { Lang } from '@/lib/IPA'
 
 type Image = {
   src: string

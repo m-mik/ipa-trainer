@@ -1,4 +1,12 @@
-import { Button, Flex, FlexProps, StackProps, VStack } from '@chakra-ui/react'
+import {
+  Button,
+  Flex,
+  FlexProps,
+  StackProps,
+  Text,
+  Tooltip,
+  VStack,
+} from '@chakra-ui/react'
 import useColors from '@/hooks/useColors'
 
 type KeyboardProps = StackProps & {
@@ -33,21 +41,45 @@ type KeyRowBoxProps = {
   onKeyClick?: (keyName: KeyboardKey['name']) => void
 } & FlexProps
 
+type KeyTooltipProps = {
+  label: string
+}
+
+function KeyTooltip({ label }: KeyTooltipProps) {
+  const found = label.match(/(.*)\[(.*)\](.*)/) ?? []
+  const [_, left, center, right] = found
+
+  return (
+    <>
+      {left}
+      <Text as="strong" color={useColors('primary')}>
+        {center}
+      </Text>
+      {right}
+    </>
+  )
+}
+
 function KeyRowBox({ keyboardKeys, onKeyClick, ...rest }: KeyRowBoxProps) {
   return (
     <Flex m="1" wrap="wrap" justifyContent="center" {...rest}>
-      {keyboardKeys.map(({ name }, index) => (
-        <Button
+      {keyboardKeys.map(({ name, tooltip }, index) => (
+        <Tooltip
           key={`${name}${index}`}
-          m="1"
-          variant="outline"
-          px="0"
-          py="0"
-          fontSize="2em"
-          onClick={(_) => onKeyClick?.(name)}
+          label={tooltip && <KeyTooltip label={tooltip} />}
+          aria-label="Example word"
         >
-          {name}
-        </Button>
+          <Button
+            m="1"
+            variant="outline"
+            px="0"
+            py="0"
+            fontSize="2em"
+            onClick={(_) => onKeyClick?.(name)}
+          >
+            {name}
+          </Button>
+        </Tooltip>
       ))}
     </Flex>
   )

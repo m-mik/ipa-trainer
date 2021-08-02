@@ -73,7 +73,7 @@ export type Lang = 'us' | 'uk'
 
 export interface Character {
   name: string
-  example: string
+  example?: string
   lang?: Lang
 }
 

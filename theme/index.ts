@@ -7,6 +7,7 @@ import Button from '@/theme/components/Button'
 import Switch from '@/theme/components/Switch'
 import Input from '@/theme/components/Input'
 import Menu from '@/theme/components/Menu'
+import Tooltip from '@/theme/components/Tooltip'
 
 const config: ThemeConfig = {
   useSystemColorMode: false,
@@ -23,6 +24,7 @@ const overrides = {
     Switch,
     Input,
     Menu,
+    Tooltip,
   },
   config,
 }

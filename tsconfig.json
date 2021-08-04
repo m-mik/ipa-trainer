@@ -15,8 +15,31 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
-    },
+      "@/app/*": [
+        "app/*"
+      ],
+      "@/common/*": [
+        "common/*"
+      ],
+      "@/components/*": [
+        "common/components/*"
+      ],
+      "@/utils/*": [
+        "common/utils/*"
+      ],
+      "@/layouts/*": [
+        "layouts/*"
+      ],
+      "@/modules/*": [
+        "modules/*"
+      ],
+      "@/pages/*": [
+        "pages/*"
+      ],
+      "@/public/*": [
+        "public/*"
+      ]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

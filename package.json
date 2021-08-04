@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\" -r tsconfig-paths/register",
-    "seed": "prisma db seed --preview-feature"
+    "seed": "modules/core/prisma db seed --preview-feature"
+  },
+  "prisma": {
+    "schema": "modules/core/prisma/schema.prisma"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.5",

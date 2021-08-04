@@ -1,11 +1,11 @@
 import nc from 'next-connect'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { findRandomWordInfos } from '@/lib/wordInfo/service'
+import { findRandomWords } from '@/modules/word/service'
 
 const handler = nc<NextApiRequest, NextApiResponse>().post(async (req, res) => {
-  const wordInfos = await findRandomWordInfos(3)
+  const words = await findRandomWords(3)
   res.json({
-    items: wordInfos,
+    items: words,
   })
 })
 

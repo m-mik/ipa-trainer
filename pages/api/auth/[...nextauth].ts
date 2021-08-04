@@ -2,10 +2,9 @@ import NextAuth, { Profile, Session, User as NextAuthUser } from 'next-auth'
 import Providers from 'next-auth/providers'
 import { NextApiRequest } from 'next'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import prisma from '@/prisma/db'
-import { calculateUserPoints, findDemoUser } from '@/lib/user/service'
-
-export type Credentials = { username: string; password: string }
+import prisma from '@/common/db'
+import { calculateUserPoints, findDemoUser } from '@/modules/user/service'
+import { Credentials } from '@/modules/auth/types/Credentials'
 
 interface NextAuthUserWithStringId extends NextAuthUser {
   id: string

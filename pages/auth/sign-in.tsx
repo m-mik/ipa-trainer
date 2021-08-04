@@ -13,10 +13,8 @@ import { signIn, useSession } from 'next-auth/client'
 import { IconType } from 'react-icons'
 import Card from '@/components/Card'
 import DividerWithText from '@/components/DividerWithText'
-import LoginForm from '@/components/LoginForm'
-import { Credentials } from '@/hooks/useSignIn'
-
-type SignInProps = { demoCredentials: Credentials }
+import LoginForm from '@/modules/auth/components/LoginForm'
+import { Credentials } from '@/modules/auth/types/Credentials'
 
 interface Provider {
   name: string
@@ -26,6 +24,8 @@ const providers: Array<Provider> = [
   { name: 'Github', Icon: FaGithub },
   { name: 'Google', Icon: FaGoogle },
 ]
+
+type SignInProps = { demoCredentials: Credentials }
 
 function SignIn({ demoCredentials }: SignInProps) {
   const { username, password } = demoCredentials

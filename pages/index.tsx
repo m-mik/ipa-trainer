@@ -1,7 +1,7 @@
 import { chakra, Container } from '@chakra-ui/react'
 import { NextLayoutPage } from 'next'
-import Hero from '@/components/Hero'
 import { motion } from 'framer-motion'
+import Hero from '@/modules/home/components/Hero'
 
 const MotionBox = motion(chakra.div)
 

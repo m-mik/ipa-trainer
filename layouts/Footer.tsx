@@ -1,5 +1,5 @@
 import { Box, BoxProps, Icon } from '@chakra-ui/react'
-import Link from '@/common/components/Link'
+import Link from '@/components/Link'
 import { FaGithub } from 'react-icons/fa'
 
 function Footer(props: BoxProps) {

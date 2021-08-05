@@ -1,4 +1,4 @@
-import { ColorTypes, generateColorModeKeys } from '@/modules/core/theme/colors'
+import { ColorTypes, generateColorModeKeys } from '@/theme/colors'
 import { useColorModeValue } from '@chakra-ui/react'
 
 function useColors(colorType: ColorTypes) {

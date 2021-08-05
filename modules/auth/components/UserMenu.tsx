@@ -15,9 +15,9 @@ import {
 import { signOut, useSession } from 'next-auth/client'
 import { CgLogOut } from 'react-icons/cg'
 import { FiSettings } from 'react-icons/fi'
-import useColors from '@/common/hooks/useColors'
-import UserAvatar from '@/common/components/UserAvatar'
-import Link from '@/common/components/Link'
+import useColors from '@/hooks/useColors'
+import UserAvatar from '@/components/UserAvatar'
+import Link from '@/components/Link'
 
 type UserMenuProps = Omit<MenuProps, 'children'>
 

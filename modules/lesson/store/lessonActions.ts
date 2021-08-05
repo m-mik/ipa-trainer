@@ -1,4 +1,4 @@
-import { Symbol } from '../../../common/data/IPA'
+import { Language, Symbol } from '@/data/IPA'
 
 export enum ActionType {
   AppendSymbol = 'APPEND_SYMBOL',
@@ -9,9 +9,11 @@ export enum ActionType {
   SetActiveSymbolIndex = 'SET_ACTIVE_SYMBOL_INDEX',
   ResetActiveSymbolIndex = 'RESET_ACTIVE_SYMBOL_INDEX',
   DropSymbol = 'DROP_SYMBOL',
+  SetLanguage = 'SET_LANGUAGE',
 }
 
 export type LessonAction =
+  | { type: ActionType.SetLanguage; language: Language }
   | { type: ActionType.AppendSymbol; symbol: Symbol }
   | { type: ActionType.AddSymbol; payload: { symbol: Symbol; index: number } }
   | { type: ActionType.RemoveSymbol; index: number }

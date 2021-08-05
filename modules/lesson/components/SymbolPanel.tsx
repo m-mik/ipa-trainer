@@ -1,12 +1,19 @@
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { Flex, HStack, StackProps } from '@chakra-ui/react'
-import useColors from '@/common/hooks/useColors'
-import { Symbol } from '@/common/data/IPA'
+import {
+  Box,
+  Flex,
+  HStack,
+  StackProps,
+  useOutsideClick,
+} from '@chakra-ui/react'
+import useColors from '@/hooks/useColors'
+import { Symbol } from '@/data/IPA'
 import useLessonContext from '../hooks/useLesssonContext'
 import { ActionType } from '../store/lessonActions'
 
-function SymbolPanel(props: StackProps) {
+const SymbolPanel = function SymbolPanel(props: StackProps) {
+  const ref = React.useRef<HTMLDivElement>(null)
   const { state, dispatch } = useLessonContext()
   const { symbols, activeSymbolIndex } = state
   const colors = {
@@ -14,6 +21,15 @@ function SymbolPanel(props: StackProps) {
     symbol: useColors('bg'),
     activeBorder: useColors('highlight'),
   }
+
+  useOutsideClick({
+    ref,
+    handler: (_) =>
+      setTimeout(
+        () => dispatch({ type: ActionType.ResetActiveSymbolIndex }),
+        0
+      ),
+  })
 
   const handleSymbolRightClick = (symbol: Symbol, index: number) => {
     dispatch({ type: ActionType.RemoveSymbol, index })
@@ -68,46 +84,48 @@ function SymbolPanel(props: StackProps) {
     <DragDropContext onDragEnd={handleSymbolDrop}>
       <Droppable droppableId="symbols" direction="horizontal">
         {(provided) => (
-          <HStack
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            {...props}
-          >
-            {symbols.map((symbol, index) => (
-              <Draggable
-                key={`${symbol.name}-${index}`}
-                draggableId={String(symbol.id)}
-                index={index}
-              >
-                {(provided) => (
-                  <Flex
-                    border={index === activeSymbolIndex ? '3px solid' : ''}
-                    borderColor={colors.activeBorder}
-                    bg={colors.symbolBg}
-                    color={colors.symbol}
-                    w="50px"
-                    h="50px"
-                    px="0"
-                    py="0"
-                    justifyContent="center"
-                    alignItems="center"
-                    fontSize="2.5em"
-                    userSelect="none"
-                    _hover={{ cursor: 'move' }}
-                    ref={provided.innerRef}
-                    aria-label="Select symbol"
-                    onClick={(_) => handleSymbolClick(symbol, index)}
-                    onContextMenu={(e) => handleContextMenu(e, symbol, index)}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    {symbol.name}
-                  </Flex>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </HStack>
+          <Box ref={ref} h="50">
+            <HStack
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              {...props}
+            >
+              {symbols.map((symbol, index) => (
+                <Draggable
+                  key={`${symbol.name}-${index}`}
+                  draggableId={String(index)}
+                  index={index}
+                >
+                  {(provided) => (
+                    <Flex
+                      border={index === activeSymbolIndex ? '3px solid' : ''}
+                      borderColor={colors.activeBorder}
+                      bg={colors.symbolBg}
+                      color={colors.symbol}
+                      w="50px"
+                      h="50px"
+                      px="0"
+                      py="0"
+                      justifyContent="center"
+                      alignItems="center"
+                      fontSize="2.5em"
+                      userSelect="none"
+                      _hover={{ cursor: 'move', fontSize: '2.8em' }}
+                      ref={provided.innerRef}
+                      aria-label="Select symbol"
+                      onClick={(_) => handleSymbolClick(symbol, index)}
+                      onContextMenu={(e) => handleContextMenu(e, symbol, index)}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      {symbol.name}
+                    </Flex>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </HStack>
+          </Box>
         )}
       </Droppable>
     </DragDropContext>

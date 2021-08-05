@@ -5,9 +5,8 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { AppLayoutProps } from 'next/app'
-import theme from '@/modules/core/theme'
 import DefaultLayout from '@/layouts/DefaultLayout'
-import { LessonProvider } from '@/modules/lesson/providers/LessonProvider'
+import theme from '../theme'
 
 const queryClient = new QueryClient()
 
@@ -18,9 +17,7 @@ function MyApp({ Component, pageProps }: AppLayoutProps) {
     <QueryClientProvider client={queryClient}>
       <NextProvider session={pageProps.session}>
         <ChakraProvider theme={theme}>
-          <LessonProvider>
-            {getLayout(<Component {...pageProps} />)}
-          </LessonProvider>
+          {getLayout(<Component {...pageProps} />)}
         </ChakraProvider>
       </NextProvider>
       <ReactQueryDevtools initialIsOpen={false} />

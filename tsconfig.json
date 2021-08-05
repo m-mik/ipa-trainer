@@ -21,11 +21,20 @@
       "@/common/*": [
         "common/*"
       ],
+      "@/data/*": [
+        "common/data/*"
+      ],
+      "@/hooks/*": [
+        "common/hooks/*"
+      ],
       "@/components/*": [
         "common/components/*"
       ],
       "@/utils/*": [
         "common/utils/*"
+      ],
+      "@/services/*": [
+        "common/services/*"
       ],
       "@/layouts/*": [
         "layouts/*"
@@ -35,6 +44,12 @@
       ],
       "@/pages/*": [
         "pages/*"
+      ],
+      "@/prisma/*": [
+        "prisma/*"
+      ],
+      "@/theme/*": [
+        "theme/*"
       ],
       "@/public/*": [
         "public/*"

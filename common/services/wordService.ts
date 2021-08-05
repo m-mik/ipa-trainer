@@ -10,10 +10,6 @@ export function createWords(words: RequiredWord[]) {
   })
 }
 
-export function createWord(word: RequiredWord) {
-  return createWords([word])
-}
-
 export function updateWord(word: Partial<RequiredWord>, wordId: Word['id']) {
   return prisma.word.update({
     data: word,

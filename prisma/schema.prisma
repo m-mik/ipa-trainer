@@ -58,24 +58,27 @@ model VerificationRequest {
   @@unique([identifier, token])
 }
 
-model Symbol {
+model Pronunciation {
   id        String   @id @default(cuid())
   wordId    String
-  name      String
+  symbols   String
   audio     String
+  language  Language
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   word      Word     @relation(fields: [wordId], references: [id])
+
+  @@unique([wordId, symbols])
 }
 
 model Word {
-  id           String       @id @default(cuid())
-  name         String
-  partOfSpeech PartOfSpeech
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  question     Question[]
-  symbol       Symbol[]
+  id            String          @id @default(cuid())
+  name          String
+  partOfSpeech  PartOfSpeech
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  question      Question[]
+  pronunciation Pronunciation[]
 
   @@unique([name, partOfSpeech])
 }
@@ -98,6 +101,11 @@ model Lesson {
   updatedAt DateTime   @updatedAt
   question  Question[]
   user      User       @relation(fields: [userId], references: [id])
+}
+
+enum Language {
+  US
+  UK
 }
 
 enum Answer {

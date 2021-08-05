@@ -1,5 +1,5 @@
 import { Text, TextProps } from '@chakra-ui/react'
-import useColors from '@/common/hooks/useColors'
+import useColors from '@/hooks/useColors'
 
 type SymbolTooltipLabelProps = TextProps & {
   text: string

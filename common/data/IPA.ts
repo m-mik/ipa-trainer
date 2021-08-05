@@ -1,3 +1,5 @@
+import { Language } from '@prisma/client'
+
 const IPA: Alphabet = {
   vowels: {
     long: [
@@ -11,12 +13,12 @@ const IPA: Alphabet = {
       { id: 6, name: 'ɪ', example: 'sh[i]p' },
       { id: 7, name: 'æ', example: 'h[a]t' },
       { id: 8, name: 'ʊ', example: 'f[oo]t' },
-      { id: 9, name: 'ɒ', example: 's[o]ck', language: 'uk' },
+      { id: 9, name: 'ɒ', example: 's[o]ck', language: Language.UK },
       { id: 10, name: 'ʌ', example: 'c[u]p' },
       { id: 11, name: 'e', example: 'h[ea]d' },
       { id: 12, name: 'ə', example: '[a]bove' },
-      { id: 13, name: 'ɚ', example: 'moth[er]', language: 'us' },
-      { id: 14, name: 'ɝ', example: 'w[or]m', language: 'us' },
+      { id: 13, name: 'ɚ', example: 'moth[er]', language: Language.US },
+      { id: 14, name: 'ɝ', example: 'w[or]m', language: Language.US },
     ],
   },
   consonants: {
@@ -53,25 +55,21 @@ const IPA: Alphabet = {
     { id: 39, name: 'aɪ', example: '[eye]' },
     { id: 40, name: 'ɔɪ', example: 'b[oy]' },
     { id: 41, name: 'aʊ', example: 'm[ou]th' },
-    { id: 42, name: 'əʊ', example: 'n[o]se', language: 'uk' },
-    { id: 43, name: 'oʊ', example: 'n[o]se', language: 'us' },
-    { id: 44, name: 'ɪə', example: '[ea]r', language: 'uk' },
-    { id: 45, name: 'eə', example: 'h[air]', language: 'uk' },
-    { id: 46, name: 'ʊə', example: 'p[ure]', language: 'uk' },
+    { id: 42, name: 'əʊ', example: 'n[o]se', language: Language.UK },
+    { id: 43, name: 'oʊ', example: 'n[o]se', language: Language.US },
+    { id: 44, name: 'ɪə', example: '[ea]r', language: Language.UK },
+    { id: 45, name: 'eə', example: 'h[air]', language: Language.UK },
+    { id: 46, name: 'ʊə', example: 'p[ure]', language: Language.UK },
   ],
   other: [
     { id: 47, name: 'h', example: '[h]and' },
-    { id: 48, name: 'ɒ', example: 'croiss[ant]', language: 'uk' },
+    { id: 48, name: 'ɒ', example: 'croiss[ant]', language: Language.UK },
     { id: 49, name: 'i', example: 'happ[y]' },
-    { id: 50, name: 't̬', example: 'bu[tt]er', language: 'us' },
+    { id: 50, name: 't̬', example: 'bu[tt]er', language: Language.US },
     { id: 51, name: 'u', example: 'infl[u]enza' },
     { id: 52, name: 'l̩', example: 'litt[le]' },
   ],
 }
-
-export type Language = string
-
-export type IpaLanguage = 'us' | 'uk'
 
 export interface Symbol {
   id: number

@@ -1,17 +1,16 @@
 import axios from 'axios'
-import { cambridge } from '@/lib/word/fetcher/dict'
-import { RequiredWordInfo } from '@/lib/word/service'
-import { hasIpa } from '@/lib/word'
+import cambridge from './dict/cambridge'
+import { RequiredWord } from '@/services/wordService'
 
 export const DEFAULT_DICTIONARY = cambridge
 
-export type FetchedWordInfo = RequiredWordInfo
+export type FetchedWord = RequiredWord
 
 export interface Dictionary {
   name: string
   baseUrl: string
   searchUrl: string
-  parse: (html: string) => FetchedWordInfo[]
+  parse: (html: string) => FetchedWord[]
 }
 
 export const buildAudioUrl = (baseUrl: string, audioPath: string | undefined) =>
@@ -25,14 +24,16 @@ export const buildUrl = (searchUrl: string, word: string) => {
   return searchUrl.replace(searchStr, word)
 }
 
-export const wordInfoFetcher =
+export const fetcher =
   ({ searchUrl, parse }: Dictionary) =>
   async (word: string) => {
     const url = buildUrl(searchUrl, word)
     const res = await axios.get<string>(url)
-    return parse(res.data).filter(hasIpa)
+    return parse(res.data)
   }
 
-const fetchWordInfos = wordInfoFetcher(DEFAULT_DICTIONARY)
+const fetchWord = fetcher(DEFAULT_DICTIONARY)
 
-export default fetchWordInfos
+fetchWord(word)
+
+export default fetchWords

@@ -7,8 +7,8 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { AiOutlineArrowRight } from 'react-icons/ai'
-import Link from '@/common/components/Link'
-import useColors from '@/common/hooks/useColors'
+import Link from '@/components/Link'
+import useColors from '@/hooks/useColors'
 
 function Hero(props: BoxProps) {
   return (

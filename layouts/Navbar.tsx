@@ -20,9 +20,9 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { AiOutlineClose } from 'react-icons/ai'
 import { motion } from 'framer-motion'
 import UserMenu from '@/modules/auth/components/UserMenu'
-import ColorModeSwitch from '@/common/components/ColorModeSwitch'
-import Link from '@/common/components/Link'
-import useColors from '@/common/hooks/useColors'
+import ColorModeSwitch from '@/components/ColorModeSwitch'
+import Link from '@/components/Link'
+import useColors from '@/hooks/useColors'
 
 interface NavItem {
   text: string

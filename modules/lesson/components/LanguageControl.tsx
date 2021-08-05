@@ -1,9 +1,9 @@
 import { Box, BoxProps, Tooltip, VisuallyHidden } from '@chakra-ui/react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import usFlag from '@/public/images/united-states.svg'
-import ukFlag from '@/public/images/united-kingdom.svg'
-import { Language } from '@/common/data/IPA'
+import usFlag from '../../../public/images/united-states.svg'
+import ukFlag from '../../../public/images/united-kingdom.svg'
+import { Language } from '@prisma/client'
 
 type Image = {
   src: string
@@ -14,31 +14,35 @@ type LangItem = {
   image: Image
 }
 
-const languages: Record<Language, LangItem> = {
-  us: {
-    value: 'us',
+type LanguageData = { [key in Language]: { value: Language; image: Image } }
+
+const languageData: LanguageData = {
+  [Language.US]: {
+    value: Language.US,
     image: usFlag,
   },
-  uk: {
-    value: 'uk',
+  [Language.UK]: {
+    value: Language.UK,
     image: ukFlag,
   },
 }
 
-type LangControlProps = {
-  selectedLang: Language
-  onLangChange?: (ipaLang: Language) => void
+type LanguageControlProps = {
+  selectedLanguage: Language
+  onLanguageChange?: (language: Language) => void
 } & BoxProps
 
-function LangControl({
-  selectedLang = 'us',
-  onLangChange,
+function LanguageControl({
+  selectedLanguage = Language.US,
+  onLanguageChange,
   ...rest
-}: LangControlProps) {
-  const { image, value } = languages[selectedLang]
+}: LanguageControlProps) {
+  const { image, value } = languageData[selectedLanguage]
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    onLangChange?.(selectedLang === 'us' ? 'uk' : 'us')
+    onLanguageChange?.(
+      selectedLanguage === Language.US ? Language.UK : Language.US
+    )
   }
 
   return (
@@ -67,4 +71,4 @@ function LangControl({
   )
 }
 
-export default LangControl
+export default LanguageControl

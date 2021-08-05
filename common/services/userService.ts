@@ -7,21 +7,6 @@ export function findUserById(id: string) {
   })
 }
 
-export function findDemoUser() {
-  return prisma.user.findFirst({
-    where: {
-      name: process.env.DEMO_USERNAME,
-      accounts: {
-        none: {},
-      },
-    },
-  })
-}
-
-export async function createDemoUser() {
-  await createUser({ name: process.env.DEMO_USERNAME })
-}
-
 export function createUser(user: Partial<User>) {
   prisma.user.create({ data: user })
 }

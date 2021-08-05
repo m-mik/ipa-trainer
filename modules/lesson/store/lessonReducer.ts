@@ -1,12 +1,13 @@
 import { addToArray, removeByIndex, updateByIndex } from '@/utils/array'
-import { Language, Symbol } from '@/common/data/IPA'
+import { Symbol } from '@/data/IPA'
+import { Language } from '@prisma/client'
 import { ActionType, LessonAction } from './lessonActions'
 
-export interface LessonState {
+export type LessonState = Readonly<{
   symbols: Symbol[]
   activeSymbolIndex: number | null
   language: Language
-}
+}>
 
 export const initialState: LessonState = {
   symbols: [
@@ -17,11 +18,14 @@ export const initialState: LessonState = {
     { id: 5, name: 'e' },
   ],
   activeSymbolIndex: null,
-  language: 'us',
+  language: Language.US,
 }
 
 export function lessonReducer(state: LessonState, action: LessonAction) {
   switch (action.type) {
+    case ActionType.SetLanguage: {
+      return { ...state, language: action.language }
+    }
     case ActionType.SetActiveSymbolIndex: {
       return { ...state, activeSymbolIndex: action.index }
     }

@@ -1,19 +1,19 @@
+import React from 'react'
 import {
-  Box,
   Button,
   ButtonProps,
   Flex,
+  HStack,
   StackProps,
-  Text,
   Tooltip,
   VStack,
 } from '@chakra-ui/react'
-import IPA, { Alphabet, Language, Symbol } from '@/common/data/IPA'
-import useColors from '@/common/hooks/useColors'
+import { Language } from '@prisma/client'
+import IPA, { Alphabet, Symbol } from '@/data/IPA'
 import useLessonContext from '../hooks/useLesssonContext'
 import { ActionType } from '../store/lessonActions'
 import SymbolTooltipLabel from './SymbolTooltipLabel'
-import React from 'react'
+import LanguageControl from './LanguageControl'
 
 function KeyboardPanel(props: StackProps) {
   const { state, dispatch } = useLessonContext()
@@ -40,40 +40,36 @@ function KeyboardPanel(props: StackProps) {
     }
     dispatch({ type: ActionType.ResetActiveSymbolIndex })
   }
-  /*
 
-  const handleLangChange = (lang: Language) => {
-    setLang(lang)
-    setActiveCharIndex(null)
-    setCharacters([])
+  const handleLanguageChange = (language: Language) => {
+    dispatch({ type: ActionType.ResetActiveSymbolIndex })
+    dispatch({ type: ActionType.SetLanguage, language })
+    dispatch({ type: ActionType.ResetSymbols })
   }
 
-  const keyRowsWithDelete = useMemo(() => {
-    const deleteCharKey = { name: DELETE_KEY }
-    return [[...keyRows[0], deleteCharKey]]
-  }, [keyRows])
-*/
-
   return (
-    <VStack p="2" bg={useColors('secondary')} d="inline-flex" {...props}>
-      <VStack spacing="2">
-        <Flex justifyContent="center" wrap="wrap">
-          {symbolsForActiveLanguage.map((symbol, index) => {
-            return (
-              <Tooltip
-                key={symbol.id}
-                label={
-                  symbol.example && <SymbolTooltipLabel text={symbol.example} />
-                }
-                aria-label="Example word"
-              >
-                <Key data={symbol} onClick={handleClick} />
-              </Tooltip>
-            )
-          })}
-          <Key data={{ name: '🗑' }} onClick={handleDeleteClick} />
-        </Flex>
-      </VStack>
+    <VStack spacing="2" p="2" d="inline-flex" {...props}>
+      <HStack width="100%">
+        <LanguageControl
+          ml="auto"
+          selectedLanguage={language}
+          onLanguageChange={handleLanguageChange}
+        />
+      </HStack>
+      <Flex justifyContent="center" wrap="wrap">
+        {symbolsForActiveLanguage.map((symbol) => (
+          <Tooltip
+            key={symbol.id}
+            label={
+              symbol.example && <SymbolTooltipLabel text={symbol.example} />
+            }
+            aria-label="Example word"
+          >
+            <Key data={symbol} onClick={handleClick} />
+          </Tooltip>
+        ))}
+        <Key data={{ name: '🗑' }} onClick={handleDeleteClick} />
+      </Flex>
     </VStack>
   )
 }
@@ -123,19 +119,11 @@ export function getAlphabetSymbols(alphabet: Alphabet, language?: Language) {
     : symbols
 }
 
-export function filterSymbols(symbols: Symbol[], language: Language) {
-  const isUniversalSymbol = (symbol: Symbol) =>
-    typeof symbol.language === 'undefined'
-  return symbols.filter(
-    (symbol) => isUniversalSymbol(symbol) || symbol.language === language
-  ) as Symbol[]
-}
-
 export const SYMBOLS_BY_LANGUAGE: {
   [key in Language]: Symbol[]
 } = {
-  us: getAlphabetSymbols(IPA, 'us'),
-  uk: getAlphabetSymbols(IPA, 'uk'),
+  [Language.US]: getAlphabetSymbols(IPA, Language.US),
+  [Language.UK]: getAlphabetSymbols(IPA, Language.UK),
 }
 
 export default KeyboardPanel

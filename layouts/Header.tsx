@@ -1,7 +1,7 @@
 import { Box, BoxProps, Container, HStack } from '@chakra-ui/react'
-import Link from '@/common/components/Link'
-import Logo from '@/common/components/Logo'
-import useColors from '@/common/hooks/useColors'
+import Link from '@/components/Link'
+import Logo from '@/components/Logo'
+import useColors from '@/hooks/useColors'
 import Navbar from './Navbar'
 
 function Header(props: BoxProps) {

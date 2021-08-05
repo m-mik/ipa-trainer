@@ -1,6 +1,6 @@
 import { Box, BoxProps } from '@chakra-ui/react'
 import * as React from 'react'
-import useColors from '@/common/hooks/useColors'
+import useColors from '@/hooks/useColors'
 
 function Card(props: BoxProps) {
   return (

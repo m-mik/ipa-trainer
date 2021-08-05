@@ -1,5 +1,5 @@
 import cheerio, { Cheerio, Element } from 'cheerio'
-import { buildAudioUrl, Dictionary, FetchedWordInfo } from '@/lib/word/fetcher'
+import { buildAudioUrl, Dictionary, FetchedWord } from '../index'
 import { PartOfSpeech } from '@prisma/client'
 
 const cambridge: Dictionary = {
@@ -16,23 +16,23 @@ const cambridge: Dictionary = {
 }
 
 export const extractWordFromSection = (
-  s: Cheerio<Element>
-): FetchedWordInfo => {
+  section: Cheerio<Element>
+): FetchedWord => {
   return {
-    word: s.find('.hw.dhw')?.text(),
-    ukIpa: s.find('.uk .ipa')?.text(),
-    ukIpaAlt: s.find('.uk + span:not(.dpron-i) .ipa')?.text(),
+    word: section.find('.hw.dhw')?.text(),
+    ukIpa: section.find('.uk .ipa')?.text(),
+    ukIpaAlt: section.find('.uk + span:not(.dpron-i) .ipa')?.text(),
     ukAudio: buildAudioUrl(
       cambridge.baseUrl,
-      s.find('.uk source:first-of-type')?.attr('src')
+      section.find('.uk source:first-of-type')?.attr('src')
     ),
-    usIpa: s.find('.us .ipa')?.text(),
-    usIpaAlt: s.find('.us + span:not(.dpron-i) .ipa')?.text(),
+    usIpa: section.find('.us .ipa')?.text(),
+    usIpaAlt: section.find('.us + span:not(.dpron-i) .ipa')?.text(),
     usAudio: buildAudioUrl(
       cambridge.baseUrl,
-      s.find('.us source:first-of-type')?.attr('src')
+      section.find('.us source:first-of-type')?.attr('src')
     ),
-    partOfSpeech: s.find('.pos')?.text().toUpperCase() as PartOfSpeech,
+    partOfSpeech: section.find('.pos')?.text().toUpperCase() as PartOfSpeech,
   }
 }
 

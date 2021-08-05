@@ -3,8 +3,9 @@ import Providers from 'next-auth/providers'
 import { NextApiRequest } from 'next'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prisma from '@/common/db'
-import { calculateUserPoints, findDemoUser } from '@/modules/user/service'
 import { Credentials } from '@/modules/auth/types/Credentials'
+import { findDemoUser } from '@/modules/auth/authService'
+import { calculateUserPoints } from '@/services/userService'
 
 interface NextAuthUserWithStringId extends NextAuthUser {
   id: string

@@ -22,6 +22,7 @@
     "cheerio": "^1.0.0-rc.10",
     "eslint-config-prettier": "^8.3.0",
     "framer-motion": "^4.1.17",
+    "lodash.shuffle": "^4.2.0",
     "next": "11.0.1",
     "next-auth": "^3.27.3",
     "next-connect": "^0.10.1",
@@ -33,6 +34,7 @@
     "react-query": "^3.19.0"
   },
   "devDependencies": {
+    "@types/lodash.shuffle": "^4.2.6",
     "@types/node": "^15.12.2",
     "@types/react": "17.0.14",
     "@types/react-beautiful-dnd": "^13.1.1",

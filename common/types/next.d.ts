@@ -1,7 +1,7 @@
 import type {
   NextComponentType,
-  NextPageContext,
   NextLayoutComponentType,
+  NextPageContext,
 } from 'next'
 import type { AppProps } from 'next/app'
 import { ReactNode } from 'react'

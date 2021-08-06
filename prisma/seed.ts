@@ -1,9 +1,19 @@
 import { promises as fs } from 'fs'
-import PQueue from 'p-queue'
+import path from 'path'
+import shuffle from 'lodash.shuffle'
 import prisma from '@/common/db'
-import fetchWords from '@/modules/fetcher'
-import { createWords } from '@/services/wordService'
 import { createDemoUser, findDemoUser } from '@/modules/auth/authService'
+import { PartOfSpeech } from '@prisma/client'
+import {
+  createPronunciationsFetchQueue,
+  FetchedPronunciation,
+  Word,
+} from '@/modules/fetcher/fetchPronunciations'
+import {
+  createPronunciations,
+  createWords,
+  findWordsWithoutPronunciation,
+} from '@/common/services/wordService'
 
 async function initDemoUser() {
   const demoUser = await findDemoUser()
@@ -12,43 +22,83 @@ async function initDemoUser() {
 }
 
 async function initWords() {
-  const words = await loadWords()
-  const queue = new PQueue({ concurrency: 1, interval: 5000, intervalCap: 1 })
-  let count = 0
+  try {
+    const words = await loadWordsFromDisk()
+    const createdWords = await createWords(words)
+    console.log(`DB: Created ${createdWords.count} word(s)`)
+  } catch (e) {
+    console.error(`Word initialization error: ${e}`)
+  }
+}
 
-  words.slice(0, 10).forEach((word) => {
-    queue
-      .add(() => fetchWords(word))
-      .then((words) => {
-        createWords(words)
-      })
-      .catch((e) => console.error(`Could not initialize word, '${word}': ${e}`))
-  })
-
-  queue.on('active', () =>
-    console.log(
-      `Initializing word, '${words[count++]}'. Size: ${queue.size} Pending: ${
-        queue.pending
-      }`
-    )
+async function initPronunciations() {
+  const wordsWithoutPronunciation = await findWordsWithoutPronunciation(10)
+  console.log(
+    `DB: Found ${wordsWithoutPronunciation.length} word(s) without a pronunciation`
   )
 
-  queue.on('idle', () => console.log('Finished initializing words'))
+  const pronunciationsFetchQueue = createPronunciationsFetchQueue({
+    words: wordsWithoutPronunciation,
+    options: {
+      concurrency: 1,
+      interval: 3000,
+      intervalCap: 1,
+      autoStart: false,
+    },
+  })
+
+  pronunciationsFetchQueue.on<any>(
+    'fetchEnd',
+    async (word: Word, fetchedPronunciations: FetchedPronunciation[]) => {
+      if (!fetchedPronunciations) {
+        return console.log(
+          `Could not find pronunciations for: '${word.name}' (${word.partOfSpeech})`
+        )
+      }
+      const createdPronunciations = await createPronunciations(
+        fetchedPronunciations.map((fetchedPronunciation) => ({
+          ...fetchedPronunciation,
+          wordId: word.id,
+        }))
+      )
+      console.log(
+        `DB: Created ${createdPronunciations.count} pronunciations for '${word.name}' (${word.partOfSpeech})`
+      )
+    }
+  )
+
+  pronunciationsFetchQueue.start()
 }
 
 async function main() {
-  //await initWords()
   await initDemoUser()
+  await initWords()
+  await initPronunciations()
 }
 
-export async function loadWords() {
-  const path = __dirname + '/most-common-words.txt'
-  try {
-    const wordStr = await fs.readFile(path, 'utf-8')
-    return wordStr.trim().split('\n')
-  } catch (e) {
-    throw new Error(`Could not load words from ${path}: ${e.message}`)
-  }
+export async function loadWordsFromDisk() {
+  const files = [
+    { name: 'nouns.txt', partOfSpeech: PartOfSpeech.NOUN },
+    { name: 'verbs.txt', partOfSpeech: PartOfSpeech.VERB },
+    { name: 'adjectives.txt', partOfSpeech: PartOfSpeech.ADJECTIVE },
+  ]
+  const wordsByPartOfSpeech = await Promise.all(
+    files.map(async (file) => {
+      try {
+        const filePath = path.join(process.cwd(), 'common/data', file.name)
+        const wordStr = await fs.readFile(filePath, 'utf-8')
+        return wordStr
+          .trim()
+          .split('\n')
+          .map((word) => ({ name: word, partOfSpeech: file.partOfSpeech }))
+      } catch (e) {
+        throw new Error(
+          `Could not load words from file ${file.name}: ${e.message}`
+        )
+      }
+    })
+  )
+  return shuffle(wordsByPartOfSpeech.flat())
 }
 
 main()

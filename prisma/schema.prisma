@@ -44,7 +44,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
-  lesson        Lesson[]
+  lessons       Lesson[]
 }
 
 model VerificationRequest {
@@ -68,17 +68,17 @@ model Pronunciation {
   updatedAt DateTime @updatedAt
   word      Word     @relation(fields: [wordId], references: [id])
 
-  @@unique([wordId, symbols])
+  @@unique([wordId, symbols, language])
 }
 
 model Word {
-  id            String          @id @default(cuid())
-  name          String
-  partOfSpeech  PartOfSpeech
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  question      Question[]
-  pronunciation Pronunciation[]
+  id             String          @id @default(cuid())
+  name           String
+  partOfSpeech   PartOfSpeech
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  questions      Question[]
+  pronunciations Pronunciation[]
 
   @@unique([name, partOfSpeech])
 }
@@ -99,7 +99,7 @@ model Lesson {
   userId    String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  question  Question[]
+  questions Question[]
   user      User       @relation(fields: [userId], references: [id])
 }
 

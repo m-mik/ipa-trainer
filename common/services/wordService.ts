@@ -1,24 +1,50 @@
 import prisma from '@/common/db'
-import { Word } from '@prisma/client'
+import { PartOfSpeech, Pronunciation, Word } from '@prisma/client'
 
-export type RequiredWord = Omit<Word, 'id' | 'createdAt' | 'updatedAt'>
+export type RequiredWord = Pick<Word, 'id' | 'name'>
 
-export function createWords(words: RequiredWord[]) {
+export type RequiredPronunciation = Omit<
+  Pronunciation,
+  'id' | 'createdAt' | 'updatedAt'
+>
+
+export function createWords(
+  words: Array<{ name: string; partOfSpeech: PartOfSpeech }>
+) {
   return prisma.word.createMany({
     data: words,
     skipDuplicates: true,
   })
 }
 
-export function updateWord(word: Partial<RequiredWord>, wordId: Word['id']) {
+export function updateWord(word: Partial<Word>, wordId: Word['id']) {
   return prisma.word.update({
     data: word,
     where: { id: wordId },
   })
 }
 
-export function findRandomWords(count: number) {
+export function createPronunciations(pronunciations: RequiredPronunciation[]) {
+  return prisma.pronunciation.createMany({
+    data: pronunciations,
+    skipDuplicates: true,
+  })
+}
+
+export function findWordsWithoutPronunciation(limit?: number) {
+  prisma.word
+  return prisma.word.findMany({
+    where: {
+      pronunciations: {
+        none: {},
+      },
+    },
+    take: limit,
+  })
+}
+
+export function findRandomWords(limit: number) {
   return prisma.$queryRaw<Word[]>`SELECT id, word, "partOfSpeech" 
     FROM "Word" 
-    ORDER BY RANDOM() LIMIT ${count};`
+    ORDER BY RANDOM() LIMIT ${limit};`
 }

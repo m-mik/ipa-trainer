@@ -1,6 +1,10 @@
 import cheerio, { Cheerio, Element } from 'cheerio'
-import { buildAudioUrl, Dictionary, FetchedWord } from '../index'
-import { PartOfSpeech } from '@prisma/client'
+import { Language, PartOfSpeech } from '@prisma/client'
+import {
+  buildAudioUrl,
+  Dictionary,
+  FetchedPronunciationList,
+} from '../fetchPronunciations'
 
 const cambridge: Dictionary = {
   name: 'Cambridge Dictionary',
@@ -10,29 +14,40 @@ const cambridge: Dictionary = {
     const $ = cheerio.load(html)
     const sections = $('.pr.dictionary:first-of-type .pos-header')
     return sections
-      .map((_, section) => extractWordFromSection($(section)))
+      .map((_, section) => extractPronunciationsFromSection($(section)))
       .toArray()
+      .reduce((result, pronunciation) => ({ ...result, ...pronunciation }), {})
   },
 }
 
-export const extractWordFromSection = (
+function extractPronunciationsFromSection(
   section: Cheerio<Element>
-): FetchedWord => {
-  return {
-    word: section.find('.hw.dhw')?.text(),
-    ukIpa: section.find('.uk .ipa')?.text(),
-    ukIpaAlt: section.find('.uk + span:not(.dpron-i) .ipa')?.text(),
-    ukAudio: buildAudioUrl(
+): FetchedPronunciationList {
+  const partOfSpeech = section
+    .find('.pos')
+    ?.text()
+    .toUpperCase() as PartOfSpeech
+
+  const ukPronunciation = {
+    symbols: section.find('.uk .ipa')?.text(),
+    audio: buildAudioUrl(
       cambridge.baseUrl,
       section.find('.uk source:first-of-type')?.attr('src')
     ),
-    usIpa: section.find('.us .ipa')?.text(),
-    usIpaAlt: section.find('.us + span:not(.dpron-i) .ipa')?.text(),
-    usAudio: buildAudioUrl(
+    language: Language.UK,
+  }
+
+  const usPronunciation = {
+    symbols: section.find('.us .ipa')?.text(),
+    audio: buildAudioUrl(
       cambridge.baseUrl,
       section.find('.us source:first-of-type')?.attr('src')
     ),
-    partOfSpeech: section.find('.pos')?.text().toUpperCase() as PartOfSpeech,
+    language: Language.US,
+  }
+
+  return {
+    [partOfSpeech]: [ukPronunciation, usPronunciation],
   }
 }
 

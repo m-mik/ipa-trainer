@@ -3,6 +3,7 @@ import { Language, PartOfSpeech } from '@prisma/client'
 import {
   buildAudioUrl,
   Dictionary,
+  FetchedPronunciation,
   FetchedPronunciationList,
 } from '../fetchPronunciations'
 
@@ -28,26 +29,43 @@ function extractPronunciationsFromSection(
     ?.text()
     .toUpperCase() as PartOfSpeech
 
-  const ukPronunciation = {
-    symbols: section.find('.uk .ipa')?.text(),
-    audio: buildAudioUrl(
-      cambridge.baseUrl,
-      section.find('.uk source:first-of-type')?.attr('src')
-    ),
-    language: Language.UK,
-  }
+  const config: FetchedPronunciation[] = [
+    {
+      symbols: '.uk .ipa',
+      audio: '.uk source:first-of-type',
+      language: Language.UK,
+    },
+    {
+      symbols: '.us .ipa',
+      audio: '.us source:first-of-type',
+      language: Language.US,
+    },
+    {
+      symbols: '.uk.dpron-i + span:not(.us) .ipa',
+      audio: '.us source:first-of-type',
+      language: Language.UK,
+    },
+    {
+      symbols: '.us.dpron-i + span:not(.uk) .ipa',
+      audio: '.us source:first-of-type',
+      language: Language.US,
+    },
+  ]
 
-  const usPronunciation = {
-    symbols: section.find('.us .ipa')?.text(),
-    audio: buildAudioUrl(
-      cambridge.baseUrl,
-      section.find('.us source:first-of-type')?.attr('src')
-    ),
-    language: Language.US,
-  }
+  const generate = (config: FetchedPronunciation[]) =>
+    config
+      .map((item) => ({
+        symbols: section.find(item.symbols)?.text(),
+        audio: buildAudioUrl(
+          cambridge.baseUrl,
+          section.find(item.audio)?.attr('src')
+        ),
+        language: item.language,
+      }))
+      .filter((item) => item.symbols)
 
   return {
-    [partOfSpeech]: [ukPronunciation, usPronunciation],
+    [partOfSpeech]: generate(config),
   }
 }
 

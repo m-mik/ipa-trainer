@@ -7,7 +7,7 @@ import {
   StackProps,
   useOutsideClick,
 } from '@chakra-ui/react'
-import useColors from '@/hooks/useColors'
+import useColors from '@/common/hooks/useColors'
 import { Symbol } from '@/data/IPA'
 import useLessonContext from '../hooks/useLesssonContext'
 import { ActionType } from '../store/lessonActions'
@@ -84,8 +84,10 @@ const SymbolPanel = function SymbolPanel(props: StackProps) {
     <DragDropContext onDragEnd={handleSymbolDrop}>
       <Droppable droppableId="symbols" direction="horizontal">
         {(provided) => (
-          <Box ref={ref} h="50">
+          <Box ref={ref}>
             <HStack
+              wrap="wrap"
+              justifyContent="center"
               ref={provided.innerRef}
               {...provided.droppableProps}
               {...props}
@@ -106,6 +108,7 @@ const SymbolPanel = function SymbolPanel(props: StackProps) {
                       h="50px"
                       px="0"
                       py="0"
+                      marginInlineStart="0"
                       justifyContent="center"
                       alignItems="center"
                       fontSize="2.5em"

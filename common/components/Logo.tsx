@@ -1,5 +1,5 @@
 import { Center, CenterProps, Icon, Text } from '@chakra-ui/react'
-import useColors from '@/hooks/useColors'
+import useColors from '../hooks/useColors'
 import { IoMdSchool } from 'react-icons/io'
 
 function Logo(props: CenterProps) {

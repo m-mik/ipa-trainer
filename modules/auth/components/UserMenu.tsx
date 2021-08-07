@@ -15,7 +15,7 @@ import {
 import { signOut, useSession } from 'next-auth/client'
 import { CgLogOut } from 'react-icons/cg'
 import { FiSettings } from 'react-icons/fi'
-import useColors from '@/hooks/useColors'
+import useColors from '../../../common/hooks/useColors'
 import UserAvatar from '@/components/UserAvatar'
 import Link from '@/components/Link'
 

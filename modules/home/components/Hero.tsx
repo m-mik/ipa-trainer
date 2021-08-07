@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 import Link from '@/components/Link'
-import useColors from '@/hooks/useColors'
+import useColors from '../../../common/hooks/useColors'
 
 function Hero(props: BoxProps) {
   return (

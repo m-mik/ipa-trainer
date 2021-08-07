@@ -22,7 +22,7 @@ import { motion } from 'framer-motion'
 import UserMenu from '@/modules/auth/components/UserMenu'
 import ColorModeSwitch from '@/components/ColorModeSwitch'
 import Link from '@/components/Link'
-import useColors from '@/hooks/useColors'
+import useColors from '../common/hooks/useColors'
 
 interface NavItem {
   text: string

@@ -14,11 +14,11 @@ import useLessonContext from '../hooks/useLesssonContext'
 import { ActionType } from '../store/lessonActions'
 import SymbolTooltipLabel from './SymbolTooltipLabel'
 import LanguageControl from './LanguageControl'
+import useKey from '@/common/hooks/useKey'
 
 function KeyboardPanel(props: StackProps) {
   const { state, dispatch } = useLessonContext()
   const { language, activeSymbolIndex, symbols } = state
-  const symbolsForActiveLanguage = SYMBOLS_BY_LANGUAGE[language]
 
   const handleClick = (symbol: Symbol) => {
     if (activeSymbolIndex === null)
@@ -32,7 +32,13 @@ function KeyboardPanel(props: StackProps) {
     }
   }
 
-  const handleDeleteClick = () => {
+  const handleLanguageChange = (language: Language) => {
+    dispatch({ type: ActionType.ResetActiveSymbolIndex })
+    dispatch({ type: ActionType.SetLanguage, language })
+    dispatch({ type: ActionType.ResetSymbols })
+  }
+
+  const deleteSymbol = () => {
     if (activeSymbolIndex !== null) {
       dispatch({ type: ActionType.RemoveSymbol, index: activeSymbolIndex })
     } else if (symbols.length) {
@@ -41,11 +47,16 @@ function KeyboardPanel(props: StackProps) {
     dispatch({ type: ActionType.ResetActiveSymbolIndex })
   }
 
-  const handleLanguageChange = (language: Language) => {
-    dispatch({ type: ActionType.ResetActiveSymbolIndex })
-    dispatch({ type: ActionType.SetLanguage, language })
-    dispatch({ type: ActionType.ResetSymbols })
-  }
+  useKey('Backspace', deleteSymbol)
+
+  const symbolKeys = SYMBOLS_BY_LANGUAGE[language]
+
+  const additionalKeys = [
+    { value: "'", label: 'main stress', handleClick },
+    { value: ',', label: 'secondary stress', handleClick },
+    { value: '.', label: 'syllable division', handleClick },
+    { value: '🗑', label: 'delete symbol', handleClick: deleteSymbol },
+  ]
 
   return (
     <VStack spacing="2" p="2" d="inline-flex" {...props}>
@@ -57,7 +68,7 @@ function KeyboardPanel(props: StackProps) {
         />
       </HStack>
       <Flex justifyContent="center" wrap="wrap">
-        {symbolsForActiveLanguage.map((symbol) => (
+        {symbolKeys.map((symbol) => (
           <Tooltip
             key={symbol.id}
             label={
@@ -68,7 +79,11 @@ function KeyboardPanel(props: StackProps) {
             <Key data={symbol} onClick={handleClick} />
           </Tooltip>
         ))}
-        <Key data={{ name: '🗑' }} onClick={handleDeleteClick} />
+        {additionalKeys.map(({ value, label, handleClick }) => (
+          <Tooltip key={value} label={label} aria-label={label}>
+            <Key data={{ name: value }} onClick={handleClick} />
+          </Tooltip>
+        ))}
       </Flex>
     </VStack>
   )

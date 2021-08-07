@@ -22,13 +22,9 @@ async function initDemoUser() {
 }
 
 async function initWords() {
-  try {
-    const words = await loadWordsFromDisk()
-    const createdWords = await createWords(words)
-    console.log(`DB: Created ${createdWords.count} word(s)`)
-  } catch (e) {
-    console.error(`Word initialization error: ${e}`)
-  }
+  const words = await loadWordsFromDisk()
+  const createdWords = await createWords(words)
+  console.log(`DB: Created ${createdWords.count} word(s)`)
 }
 
 async function initPronunciations() {

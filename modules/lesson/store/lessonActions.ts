@@ -1,4 +1,5 @@
-import { Language, Symbol } from '@/data/IPA'
+import { Symbol } from '@/data/IPA'
+import { Language } from '@prisma/client'
 
 export enum ActionType {
   AppendSymbol = 'APPEND_SYMBOL',

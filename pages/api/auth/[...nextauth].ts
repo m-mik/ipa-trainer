@@ -4,7 +4,7 @@ import { NextApiRequest } from 'next'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prisma from '@/common/db'
 import { Credentials } from '@/modules/auth/types/Credentials'
-import { findDemoUser } from '@/modules/auth/authService'
+import { loginDemoUser } from '@/modules/auth/authService'
 import { calculateUserPoints } from '@/services/userService'
 
 interface NextAuthUserWithStringId extends NextAuthUser {
@@ -32,17 +32,8 @@ export default NextAuth({
     Providers.Credentials({
       name: 'Credentials',
       async authorize(credentials: Credentials, req: NextApiRequest) {
-        const { username, password } = credentials
-        if (
-          username === process.env.DEMO_USERNAME &&
-          password === process.env.DEMO_PASSWORD
-        ) {
-          const user = await findDemoUser()
-          if (user) {
-            return { id: user.id, name: user.name, image: null }
-          }
-        }
-        return null
+        const user = (await loginDemoUser(credentials)) as NextAuthUser
+        return user ?? null
       },
     }),
   ],
@@ -55,20 +46,20 @@ export default NextAuth({
   callbacks: {
     async session(session, user) {
       const { id, name, image } = session.user
-
       return {
         ...session,
         user: {
-          id,
+          id: user.uid,
+          points: user.points,
           name,
           image,
-          points: user.points,
         },
       } as Session
     },
     async jwt(token, user, account, profile, isNewUser) {
       if (user) {
         try {
+          token.uid = user.id
           token.points = await calculateUserPoints(user.id)
         } catch (e) {
           console.error('Could not calculate user points in JWT', e)

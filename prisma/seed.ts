@@ -17,8 +17,12 @@ import {
 
 async function initDemoUser() {
   const demoUser = await findDemoUser()
-  if (demoUser) return
-  return await createDemoUser()
+  if (demoUser) {
+    console.log(`DB: Found demo user: ${demoUser.name}`)
+  } else {
+    const createdDemoUser = await createDemoUser()
+    console.log(`DB: Created demo user: ${createdDemoUser.name}`)
+  }
 }
 
 async function initWords() {

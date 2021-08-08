@@ -7,10 +7,6 @@ export function findUserById(id: string) {
   })
 }
 
-export function createUser(user: Partial<User>) {
-  prisma.user.create({ data: user })
-}
-
 export async function calculateUserPoints(userId: User['id']) {
   const correctAnswers = await prisma.question.aggregate({
     where: {

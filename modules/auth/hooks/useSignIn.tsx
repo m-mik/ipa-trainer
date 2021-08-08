@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query'
 import { signIn } from 'next-auth/client'
-import { Credentials } from '@/pages/api/auth/[...nextauth]'
+import { Credentials } from '../types/Credentials'
 
 function useSignIn() {
   return useMutation(async ({ username, password }: Credentials) => {
@@ -9,7 +9,7 @@ function useSignIn() {
       username,
       password,
     })
-    if (!res || !res.ok) throw new Error('Wrong username or password')
+    if (!res?.ok) throw new Error('Wrong username or password')
     return true
   })
 }

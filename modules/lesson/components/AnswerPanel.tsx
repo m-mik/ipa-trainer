@@ -2,25 +2,36 @@ import React, { useCallback } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import {
   Box,
-  Flex,
+  Center,
   HStack,
+  IconButton,
   StackProps,
   useOutsideClick,
 } from '@chakra-ui/react'
 import useColors from '@/common/hooks/useColors'
+import useKey from '@/common/hooks/useKey'
 import { Symbol } from '@/data/IPA'
-import useLessonContext from '../hooks/useLesssonContext'
+import useLesson from '../hooks/useLesson'
 import { ActionType } from '../store/lessonActions'
+import { AiOutlineSend } from 'react-icons/ai'
 
-const SymbolPanel = function SymbolPanel(props: StackProps) {
+const AnswerPanel = function SymbolPanel(props: StackProps) {
   const ref = React.useRef<HTMLDivElement>(null)
-  const { state, dispatch } = useLessonContext()
+  const { state, dispatch } = useLesson()
   const { symbols, activeSymbolIndex } = state
   const colors = {
     symbolBg: useColors('primary'),
     symbol: useColors('bg'),
+    border: useColors('secondary'),
     activeBorder: useColors('highlight'),
   }
+
+  const sendAnswer = () => {
+    if (!symbols.length) return
+    console.log('send answer')
+  }
+
+  useKey('Enter', sendAnswer)
 
   useOutsideClick({
     ref,
@@ -89,6 +100,7 @@ const SymbolPanel = function SymbolPanel(props: StackProps) {
               wrap="wrap"
               justifyContent="center"
               ref={provided.innerRef}
+              spacing="0"
               {...provided.droppableProps}
               {...props}
             >
@@ -99,18 +111,19 @@ const SymbolPanel = function SymbolPanel(props: StackProps) {
                   index={index}
                 >
                   {(provided) => (
-                    <Flex
-                      border={index === activeSymbolIndex ? '3px solid' : ''}
-                      borderColor={colors.activeBorder}
+                    <Center
+                      border={
+                        index === activeSymbolIndex ? '3px solid' : '1px solid'
+                      }
+                      borderColor={
+                        index === activeSymbolIndex
+                          ? colors.activeBorder
+                          : colors.border
+                      }
                       bg={colors.symbolBg}
                       color={colors.symbol}
                       w="50px"
                       h="50px"
-                      px="0"
-                      py="0"
-                      marginInlineStart="0"
-                      justifyContent="center"
-                      alignItems="center"
                       fontSize="2.5em"
                       userSelect="none"
                       _hover={{ cursor: 'move', fontSize: '2.8em' }}
@@ -122,11 +135,21 @@ const SymbolPanel = function SymbolPanel(props: StackProps) {
                       {...provided.dragHandleProps}
                     >
                       {symbol.name}
-                    </Flex>
+                    </Center>
                   )}
                 </Draggable>
               ))}
               {provided.placeholder}
+              {symbols.length && (
+                <Box pl="2">
+                  <IconButton
+                    variant="outline"
+                    aria-label="Send answer"
+                    icon={<AiOutlineSend />}
+                    onClick={sendAnswer}
+                  />
+                </Box>
+              )}
             </HStack>
           </Box>
         )}
@@ -155,4 +178,4 @@ export function calculateSymbolDropActiveIndex({
   else return active
 }
 
-export default SymbolPanel
+export default AnswerPanel

@@ -23,6 +23,7 @@ export function LessonProvider({ children }: LessonProviderProps) {
     lessonReducer,
     initialState
   )
+
   const value = { state, dispatch }
   return (
     <LessonContext.Provider value={value}>{children}</LessonContext.Provider>

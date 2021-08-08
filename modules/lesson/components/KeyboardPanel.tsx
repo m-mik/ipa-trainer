@@ -10,14 +10,14 @@ import {
 } from '@chakra-ui/react'
 import { Language } from '@prisma/client'
 import IPA, { Alphabet, Symbol } from '@/data/IPA'
-import useLessonContext from '../hooks/useLesssonContext'
+import useLesson from '../hooks/useLesson'
 import { ActionType } from '../store/lessonActions'
 import SymbolTooltipLabel from './SymbolTooltipLabel'
 import LanguageControl from './LanguageControl'
 import useKey from '@/common/hooks/useKey'
 
 function KeyboardPanel(props: StackProps) {
-  const { state, dispatch } = useLessonContext()
+  const { state, dispatch } = useLesson()
   const { language, activeSymbolIndex, symbols } = state
 
   const handleClick = (symbol: Symbol) => {

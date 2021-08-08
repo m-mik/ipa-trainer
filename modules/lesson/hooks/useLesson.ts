@@ -1,15 +1,12 @@
-import { useQuery } from 'react-query'
-import axios from 'axios'
+import { useContext } from 'react'
+import { LessonContext } from '../providers/LessonProvider'
 
 function useLesson() {
-  return useQuery(
-    'lesson',
-    () => axios.post('/api/lesson').then((res) => res.data),
-    {
-      retry: false,
-      refetchOnWindowFocus: false,
-    }
-  )
+  const lessonContext = useContext(LessonContext)
+  if (typeof lessonContext === 'undefined') {
+    throw new Error('useLesson must be used within a LessonProvider')
+  }
+  return lessonContext
 }
 
 export default useLesson

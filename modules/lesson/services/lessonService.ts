@@ -42,7 +42,6 @@ const lessonSelect = {
           partOfSpeech: true,
           pronunciations: {
             select: {
-              symbols: true,
               audio: true,
               language: true,
             },

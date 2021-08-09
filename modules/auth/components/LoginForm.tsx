@@ -12,10 +12,10 @@ import {
 import * as React from 'react'
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import { PasswordField } from '@/components/PasswordField'
-import useSignIn from '../hooks/useSignIn'
+import useSignInQuery from '../hooks/useSignInQuery'
 
 function LoginForm(props: HTMLChakraProps<'form'>) {
-  const { mutate: signIn, isLoading, isError } = useSignIn()
+  const { mutate: signIn, isLoading, isError } = useSignInQuery()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)

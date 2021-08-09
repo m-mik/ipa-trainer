@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { AppLayoutProps } from 'next/app'
 import DefaultLayout from '@/layouts/DefaultLayout'
+import { LessonProvider } from '@/modules/lesson/providers/LessonProvider'
 import theme from '../theme'
 
 const queryClient = new QueryClient()
@@ -17,7 +18,9 @@ function MyApp({ Component, pageProps }: AppLayoutProps) {
     <QueryClientProvider client={queryClient}>
       <NextProvider session={pageProps.session}>
         <ChakraProvider theme={theme}>
-          {getLayout(<Component {...pageProps} />)}
+          <LessonProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </LessonProvider>
         </ChakraProvider>
       </NextProvider>
       <ReactQueryDevtools initialIsOpen={false} />

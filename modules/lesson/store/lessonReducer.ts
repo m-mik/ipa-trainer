@@ -12,13 +12,7 @@ export type LessonState = Readonly<{
 }>
 
 export const initialState: LessonState = {
-  symbols: [
-    { id: 1, name: 'a' },
-    { id: 2, name: 'b' },
-    { id: 3, name: 'c' },
-    { id: 4, name: 'd' },
-    { id: 5, name: 'e' },
-  ],
+  symbols: [],
   activeSymbolIndex: null,
   activeQuestion: null,
   language: Language.US,

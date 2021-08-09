@@ -2,7 +2,7 @@ import { useMutation } from 'react-query'
 import { signIn } from 'next-auth/client'
 import { Credentials } from '../types/Credentials'
 
-function useSignIn() {
+function useSignInQuery() {
   return useMutation(async ({ username, password }: Credentials) => {
     const res = await signIn('credentials', {
       redirect: false,
@@ -14,4 +14,4 @@ function useSignIn() {
   })
 }
 
-export default useSignIn
+export default useSignInQuery

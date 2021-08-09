@@ -24,7 +24,7 @@ export type LessonAction =
   | { type: ActionType.ResetSymbols }
   | { type: ActionType.ResetActiveSymbolIndex }
   | { type: ActionType.SetActiveSymbolIndex; index: number | null }
-  | { type: ActionType.SetActiveQuestion; question: ActiveQuestion }
+  | { type: ActionType.SetActiveQuestion; question: ActiveQuestion | null }
   | {
       type: ActionType.DropSymbol
       payload: { sourceIndex: number; destinationIndex: number }

@@ -8,6 +8,7 @@ import {
   Tooltip,
   VStack,
 } from '@chakra-ui/react'
+import { useIsMutating } from 'react-query'
 import { Language } from '@prisma/client'
 import IPA, { Alphabet, Symbol } from '@/data/IPA'
 import useLesson from '../hooks/useLesson'
@@ -19,9 +20,11 @@ import useKey from '@/common/hooks/useKey'
 function KeyboardPanel(props: StackProps) {
   const { state, dispatch } = useLesson()
   const { language, activeSymbolIndex, symbols } = state
+  const isSavingQuestion = useIsMutating({ mutationKey: 'saveQuestion' }) > 0
 
   const handleClick = (symbol: Symbol) => {
-    if (activeSymbolIndex === null)
+    if (isSavingQuestion) return
+    else if (activeSymbolIndex === null)
       dispatch({ type: ActionType.AppendSymbol, symbol })
     else {
       dispatch({
@@ -33,13 +36,15 @@ function KeyboardPanel(props: StackProps) {
   }
 
   const handleLanguageChange = (language: Language) => {
+    if (isSavingQuestion) return
     dispatch({ type: ActionType.ResetActiveSymbolIndex })
     dispatch({ type: ActionType.SetLanguage, language })
     dispatch({ type: ActionType.ResetSymbols })
   }
 
   const deleteSymbol = () => {
-    if (activeSymbolIndex !== null) {
+    if (isSavingQuestion) return
+    else if (activeSymbolIndex !== null) {
       dispatch({ type: ActionType.RemoveSymbol, index: activeSymbolIndex })
     } else if (symbols.length) {
       dispatch({ type: ActionType.RemoveSymbol, index: symbols.length - 1 })
@@ -52,7 +57,7 @@ function KeyboardPanel(props: StackProps) {
   const symbolKeys = SYMBOLS_BY_LANGUAGE[language]
 
   const additionalKeys = [
-    { value: "'", label: 'main stress', handleClick },
+    { value: 'ˈ', label: 'main stress', handleClick },
     { value: ',', label: 'secondary stress', handleClick },
     { value: '.', label: 'syllable division', handleClick },
     { value: '🗑', label: 'delete symbol', handleClick: deleteSymbol },

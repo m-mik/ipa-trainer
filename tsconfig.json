@@ -36,6 +36,9 @@
       "@/services/*": [
         "common/services/*"
       ],
+      "@/middlewares/*": [
+        "common/middlewares/*"
+      ],
       "@/layouts/*": [
         "layouts/*"
       ],

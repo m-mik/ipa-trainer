@@ -1,24 +1,13 @@
 import prisma from '@/common/db'
-import { LessonStatus, User, Word } from '@prisma/client'
-
-// TODO
-// export async function findRandomWordsWithPronunciation(limit: number) {
-//   const words = await prisma.$queryRaw<Word[]>`
-// SELECT *
-// FROM "Word" w
-// JOIN "Pronunciation" p
-// ON w.id = p."wordId"
-// WHERE w.id IN
-// (
-//   SELECT "wordId"
-// FROM "Pronunciation"
-// GROUP BY "wordId"
-// ORDER BY RANDOM() LIMIT 3
-// )
-//)
-//
-//   return groupBy(words, 'wordId')
-// }
+import {
+  Answer,
+  Language,
+  LessonStatus,
+  Pronunciation,
+  Question,
+  User,
+  Word,
+} from '@prisma/client'
 
 export function findRandomWordsWithPronunciation(limit: number) {
   return prisma.$queryRaw<Word[]>`
@@ -82,4 +71,59 @@ export async function createLessonForUser(userId: User['id']) {
     },
     select: lessonSelect,
   })
+}
+
+type ValidateAnswerOptions = {
+  questionId: Question['id']
+  userId: User['id']
+  symbols: Pronunciation['symbols']
+  language: Language
+}
+
+export async function validateAnswer({
+  questionId,
+  userId,
+  symbols,
+  language,
+}: ValidateAnswerOptions) {
+  const { _count } = await prisma.pronunciation.aggregate({
+    _count: true,
+    where: {
+      symbols,
+      language,
+      word: {
+        questions: {
+          every: {
+            id: questionId,
+            lesson: {
+              userId,
+            },
+          },
+        },
+      },
+    },
+  })
+  return _count > 0
+}
+
+type AnswerQuestionOptions = {
+  questionId: Question['id']
+  userId: User['id']
+  symbols: Pronunciation['symbols']
+  language: Language
+}
+
+export async function answerQuestion(data: AnswerQuestionOptions) {
+  const isCorrectAnswer = await validateAnswer(data)
+  const { count } = await prisma.question.updateMany({
+    data: { answer: isCorrectAnswer ? Answer.CORRECT : Answer.INCORRECT },
+    where: {
+      id: data.questionId,
+      answer: Answer.NONE,
+      lesson: {
+        userId: data.userId,
+      },
+    },
+  })
+  return { success: count > 0 }
 }

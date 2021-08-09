@@ -14,11 +14,15 @@ import { Symbol } from '@/data/IPA'
 import useLesson from '../hooks/useLesson'
 import { ActionType } from '../store/lessonActions'
 import { AiOutlineSend } from 'react-icons/ai'
+import useSaveQuestionQuery from '../hooks/useSaveQuestionQuery'
 
 const AnswerPanel = function SymbolPanel(props: StackProps) {
-  const ref = React.useRef<HTMLDivElement>(null)
+  const { mutate: saveQuestion, isLoading: isSavingQuestion } =
+    useSaveQuestionQuery()
   const { state, dispatch } = useLesson()
-  const { symbols, activeSymbolIndex } = state
+  const { symbols, activeSymbolIndex, activeQuestion, language } = state
+  const ref = React.useRef<HTMLDivElement>(null)
+
   const colors = {
     symbolBg: useColors('primary'),
     symbol: useColors('bg'),
@@ -27,11 +31,20 @@ const AnswerPanel = function SymbolPanel(props: StackProps) {
   }
 
   const sendAnswer = () => {
-    if (!symbols.length) return
-    console.log('send answer')
+    if (!activeQuestion || !symbols.length || isSavingQuestion) return
+    saveQuestion({
+      questionId: activeQuestion.id,
+      data: {
+        symbols: symbols.map((symbol) => symbol.name).join(''),
+        language,
+      },
+    })
   }
 
-  useKey('Enter', sendAnswer)
+  useKey('Enter', (e) => {
+    sendAnswer()
+    e.preventDefault()
+  })
 
   useOutsideClick({
     ref,
@@ -53,6 +66,7 @@ const AnswerPanel = function SymbolPanel(props: StackProps) {
   }
 
   const handleSymbolClick = (symbol: Symbol, index: number) => {
+    if (isSavingQuestion) return
     if (activeSymbolIndex === index) {
       dispatch({ type: ActionType.ResetActiveSymbolIndex })
     } else {
@@ -87,6 +101,7 @@ const AnswerPanel = function SymbolPanel(props: StackProps) {
     symbol: Symbol,
     index: number
   ) => {
+    if (isSavingQuestion) return
     e.preventDefault()
     handleSymbolRightClick(symbol, index)
   }
@@ -101,11 +116,13 @@ const AnswerPanel = function SymbolPanel(props: StackProps) {
               justifyContent="center"
               ref={provided.innerRef}
               spacing="0"
+              minH="50px"
               {...provided.droppableProps}
               {...props}
             >
               {symbols.map((symbol, index) => (
                 <Draggable
+                  isDragDisabled={isSavingQuestion}
                   key={`${symbol.name}-${index}`}
                   draggableId={String(index)}
                   index={index}
@@ -146,6 +163,7 @@ const AnswerPanel = function SymbolPanel(props: StackProps) {
                     variant="outline"
                     aria-label="Send answer"
                     icon={<AiOutlineSend />}
+                    isLoading={isSavingQuestion}
                     onClick={sendAnswer}
                   />
                 </Box>

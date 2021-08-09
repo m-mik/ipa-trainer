@@ -18,19 +18,21 @@ function QuestionPanel(props: QuestionPanelProps) {
   )?.audio
 
   return (
-    <HStack alignItems="center" spacing="2">
-      <Box>
-        <Text fontSize="4xl" as="span">
-          {activeQuestion.word.name}
-        </Text>
-      </Box>
-      <Box>
-        <Tag size="sm">{activeQuestion.word.partOfSpeech}</Tag>
-      </Box>
-      <Box>
-        <Audio src={audio} />
-      </Box>
-    </HStack>
+    <>
+      <HStack alignItems="center" spacing="2">
+        <Box>
+          <Text fontSize="4xl" as="span">
+            {activeQuestion.word.name}
+          </Text>
+        </Box>
+        <Box>
+          <Tag size="sm">{activeQuestion.word.partOfSpeech}</Tag>
+        </Box>
+        <Box>
+          <Audio src={audio} />
+        </Box>
+      </HStack>
+    </>
   )
 }
 

@@ -1,25 +1,26 @@
 import {
   Box,
-  Text,
+  Center,
   CircularProgress,
   CircularProgressLabel,
   Heading,
-  Stack,
+  Icon,
   Table,
   TableProps,
-  Icon,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
   VStack,
 } from '@chakra-ui/react'
-import { Answer } from '@prisma/client'
+import { darken } from '@chakra-ui/theme-tools'
 import useLessonQuery from '../hooks/useLessonQuery'
 import AnswerIcon from './AnswerIcon'
-import useColors from '@/common/hooks/useColors'
+import { CountUp } from 'use-count-up'
 import { HiInformationCircle } from 'react-icons/hi'
+import useColors from '@/common/hooks/useColors'
 
 function LessonSummary(props: TableProps) {
   const { data } = useLessonQuery()
@@ -27,6 +28,8 @@ function LessonSummary(props: TableProps) {
   const colors = {
     points: useColors('highlight'),
     heading: useColors('primary'),
+    accuracyCircle: useColors('highlight'),
+    accuracyCircleTrack: darken(useColors('highlight'), 30),
   }
 
   if (!data) return null
@@ -47,37 +50,47 @@ function LessonSummary(props: TableProps) {
 
   const pointsEarned = CORRECT * 50
 
+  const handleCountUpComplete = () => {}
+
   return (
-    <Stack>
-      <VStack spacing="5">
-        <Box>
-          <Heading as="h2" color={colors.heading}>
-            {pointsEarned === 0 ? (
-              'Better luck next time!'
-            ) : (
-              <>
+    <VStack spacing="8">
+      <Box>
+        <Heading as="h2" color={colors.heading}>
+          {pointsEarned === 0 ? (
+            'Better luck next time!'
+          ) : (
+            <>
+              <Text textAlign="center">
                 You&apos;ve earned{' '}
                 <Text as="span" color={colors.points}>
-                  {pointsEarned}
+                  <CountUp
+                    isCounting
+                    end={pointsEarned}
+                    duration={3.2}
+                    onComplete={handleCountUpComplete}
+                  />
                 </Text>{' '}
                 points!
-              </>
-            )}
-          </Heading>
-        </Box>
-        <Box>
-          <CircularProgress
-            value={correctAnswersPercentage}
-            size="100px"
-            color="green"
-          >
-            <CircularProgressLabel>
-              {correctAnswersPercentage}%
-            </CircularProgressLabel>
-          </CircularProgress>
-        </Box>
-      </VStack>
-      <Box>
+              </Text>
+            </>
+          )}
+        </Heading>
+      </Box>
+      <Box textAlign="center">
+        <CircularProgress
+          value={correctAnswersPercentage}
+          size="100px"
+          // @ts-ignore
+          trackColor={colors.accuracyCircleTrack}
+          color={colors.accuracyCircle}
+        >
+          <CircularProgressLabel>
+            {correctAnswersPercentage}%
+          </CircularProgressLabel>
+        </CircularProgress>
+        <Text fontSize="1.5em">Accuracy</Text>
+      </Box>
+      <Box w="100%">
         <Table variant="striped" {...props}>
           <Thead>
             <Tr>
@@ -101,7 +114,7 @@ function LessonSummary(props: TableProps) {
           </Tbody>
         </Table>
       </Box>
-    </Stack>
+    </VStack>
   )
 }
 

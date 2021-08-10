@@ -1,7 +1,6 @@
 import { mode, whiten } from '@chakra-ui/theme-tools'
+import { Dict } from '@chakra-ui/utils'
 import colors from '../colors'
-
-type Dict = Record<string, any>
 
 const Input = {
   variants: {

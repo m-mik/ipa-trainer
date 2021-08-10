@@ -1,6 +1,5 @@
+import { Dict } from '@chakra-ui/utils'
 import { colorMode } from '../colors'
-
-type Dict = Record<string, any>
 
 const Switch = {
   baseStyle: (props: Dict) => ({

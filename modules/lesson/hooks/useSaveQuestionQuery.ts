@@ -2,11 +2,12 @@ import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 import { Language } from '@prisma/client'
 import useLesson from './useLesson'
+import { ActionType } from '../store/lessonActions'
 import {
   LessonResponseData,
+  LessonWithPronunciations,
   QuestionWithPronunciations,
-} from './useLessonQuery'
-import { ActionType } from '../store/lessonActions'
+} from '../types'
 
 export type SaveQuestionData = {
   questionId: string
@@ -21,18 +22,23 @@ function useSaveQuestionQuery() {
   const queryClient = useQueryClient()
   return useMutation(
     ({ questionId, data }: SaveQuestionData) =>
-      axios.patch(`/api/question/${questionId}`, data).then((res) => res.data),
+      axios
+        .patch<QuestionWithPronunciations>(`/api/question/${questionId}`, data)
+        .then((res) => res.data),
     {
       mutationKey: 'saveQuestion',
       onSuccess(data: QuestionWithPronunciations, variables, context) {
-        queryClient.setQueryData<LessonResponseData>(['lesson'], (oldData) => {
-          if (!oldData) return oldData
-          return {
-            questions: oldData.questions.map((question) =>
-              question.id === variables.questionId ? data : question
-            ),
+        queryClient.setQueryData<LessonWithPronunciations | undefined>(
+          ['lesson'],
+          (oldData) => {
+            if (!oldData) return oldData
+            return {
+              questions: oldData.questions.map((question) =>
+                question.id === variables.questionId ? data : question
+              ),
+            } as LessonWithPronunciations
           }
-        })
+        )
         dispatch({ type: ActionType.SetActiveQuestion, question: data })
       },
     }

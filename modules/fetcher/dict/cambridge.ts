@@ -1,11 +1,10 @@
 import cheerio, { Cheerio, Element } from 'cheerio'
 import { Language, PartOfSpeech } from '@prisma/client'
 import {
-  buildAudioUrl,
   Dictionary,
   FetchedPronunciation,
   FetchedPronunciationList,
-} from '../fetchPronunciations'
+} from '../types'
 
 const cambridge: Dictionary = {
   name: 'Cambridge Dictionary',
@@ -68,5 +67,8 @@ function extractPronunciationsFromSection(
     [partOfSpeech]: generate(config),
   }
 }
+
+const buildAudioUrl = (baseUrl: string, audioPath: string | undefined) =>
+  audioPath ? `${baseUrl}${audioPath}` : ''
 
 export default cambridge

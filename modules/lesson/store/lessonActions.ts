@@ -1,6 +1,6 @@
 import { Symbol } from '@/data/IPA'
 import { Language } from '@prisma/client'
-import { QuestionWithPronunciations } from '../hooks/useLessonQuery'
+import { QuestionWithPronunciations } from '../types'
 
 export enum ActionType {
   AppendSymbol = 'APPEND_SYMBOL',

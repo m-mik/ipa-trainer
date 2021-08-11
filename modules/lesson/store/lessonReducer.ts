@@ -2,7 +2,7 @@ import { addToArray, removeByIndex, updateByIndex } from '@/utils/array'
 import { Symbol } from '@/data/IPA'
 import { Language } from '@prisma/client'
 import { ActionType, LessonAction } from './lessonActions'
-import { QuestionWithPronunciations } from '../hooks/useLessonQuery'
+import { QuestionWithPronunciations } from '../types'
 
 export type LessonState = Readonly<{
   symbols: Symbol[]

@@ -1,29 +1,11 @@
 import axios from 'axios'
 import cambridge from './dict/cambridge'
-import { PartOfSpeech, Pronunciation } from '@prisma/client'
+import { PartOfSpeech } from '@prisma/client'
 import PQueue, { DefaultAddOptions, Options } from 'p-queue'
 import PriorityQueue from 'p-queue/dist/priority-queue'
+import { Dictionary } from './types'
 
 export const DEFAULT_DICTIONARY = cambridge
-
-export type FetchedPronunciation = Pick<
-  Pronunciation,
-  'symbols' | 'audio' | 'language'
->
-
-export type FetchedPronunciationList = {
-  [key in PartOfSpeech]?: FetchedPronunciation[]
-}
-
-export interface Dictionary {
-  name: string
-  baseUrl: string
-  searchUrl: string
-  parse: (html: string) => FetchedPronunciationList
-}
-
-export const buildAudioUrl = (baseUrl: string, audioPath: string | undefined) =>
-  audioPath ? `${baseUrl}${audioPath}` : ''
 
 export const buildUrl = (searchUrl: string, word: string) => {
   const searchStr = '%s'

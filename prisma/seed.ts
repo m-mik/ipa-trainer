@@ -6,9 +6,9 @@ import { createDemoUser, findDemoUser } from '@/modules/auth/authService'
 import { PartOfSpeech } from '@prisma/client'
 import {
   createPronunciationsFetchQueue,
-  FetchedPronunciation,
   Word,
 } from '@/modules/fetcher/fetchPronunciations'
+import { FetchedPronunciation } from '@/modules/fetcher/types'
 import {
   createPronunciations,
   createWords,

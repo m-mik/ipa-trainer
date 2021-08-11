@@ -48,8 +48,8 @@ function LanguageControl({
   return (
     <Tooltip label="Change language" aria-label="Change language">
       <Box
-        w="40px"
-        h="40px"
+        w="30px"
+        h="30px"
         cursor="pointer"
         onClick={handleClick}
         _hover={{ scale: 1.5 }}

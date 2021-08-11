@@ -2,12 +2,12 @@ import { addToArray, removeByIndex, updateByIndex } from '@/utils/array'
 import { Symbol } from '@/data/IPA'
 import { Language } from '@prisma/client'
 import { ActionType, LessonAction } from './lessonActions'
-import { ActiveQuestion } from '../types/ActiveQuestion'
+import { QuestionWithPronunciations } from '../hooks/useLessonQuery'
 
 export type LessonState = Readonly<{
   symbols: Symbol[]
   activeSymbolIndex: number | null
-  activeQuestion: ActiveQuestion | null
+  activeQuestion: QuestionWithPronunciations | null
   language: Language
 }>
 

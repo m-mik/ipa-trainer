@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   CircularProgress,
   CircularProgressLabel,
   Heading,

@@ -1,21 +1,33 @@
-import useLessonQuery from '../hooks/useLessonQuery'
 import useLesson from '../hooks/useLesson'
 import Audio from './Audio'
 import { Box, HStack, Tag, Text } from '@chakra-ui/react'
+import LanguageControl from './LanguageControl'
+import React from 'react'
+import { Language } from '@prisma/client'
+import { ActionType } from '../store/lessonActions'
+import { useIsMutating } from 'react-query'
 
 type QuestionPanelProps = {}
 
 function QuestionPanel(props: QuestionPanelProps) {
   const {
+    dispatch,
     state: { activeQuestion, language },
   } = useLesson()
-  const { isLoading, data } = useLessonQuery()
+  const isSavingQuestion = useIsMutating({ mutationKey: 'saveQuestion' }) > 0
 
   if (!activeQuestion) return null
 
   const audio = activeQuestion.word.pronunciations.find(
     (pronunciation) => pronunciation.language === language
   )?.audio
+
+  const handleLanguageChange = (language: Language) => {
+    if (isSavingQuestion) return
+    dispatch({ type: ActionType.ResetActiveSymbolIndex })
+    dispatch({ type: ActionType.SetLanguage, language })
+    dispatch({ type: ActionType.ResetSymbols })
+  }
 
   return (
     <>
@@ -28,9 +40,12 @@ function QuestionPanel(props: QuestionPanelProps) {
         <Box>
           <Tag size="sm">{activeQuestion.word.partOfSpeech}</Tag>
         </Box>
-        <Box>
-          <Audio src={audio} />
-        </Box>
+        <Audio src={audio} />
+        <LanguageControl
+          ml="auto"
+          selectedLanguage={language}
+          onLanguageChange={handleLanguageChange}
+        />
       </HStack>
     </>
   )

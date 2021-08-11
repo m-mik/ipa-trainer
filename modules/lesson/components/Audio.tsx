@@ -24,7 +24,7 @@ function Audio({ src, ...rest }: AudioProps) {
         size="sm"
         variant="ghost"
       />
-      {<audio src={src} ref={ref} />}
+      {<audio autoPlay src={src} ref={ref} />}
     </Box>
   )
 }

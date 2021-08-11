@@ -31,6 +31,7 @@ const lessonSelect = {
           partOfSpeech: true,
           pronunciations: {
             select: {
+              id: true,
               audio: true,
               language: true,
             },
@@ -113,9 +114,35 @@ type AnswerQuestionOptions = {
   language: Language
 }
 
+export function findPronunciationsForQuestion(questionId: Question['id']) {
+  return prisma.question.findUnique({
+    select: {
+      id: true,
+      answer: true,
+      word: {
+        select: {
+          name: true,
+          partOfSpeech: true,
+          pronunciations: {
+            select: {
+              id: true,
+              symbols: true,
+              language: true,
+              audio: true,
+            },
+          },
+        },
+      },
+    },
+    where: {
+      id: questionId,
+    },
+  })
+}
+
 export async function answerQuestion(data: AnswerQuestionOptions) {
   const isCorrectAnswer = await validateAnswer(data)
-  const { count } = await prisma.question.updateMany({
+  await prisma.question.updateMany({
     data: { answer: isCorrectAnswer ? Answer.CORRECT : Answer.INCORRECT },
     where: {
       id: data.questionId,
@@ -125,5 +152,5 @@ export async function answerQuestion(data: AnswerQuestionOptions) {
       },
     },
   })
-  return { success: count > 0 }
+  return findPronunciationsForQuestion(data.questionId)
 }

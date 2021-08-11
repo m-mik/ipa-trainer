@@ -1,11 +1,15 @@
 import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
-import { Language, Question } from '@prisma/client'
+import { Language } from '@prisma/client'
 import useLesson from './useLesson'
+import {
+  LessonResponseData,
+  QuestionWithPronunciations,
+} from './useLessonQuery'
 import { ActionType } from '../store/lessonActions'
 
 export type SaveQuestionData = {
-  questionId: Question['id']
+  questionId: string
   data: {
     symbols: string
     language: Language
@@ -20,9 +24,16 @@ function useSaveQuestionQuery() {
       axios.patch(`/api/question/${questionId}`, data).then((res) => res.data),
     {
       mutationKey: 'saveQuestion',
-      onSuccess(data, variables, context) {
-        dispatch({ type: ActionType.ResetSymbols })
-        queryClient.invalidateQueries('lesson')
+      onSuccess(data: QuestionWithPronunciations, variables, context) {
+        queryClient.setQueryData<LessonResponseData>(['lesson'], (oldData) => {
+          if (!oldData) return oldData
+          return {
+            questions: oldData.questions.map((question) =>
+              question.id === variables.questionId ? data : question
+            ),
+          }
+        })
+        dispatch({ type: ActionType.SetActiveQuestion, question: data })
       },
     }
   )

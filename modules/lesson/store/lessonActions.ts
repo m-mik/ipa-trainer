@@ -1,6 +1,6 @@
 import { Symbol } from '@/data/IPA'
 import { Language } from '@prisma/client'
-import { ActiveQuestion } from '../types/ActiveQuestion'
+import { QuestionWithPronunciations } from '../hooks/useLessonQuery'
 
 export enum ActionType {
   AppendSymbol = 'APPEND_SYMBOL',
@@ -24,7 +24,10 @@ export type LessonAction =
   | { type: ActionType.ResetSymbols }
   | { type: ActionType.ResetActiveSymbolIndex }
   | { type: ActionType.SetActiveSymbolIndex; index: number | null }
-  | { type: ActionType.SetActiveQuestion; question: ActiveQuestion | null }
+  | {
+      type: ActionType.SetActiveQuestion
+      question: QuestionWithPronunciations | null
+    }
   | {
       type: ActionType.DropSymbol
       payload: { sourceIndex: number; destinationIndex: number }

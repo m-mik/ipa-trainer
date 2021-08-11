@@ -3,7 +3,6 @@ import {
   Button,
   ButtonProps,
   Flex,
-  HStack,
   StackProps,
   Tooltip,
   VStack,
@@ -14,10 +13,9 @@ import IPA, { Alphabet, Symbol } from '@/data/IPA'
 import useLesson from '../hooks/useLesson'
 import { ActionType } from '../store/lessonActions'
 import SymbolTooltipLabel from './SymbolTooltipLabel'
-import LanguageControl from './LanguageControl'
 import useKey from '@/common/hooks/useKey'
 
-function KeyboardPanel(props: StackProps) {
+function Keyboard(props: StackProps) {
   const { state, dispatch } = useLesson()
   const { language, activeSymbolIndex, symbols } = state
   const isSavingQuestion = useIsMutating({ mutationKey: 'saveQuestion' }) > 0
@@ -33,13 +31,6 @@ function KeyboardPanel(props: StackProps) {
       })
       dispatch({ type: ActionType.ResetActiveSymbolIndex })
     }
-  }
-
-  const handleLanguageChange = (language: Language) => {
-    if (isSavingQuestion) return
-    dispatch({ type: ActionType.ResetActiveSymbolIndex })
-    dispatch({ type: ActionType.SetLanguage, language })
-    dispatch({ type: ActionType.ResetSymbols })
   }
 
   const deleteSymbol = () => {
@@ -65,14 +56,7 @@ function KeyboardPanel(props: StackProps) {
 
   return (
     <VStack spacing="2" p="2" d="inline-flex" {...props}>
-      <HStack width="100%">
-        <LanguageControl
-          ml="auto"
-          selectedLanguage={language}
-          onLanguageChange={handleLanguageChange}
-        />
-      </HStack>
-      <Flex justifyContent="center" wrap="wrap">
+      <Flex justifyContent="center" wrap="wrap" draggable="false">
         {symbolKeys.map((symbol) => (
           <Tooltip
             key={symbol.id}
@@ -146,4 +130,4 @@ export const SYMBOLS_BY_LANGUAGE: {
   [Language.UK]: getAlphabetSymbols(IPA, Language.UK),
 }
 
-export default KeyboardPanel
+export default Keyboard

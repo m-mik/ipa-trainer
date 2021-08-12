@@ -34,6 +34,7 @@ const lessonSelect = {
               id: true,
               audio: true,
               language: true,
+              symbols: true,
             },
           },
         },
@@ -107,13 +108,6 @@ export async function validateAnswer({
   return _count > 0
 }
 
-type AnswerQuestionOptions = {
-  questionId: Question['id']
-  userId: User['id']
-  symbols: Pronunciation['symbols']
-  language: Language
-}
-
 export function findPronunciationsForQuestion(questionId: Question['id']) {
   return prisma.question.findUnique({
     select: {
@@ -138,6 +132,13 @@ export function findPronunciationsForQuestion(questionId: Question['id']) {
       id: questionId,
     },
   })
+}
+
+type AnswerQuestionOptions = {
+  questionId: Question['id']
+  userId: User['id']
+  symbols: Pronunciation['symbols']
+  language: Language
 }
 
 export async function answerQuestion(data: AnswerQuestionOptions) {

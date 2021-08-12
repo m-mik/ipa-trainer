@@ -4,14 +4,10 @@ import { motion } from 'framer-motion'
 import usFlag from '../../../public/images/united-states.svg'
 import ukFlag from '../../../public/images/united-kingdom.svg'
 import { Language } from '@prisma/client'
+import Flag from './Flag'
 
 type Image = {
   src: string
-}
-
-type LangItem = {
-  value: string
-  image: Image
 }
 
 type LanguageData = { [key in Language]: { value: Language; image: Image } }
@@ -56,14 +52,7 @@ function LanguageControl({
         {...rest}
       >
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Image
-            src={image.src}
-            alt={`${value.toUpperCase()} flag`}
-            aria-label="Change language"
-            height="40px"
-            width="40px"
-            draggable="false"
-          />
+          <Flag country={selectedLanguage} />
         </motion.div>
         <VisuallyHidden>{value}</VisuallyHidden>
       </Box>

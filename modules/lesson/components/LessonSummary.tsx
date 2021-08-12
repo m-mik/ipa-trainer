@@ -3,7 +3,6 @@ import {
   CircularProgress,
   CircularProgressLabel,
   Heading,
-  Icon,
   Table,
   TableProps,
   Tbody,
@@ -18,8 +17,9 @@ import { darken } from '@chakra-ui/theme-tools'
 import useLessonQuery from '../hooks/useLessonQuery'
 import AnswerIcon from './AnswerIcon'
 import { CountUp } from 'use-count-up'
-import { HiInformationCircle } from 'react-icons/hi'
 import useColors from '@/common/hooks/useColors'
+import { getAnswerCountByType } from '../utils'
+import WordPopover from './WordPopover'
 
 function LessonSummary(props: TableProps) {
   const { data } = useLessonQuery()
@@ -34,22 +34,12 @@ function LessonSummary(props: TableProps) {
   if (!data) return null
   const { questions } = data
 
-  const answersCountByType = questions.reduce(
-    (result, question) => {
-      let count = result[question.answer] ?? 0
-      return { ...result, [question.answer]: ++count }
-    },
-    { CORRECT: 0, INCORRECT: 0, NONE: 0 }
-  )
-
-  const { CORRECT } = answersCountByType
+  const { CORRECT } = getAnswerCountByType(questions)
   const correctAnswersPercentage = Math.floor(
     (CORRECT / questions.length) * 100
   )
 
   const pointsEarned = CORRECT * 50
-
-  const handleCountUpComplete = () => {}
 
   return (
     <VStack spacing="8">
@@ -62,12 +52,7 @@ function LessonSummary(props: TableProps) {
               <Text textAlign="center">
                 You&apos;ve earned{' '}
                 <Text as="span" color={colors.points}>
-                  <CountUp
-                    isCounting
-                    end={pointsEarned}
-                    duration={3.2}
-                    onComplete={handleCountUpComplete}
-                  />
+                  <CountUp isCounting end={pointsEarned} duration={3.2} />
                 </Text>{' '}
                 points!
               </Text>
@@ -102,7 +87,7 @@ function LessonSummary(props: TableProps) {
             {questions.map(({ id, answer, word }) => (
               <Tr key={id}>
                 <Td>
-                  {word.name} <Icon as={HiInformationCircle} color="blue.200" />
+                  {word.name} <WordPopover word={word} />
                 </Td>
                 <Td>{word.partOfSpeech.toLowerCase()}</Td>
                 <Td>

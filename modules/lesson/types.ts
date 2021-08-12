@@ -27,4 +27,7 @@ export type LessonResponseError = {
   questions: never
 }
 
-export type LessonResponseData = LessonWithPronunciations | LessonResponseError
+export type LessonResponseData =
+  | LessonWithPronunciations
+  | LessonResponseError
+  | undefined

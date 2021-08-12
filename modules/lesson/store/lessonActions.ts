@@ -1,6 +1,6 @@
 import { Symbol } from '@/data/IPA'
-import { Language } from '@prisma/client'
-import { QuestionWithPronunciations } from '../types'
+import { Answer, Language } from '@prisma/client'
+import { LessonWithPronunciations, QuestionWithPronunciations } from '../types'
 
 export enum ActionType {
   AppendSymbol = 'APPEND_SYMBOL',
@@ -13,6 +13,20 @@ export enum ActionType {
   SetActiveQuestion = 'SET_ACTIVE_QUESTION',
   DropSymbol = 'DROP_SYMBOL',
   SetLanguage = 'SET_LANGUAGE',
+}
+
+export const activateNextQuestion = (
+  lessonWithPronunciations: LessonWithPronunciations
+) => {
+  const firstQuestionWithoutAnswer =
+    lessonWithPronunciations?.questions.find(
+      (question: QuestionWithPronunciations) => question.answer === Answer.NONE
+    ) ?? null
+
+  return {
+    type: ActionType.SetActiveQuestion,
+    question: firstQuestionWithoutAnswer,
+  } as const
 }
 
 export type LessonAction =

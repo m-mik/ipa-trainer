@@ -1,22 +1,20 @@
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import useLesson from './useLesson'
-import { ActionType } from '../store/lessonActions'
-import { Answer } from '@prisma/client'
-import {
-  LessonResponseData,
-  LessonResponseError,
-  QuestionWithPronunciations,
-} from '../types'
+import { activateNextQuestion } from '../store/lessonActions'
+import { LessonResponseData, LessonWithPronunciations } from '../types'
 
-function isLessonResponseError(
+export function isLessonWithPronunciations(
   data: LessonResponseData
-): data is LessonResponseError {
-  return typeof data.error !== 'undefined'
+): data is LessonWithPronunciations {
+  return typeof data?.questions !== 'undefined'
 }
 
 function useLessonQuery() {
-  const { dispatch } = useLesson()
+  const {
+    dispatch,
+    state: { activeQuestion },
+  } = useLesson()
   return useQuery(
     'lesson',
     () => axios.post<LessonResponseData>('/api/lesson').then((res) => res.data),
@@ -24,18 +22,9 @@ function useLessonQuery() {
       retry: false,
       refetchOnWindowFocus: false,
       onSuccess(data) {
-        if (isLessonResponseError(data)) return
-
-        const firstQuestionWithoutAnswer =
-          data.questions.find(
-            (question: QuestionWithPronunciations) =>
-              question.answer === Answer.NONE
-          ) ?? null
-
-        dispatch({
-          type: ActionType.SetActiveQuestion,
-          question: firstQuestionWithoutAnswer,
-        })
+        if (isLessonWithPronunciations(data) && !activeQuestion) {
+          dispatch(activateNextQuestion(data))
+        }
       },
     }
   )

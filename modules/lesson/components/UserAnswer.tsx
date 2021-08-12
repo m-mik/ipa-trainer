@@ -17,10 +17,13 @@ import { motion } from 'framer-motion'
 import { Symbol } from '@/data/IPA'
 import { AiOutlineSend } from 'react-icons/ai'
 import { Answer } from '@prisma/client'
-import { ActionType } from '../store/lessonActions'
+import { ActionType, activateNextQuestion } from '../store/lessonActions'
 import useLesson from '../hooks/useLesson'
 import { FaArrowDown } from 'react-icons/fa'
 import useSaveQuestionQuery from '../hooks/useSaveQuestionQuery'
+import useLessonQuery, {
+  isLessonWithPronunciations,
+} from '../hooks/useLessonQuery'
 
 const MotionBox = motion(chakra.div)
 
@@ -28,6 +31,7 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
   const { mutate: saveQuestion, isLoading: isSavingQuestion } =
     useSaveQuestionQuery()
   const { state, dispatch } = useLesson()
+  const { data } = useLessonQuery()
   const { symbols, activeSymbolIndex, activeQuestion, language } = state
   const ref = React.useRef<HTMLDivElement>(null)
 
@@ -54,8 +58,17 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
     })
   }
 
+  const confirm = () => {
+    if (activeQuestion?.answer === Answer.NONE) {
+      sendAnswer()
+    } else if (isLessonWithPronunciations(data)) {
+      dispatch({ type: ActionType.ResetSymbols })
+      dispatch(activateNextQuestion(data))
+    }
+  }
+
   useKey('Enter', (e) => {
-    sendAnswer()
+    confirm()
     e.preventDefault()
   })
 
@@ -69,6 +82,7 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
   })
 
   const handleSymbolRightClick = (symbol: Symbol, index: number) => {
+    if (activeQuestion?.answer !== Answer.NONE) return
     dispatch({ type: ActionType.RemoveSymbol, index })
     const active = activeSymbolIndex
     if (active === null) return
@@ -195,10 +209,10 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
                     <Box pl="2">
                       <IconButton
                         variant="outline"
-                        aria-label="Send answer"
+                        aria-label="Confirm"
                         icon={<AiOutlineSend />}
                         isLoading={isSavingQuestion}
-                        onClick={sendAnswer}
+                        onClick={confirm}
                       />
                     </Box>
                   )}

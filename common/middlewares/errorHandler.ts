@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export function errorHandler(
+export default function errorHandler(
   err: Error,
   req: NextApiRequest,
   res: NextApiResponse

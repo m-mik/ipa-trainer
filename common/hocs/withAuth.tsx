@@ -4,9 +4,9 @@ import { useSession } from 'next-auth/client'
 function withAuth<P extends object>(Component: React.ComponentType<P>) {
   return function WrappedComponentWithAuth(props: P) {
     const router = useRouter()
-    const [session] = useSession()
+    const [session, loading] = useSession()
 
-    if (typeof window === 'undefined') return null
+    if (typeof window === 'undefined' || loading) return null
 
     if (!session?.user) {
       router.replace('/auth/sign-in')

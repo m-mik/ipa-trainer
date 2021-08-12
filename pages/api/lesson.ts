@@ -4,13 +4,17 @@ import { findOrCreateActiveLessonForUser } from '@/modules/lesson/services/lesso
 import { getSession } from 'next-auth/client'
 import errorHandler from '@/common/middlewares/errorHandler'
 import { requireAuth } from '@/common/middlewares/requireAuth'
+import { removeUnansweredQuestionSymbols } from '@/modules/lesson/utils'
+import { LessonWithPronunciations } from '@/modules/lesson/types'
 
 const handler = nc<NextApiRequest, NextApiResponse>({
   onError: errorHandler,
 }).post(requireAuth, async (req, res) => {
   const session = await getSession({ req })
-  const lesson = await findOrCreateActiveLessonForUser(session!.user.id)
-  res.json(lesson)
+  const lesson = (await findOrCreateActiveLessonForUser(
+    session!.user.id
+  )) as LessonWithPronunciations
+  res.json(removeUnansweredQuestionSymbols(lesson))
 })
 
 export default handler

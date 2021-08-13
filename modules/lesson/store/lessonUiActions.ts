@@ -29,7 +29,7 @@ export const activateNextQuestion = (
   } as const
 }
 
-export type LessonAction =
+export type LessonUiAction =
   | { type: ActionType.SetLanguage; language: Language }
   | { type: ActionType.AppendSymbol; symbol: Symbol }
   | { type: ActionType.AddSymbol; payload: { symbol: Symbol; index: number } }

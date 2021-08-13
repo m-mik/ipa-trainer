@@ -15,21 +15,23 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { darken } from '@chakra-ui/theme-tools'
-import useLessonQuery from '../hooks/useLessonQuery'
+import useLesson from '../hooks/useLesson'
 import AnswerIcon from './AnswerIcon'
 import { CountUp } from 'use-count-up'
 import { LessonStatus } from '@prisma/client'
 import useColors from '@/common/hooks/useColors'
+import useSession from '@/common/hooks/useSession'
 import { getAnswerCountByType } from '../utils'
 import WordPopover from './WordPopover'
 import { useQueryClient } from 'react-query'
-import useSaveLessonQuery from '../hooks/useSaveLessonQuery'
+import useSaveLesson from '../hooks/useSaveLesson'
 import { useEffect } from 'react'
 
 function LessonSummary(props: TableProps) {
-  const { mutate: saveLesson } = useSaveLessonQuery()
+  const [session, loading, refetchSession] = useSession()
+  const { mutate: saveLesson } = useSaveLesson()
   const queryClient = useQueryClient()
-  const { data } = useLessonQuery()
+  const { data } = useLesson()
 
   useEffect(() => {
     if (data?.status == LessonStatus.ACTIVE) {
@@ -39,6 +41,7 @@ function LessonSummary(props: TableProps) {
           status: LessonStatus.COMPLETED,
         },
       })
+      refetchSession()
     }
   }, [data, saveLesson])
 

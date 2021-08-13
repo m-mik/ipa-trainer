@@ -10,14 +10,14 @@ import {
 import { useIsMutating } from 'react-query'
 import { Language } from '@prisma/client'
 import IPA, { Symbol } from '@/data/IPA'
-import useLesson from '../hooks/useLesson'
-import { ActionType } from '../store/lessonActions'
+import useLessonUi from '../hooks/useLessonUi'
+import { ActionType } from '../store/lessonUiActions'
 import SymbolTooltipLabel from './SymbolTooltipLabel'
 import useKey from '@/common/hooks/useKey'
 import { getAlphabetSymbols } from '../utils'
 
 function Keyboard(props: StackProps) {
-  const { state, dispatch } = useLesson()
+  const { state, dispatch } = useLessonUi()
   const { language, activeSymbolIndex, symbols } = state
   const isSavingQuestion = useIsMutating({ mutationKey: 'saveQuestion' }) > 0
 

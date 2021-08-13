@@ -2,10 +2,10 @@ import { Container, Spinner, VStack } from '@chakra-ui/react'
 import { NextLayoutPage } from 'next'
 import React from 'react'
 import dynamic from 'next/dynamic'
-import useLesson from '@/modules/lesson/hooks/useLesson'
+import useLessonUi from '@/modules/lesson/hooks/useLessonUi'
 import Keyboard from '@/modules/lesson/components/Keyboard'
 import Question from '@/modules/lesson/components/Question'
-import useLessonQuery from '@/modules/lesson/hooks/useLessonQuery'
+import useLesson from '@/modules/lesson/hooks/useLesson'
 import LessonProgress from '@/modules/lesson/components/LessonProgress'
 import LessonSummary from '@/modules/lesson/components/LessonSummary'
 import Card from '@/components/Card'
@@ -23,8 +23,8 @@ const UserAnswer = dynamic(
 const Learn: NextLayoutPage = () => {
   const {
     state: { activeQuestion },
-  } = useLesson()
-  const { isLoading, data } = useLessonQuery()
+  } = useLessonUi()
+  const { isLoading, data } = useLesson()
 
   return (
     <Container maxW="container.lg">

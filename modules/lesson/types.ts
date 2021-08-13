@@ -1,4 +1,4 @@
-import { Answer, Language, PartOfSpeech } from '@prisma/client'
+import { Answer, Language, LessonStatus, PartOfSpeech } from '@prisma/client'
 
 export type QuestionWithPronunciations = {
   id: string
@@ -15,4 +15,10 @@ export type QuestionWithPronunciations = {
       }
     ]
   }
+}
+
+export type LessonWithPronunciations = {
+  id: string
+  questions: QuestionWithPronunciations[]
+  status: LessonStatus
 }

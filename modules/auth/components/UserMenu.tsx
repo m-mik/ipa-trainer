@@ -8,21 +8,27 @@ import {
   MenuItem,
   MenuList,
   MenuProps,
+  Portal,
   Spinner,
   Text,
-  Portal,
 } from '@chakra-ui/react'
-import { signOut, useSession } from 'next-auth/client'
 import { CgLogOut } from 'react-icons/cg'
 import { FiSettings } from 'react-icons/fi'
 import useColors from '@/common/hooks/useColors'
 import UserAvatar from '@/components/UserAvatar'
 import Link from '@/components/Link'
+import useSession from '@/common/hooks/useSession'
+import { useQueryClient } from 'react-query'
+import { signOut } from 'next-auth/client'
+import useSessionUi from '@/modules/lesson/hooks/useLessonUi'
+import { ActionType } from '@/modules/lesson/store/lessonUiActions'
 
 type UserMenuProps = Omit<MenuProps, 'children'>
 
 function UserMenu(props: UserMenuProps) {
+  const queryClient = useQueryClient()
   const [session, loading] = useSession()
+  const { dispatch } = useSessionUi()
   const signInColor = useColors('highlight')
 
   if (loading) return <Spinner />
@@ -34,6 +40,12 @@ function UserMenu(props: UserMenuProps) {
         </Button>
       </Link>
     )
+  }
+
+  const handleLogOut = async () => {
+    await signOut({ redirect: false })
+    queryClient.setQueryData('session', null)
+    dispatch({ type: ActionType.ResetActiveSymbolIndex })
   }
 
   const { name, image, points } = session.user
@@ -55,10 +67,7 @@ function UserMenu(props: UserMenuProps) {
         <MenuList>
           <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
           <MenuDivider />
-          <MenuItem
-            icon={<CgLogOut size="18" />}
-            onClick={() => signOut({ redirect: false })}
-          >
+          <MenuItem icon={<CgLogOut size="18" />} onClick={handleLogOut}>
             Sign Out
           </MenuItem>
         </MenuList>

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/client'
+import useSession from '../hooks/useSession'
 
 function withAuth<P extends object>(Component: React.ComponentType<P>) {
   return function WrappedComponentWithAuth(props: P) {

@@ -57,14 +57,17 @@ export default NextAuth({
       } as Session
     },
     async jwt(token, user, account, profile, isNewUser) {
-      if (user) {
+      if (token.uid) {
         try {
-          token.uid = user.id
-          token.points = await calculateUserPoints(user.id)
+          token.points = await calculateUserPoints(token.uid as string)
         } catch (e) {
           console.error('Could not calculate user points in JWT', e)
           token.points = 0
         }
+      }
+
+      if (user) {
+        token.uid = user.id
       }
       return token
     },

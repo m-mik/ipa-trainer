@@ -6,7 +6,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import React from 'react'
-import useLesson from '../hooks/useLesson'
+import useLessonUi from '../hooks/useLessonUi'
 import Symbol from './Symbol'
 import useColors from '@/common/hooks/useColors'
 import { symbolsToArray } from '../utils'
@@ -14,7 +14,7 @@ import { symbolsToArray } from '../utils'
 function Answer(props: StackProps) {
   const {
     state: { language, activeQuestion },
-  } = useLesson()
+  } = useLessonUi()
 
   const colors = {
     bg: useColorModeValue('green.600', 'green.200'),

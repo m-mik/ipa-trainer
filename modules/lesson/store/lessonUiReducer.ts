@@ -1,24 +1,24 @@
 import { addToArray, removeByIndex, updateByIndex } from '@/utils/array'
 import { Symbol } from '@/data/IPA'
 import { Language } from '@prisma/client'
-import { ActionType, LessonAction } from './lessonActions'
+import { ActionType, LessonUiAction } from './lessonUiActions'
 import { QuestionWithPronunciations } from '../types'
 
-export type LessonState = Readonly<{
+export type LessonUiState = Readonly<{
   symbols: Symbol[]
   activeSymbolIndex: number | null
   activeQuestion: QuestionWithPronunciations | null
   language: Language
 }>
 
-export const initialState: LessonState = {
+export const initialState: LessonUiState = {
   symbols: [],
   activeSymbolIndex: null,
   activeQuestion: null,
   language: Language.US,
 }
 
-export function lessonReducer(state: LessonState, action: LessonAction) {
+export function lessonUiReducer(state: LessonUiState, action: LessonUiAction) {
   switch (action.type) {
     case ActionType.SetLanguage: {
       return { ...state, language: action.language }

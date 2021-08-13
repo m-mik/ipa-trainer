@@ -1,19 +1,12 @@
 import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 import { LessonStatus } from '@prisma/client'
-import { QuestionWithPronunciations } from '../types'
 import { isResponseError } from '../utils'
-
-export type LessonWithPronunciations = {
-  id: string
-  questions: QuestionWithPronunciations[]
-  status: LessonStatus
-}
+import { LessonWithPronunciations } from '../types'
 
 export type SaveLessonResponseError = {
   error: string
 }
-
 export type SaveLessonResponseData =
   | SaveLessonOptions['data']
   | SaveLessonResponseError
@@ -25,7 +18,7 @@ export type SaveLessonOptions = {
   }
 }
 
-function useSaveLessonQuery() {
+function useSaveLesson() {
   const queryClient = useQueryClient()
 
   return useMutation(
@@ -50,4 +43,4 @@ function useSaveLessonQuery() {
   )
 }
 
-export default useSaveLessonQuery
+export default useSaveLesson

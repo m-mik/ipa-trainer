@@ -1,17 +1,17 @@
-import useLesson from '../hooks/useLesson'
+import useLessonUi from '../hooks/useLessonUi'
 import Audio from './Audio'
 import { Box, HStack, StackProps, Tag, Text } from '@chakra-ui/react'
 import LanguageControl from './LanguageControl'
 import React from 'react'
 import { Language, Answer } from '@prisma/client'
-import { ActionType } from '../store/lessonActions'
+import { ActionType } from '../store/lessonUiActions'
 import { useIsMutating } from 'react-query'
 
 function Question(props: StackProps) {
   const {
     dispatch,
     state: { activeQuestion, language },
-  } = useLesson()
+  } = useLessonUi()
   const isSavingQuestion = useIsMutating({ mutationKey: 'saveQuestion' }) > 0
 
   if (!activeQuestion) return null

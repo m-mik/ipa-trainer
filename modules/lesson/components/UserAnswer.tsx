@@ -16,22 +16,20 @@ import { motion } from 'framer-motion'
 import { AiOutlineSend } from 'react-icons/ai'
 import { Answer } from '@prisma/client'
 import { Symbol as SymbolType } from '@/data/IPA'
-import { ActionType, activateNextQuestion } from '../store/lessonActions'
-import useLesson from '../hooks/useLesson'
+import { ActionType, activateNextQuestion } from '../store/lessonUiActions'
+import useLessonUi from '../hooks/useLessonUi'
 import { FaArrowDown } from 'react-icons/fa'
-import useSaveQuestionQuery from '../hooks/useSaveQuestionQuery'
-import useLessonQuery, {
-  isLessonWithPronunciations,
-} from '../hooks/useLessonQuery'
+import useSaveQuestion from '../hooks/useSaveQuestion'
+import useLesson, { isLessonWithPronunciations } from '../hooks/useLesson'
 import Symbol from './Symbol'
 
 const MotionBox = motion(chakra.div)
 
 const UserAnswer = function SymbolPanel(props: StackProps) {
   const { mutate: saveQuestion, isLoading: isSavingQuestion } =
-    useSaveQuestionQuery()
-  const { state, dispatch } = useLesson()
-  const { data } = useLessonQuery()
+    useSaveQuestion()
+  const { state, dispatch } = useLessonUi()
+  const { data } = useLesson()
   const { symbols, activeSymbolIndex, activeQuestion, language } = state
   const ref = React.useRef<HTMLDivElement>(null)
 

@@ -9,12 +9,13 @@ import {
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { FaGithub, FaGoogle } from 'react-icons/fa'
-import { signIn, useSession } from 'next-auth/client'
+import { signIn } from 'next-auth/client'
 import { IconType } from 'react-icons'
 import Card from '@/components/Card'
 import DividerWithText from '@/components/DividerWithText'
 import LoginForm from '@/modules/auth/components/LoginForm'
 import { Credentials } from '@/modules/auth/types/Credentials'
+import useSession from '@/common/hooks/useSession'
 
 interface Provider {
   name: string

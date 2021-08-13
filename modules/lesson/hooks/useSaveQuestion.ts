@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 import { Language } from '@prisma/client'
-import useLesson from './useLesson'
-import { ActionType } from '../store/lessonActions'
+import useLessonUi from './useLessonUi'
+import { ActionType } from '../store/lessonUiActions'
 import { LessonWithPronunciations, QuestionWithPronunciations } from '../types'
 
 export type SaveQuestionOptions = {
@@ -13,8 +13,8 @@ export type SaveQuestionOptions = {
   }
 }
 
-function useSaveQuestionQuery() {
-  const { dispatch } = useLesson()
+function useSaveQuestion() {
+  const { dispatch } = useLessonUi()
   const queryClient = useQueryClient()
   return useMutation(
     ({ questionId, data }: SaveQuestionOptions) =>
@@ -42,4 +42,4 @@ function useSaveQuestionQuery() {
   )
 }
 
-export default useSaveQuestionQuery
+export default useSaveQuestion

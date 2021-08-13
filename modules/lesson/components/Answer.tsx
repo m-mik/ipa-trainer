@@ -1,44 +1,45 @@
 import {
-  Text,
   Box,
+  HStack,
   StackProps,
+  useColorModeValue,
   VStack,
-  List,
-  ListItem,
-  ListIcon,
 } from '@chakra-ui/react'
 import React from 'react'
-import { Answer as AnswerType } from '@prisma/client'
 import useLesson from '../hooks/useLesson'
-import AnswerIcon from './AnswerIcon'
-import { MdCheckCircle } from 'react-icons/md'
+import Symbol from './Symbol'
+import useColors from '@/common/hooks/useColors'
+import { symbolsToArray } from '../utils'
 
 function Answer(props: StackProps) {
   const {
     state: { language, activeQuestion },
   } = useLesson()
 
+  const colors = {
+    bg: useColorModeValue('green.600', 'green.200'),
+    fg: useColors('bg'),
+  }
+
   if (!activeQuestion) return null
 
   return (
     <VStack {...props}>
-      <List spacing={3}>
-        <ListItem>
-          <ListIcon as={MdCheckCircle} color="green.400" />
-          {activeQuestion.word.pronunciations
-            .filter((pronunciation) => pronunciation.language === language)
-            .map((pronunciation) => (
-              <Text
-                as="span"
-                color="green.400"
-                fontSize="3xl"
-                key={pronunciation.id}
-              >
-                {pronunciation.symbols}
-              </Text>
+      {activeQuestion.word.pronunciations
+        .filter((pronunciation) => pronunciation.language === language)
+        .map(({ symbols = '', id }) => (
+          <HStack key={id} spacing="0">
+            {symbolsToArray(symbols).map((symbol, index) => (
+              <Symbol
+                key={`${symbol}${index}`}
+                name={symbol}
+                bg={colors.bg}
+                color={colors.fg}
+              />
             ))}
-        </ListItem>
-      </List>
+            <Box w="50px" />
+          </HStack>
+        ))}
     </VStack>
   )
 }

@@ -9,11 +9,12 @@ import {
 } from '@chakra-ui/react'
 import { useIsMutating } from 'react-query'
 import { Language } from '@prisma/client'
-import IPA, { Alphabet, Symbol } from '@/data/IPA'
+import IPA, { Symbol } from '@/data/IPA'
 import useLesson from '../hooks/useLesson'
 import { ActionType } from '../store/lessonActions'
 import SymbolTooltipLabel from './SymbolTooltipLabel'
 import useKey from '@/common/hooks/useKey'
+import { getAlphabetSymbols } from '../utils'
 
 function Keyboard(props: StackProps) {
   const { state, dispatch } = useLesson()
@@ -103,25 +104,6 @@ const Key = React.forwardRef<HTMLButtonElement, KeyProps>(
 )
 
 Key.displayName = 'Key'
-
-export function getAlphabetSymbols(alphabet: Alphabet, language?: Language) {
-  const isUniversalSymbol = (symbol: Symbol) =>
-    typeof symbol.language === 'undefined'
-  const { vowels, consonants, diphthongs, other } = alphabet
-  const symbols = [
-    ...vowels.long,
-    ...vowels.short,
-    ...consonants.voiced,
-    ...consonants.voiceless,
-    ...diphthongs,
-    ...other,
-  ] as Symbol[]
-  return language
-    ? symbols.filter(
-        (symbol) => isUniversalSymbol(symbol) || symbol.language === language
-      )
-    : symbols
-}
 
 export const SYMBOLS_BY_LANGUAGE: {
   [key in Language]: Symbol[]

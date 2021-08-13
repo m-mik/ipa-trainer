@@ -3,13 +3,9 @@ import axios from 'axios'
 import { Language } from '@prisma/client'
 import useLesson from './useLesson'
 import { ActionType } from '../store/lessonActions'
-import {
-  LessonResponseData,
-  LessonWithPronunciations,
-  QuestionWithPronunciations,
-} from '../types'
+import { LessonWithPronunciations, QuestionWithPronunciations } from '../types'
 
-export type SaveQuestionData = {
+export type SaveQuestionOptions = {
   questionId: string
   data: {
     symbols: string
@@ -21,7 +17,7 @@ function useSaveQuestionQuery() {
   const { dispatch } = useLesson()
   const queryClient = useQueryClient()
   return useMutation(
-    ({ questionId, data }: SaveQuestionData) =>
+    ({ questionId, data }: SaveQuestionOptions) =>
       axios
         .patch<QuestionWithPronunciations>(`/api/question/${questionId}`, data)
         .then((res) => res.data),
@@ -33,6 +29,7 @@ function useSaveQuestionQuery() {
           (oldData) => {
             if (!oldData) return oldData
             return {
+              ...oldData,
               questions: oldData.questions.map((question) =>
                 question.id === variables.questionId ? data : question
               ),

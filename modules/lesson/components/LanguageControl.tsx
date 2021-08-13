@@ -1,8 +1,8 @@
 import { Box, BoxProps, Tooltip, VisuallyHidden } from '@chakra-ui/react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import usFlag from '../../../public/images/united-states.svg'
-import ukFlag from '../../../public/images/united-kingdom.svg'
+import usFlag from '@/public/images/united-states.svg'
+import ukFlag from '@/public/images/united-kingdom.svg'
 import { Language } from '@prisma/client'
 import Flag from './Flag'
 

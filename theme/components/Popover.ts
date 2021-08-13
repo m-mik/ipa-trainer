@@ -56,7 +56,9 @@ const baseStyle = (props: Dict) => ({
   arrow: {},
 })
 
-export default {
+const Popover = {
   parts,
   baseStyle,
 }
+
+export default Popover

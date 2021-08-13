@@ -2,6 +2,7 @@ import prisma from '@/common/db'
 import {
   Answer,
   Language,
+  Lesson,
   LessonStatus,
   Pronunciation,
   Question,
@@ -21,6 +22,8 @@ export function findRandomWordsWithPronunciation(limit: number) {
 }
 
 const lessonSelect = {
+  id: true,
+  status: true,
   questions: {
     select: {
       id: true,
@@ -53,13 +56,6 @@ export function findActiveLessonForUser(userId: User['id']) {
   })
 }
 
-export async function findOrCreateActiveLessonForUser(userId: User['id']) {
-  return (
-    (await findActiveLessonForUser(userId)) ??
-    (await createLessonForUser(userId))
-  )
-}
-
 export async function createLessonForUser(userId: User['id']) {
   const randomWordsWithPronunciation = await findRandomWordsWithPronunciation(3)
   return prisma.lesson.create({
@@ -73,6 +69,13 @@ export async function createLessonForUser(userId: User['id']) {
     },
     select: lessonSelect,
   })
+}
+
+export async function findOrCreateActiveLessonForUser(userId: User['id']) {
+  return (
+    (await findActiveLessonForUser(userId)) ??
+    (await createLessonForUser(userId))
+  )
 }
 
 type ValidateAnswerOptions = {
@@ -95,7 +98,7 @@ export async function validateAnswer({
       language,
       word: {
         questions: {
-          every: {
+          some: {
             id: questionId,
             lesson: {
               userId,
@@ -154,4 +157,21 @@ export async function answerQuestion(data: AnswerQuestionOptions) {
     },
   })
   return findPronunciationsForQuestion(data.questionId)
+}
+
+type UpdateLessonOptions = {
+  lessonId: Lesson['id']
+  userId: User['id']
+  data: Partial<Lesson>
+}
+
+export function updateLesson({ lessonId, userId, data }: UpdateLessonOptions) {
+  return prisma.lesson.updateMany({
+    where: {
+      id: lessonId,
+      userId,
+      status: LessonStatus.ACTIVE,
+    },
+    data,
+  })
 }

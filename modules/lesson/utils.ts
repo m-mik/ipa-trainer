@@ -1,5 +1,6 @@
-import { Answer } from '@prisma/client'
+import { Answer, Language } from '@prisma/client'
 import { LessonWithPronunciations } from './types'
+import IPA, { Alphabet, Symbol } from '@/common/data/IPA'
 
 export function getAnswerCountByType(questions: Array<{ answer: Answer }>) {
   return questions.reduce(
@@ -29,4 +30,49 @@ export function removeUnansweredQuestionSymbols(
       },
     })),
   }
+}
+
+export function getAlphabetSymbols(alphabet: Alphabet, language?: Language) {
+  const isUniversalSymbol = (symbol: Symbol) =>
+    typeof symbol.language === 'undefined'
+  const { vowels, consonants, diphthongs, other } = alphabet
+  const symbols = [
+    ...vowels.long,
+    ...vowels.short,
+    ...consonants.voiced,
+    ...consonants.voiceless,
+    ...diphthongs,
+    ...other,
+  ] as Symbol[]
+  return language
+    ? symbols.filter(
+        (symbol) => isUniversalSymbol(symbol) || symbol.language === language
+      )
+    : symbols
+}
+
+export function symbolsToArray(symbols: string) {
+  const twoCharacterIpaSymbols = getAlphabetSymbols(IPA)
+    .map((symbol) => symbol.name)
+    .filter((ipaSymbol) => ipaSymbol.length === 2)
+  const result = []
+  const symbolArray = symbols.split('')
+  for (let i = 0; i < symbolArray.length; i++) {
+    const twoCharacters = symbolArray[i] + symbolArray[i + 1]
+    if (twoCharacterIpaSymbols.includes(twoCharacters)) {
+      result.push(twoCharacters)
+      i++
+    } else {
+      result.push(symbolArray[i])
+    }
+  }
+  return result
+}
+
+type ResponseError = {
+  error: string
+}
+
+export function isResponseError(data: any): data is ResponseError {
+  return typeof data.error !== 'undefined'
 }

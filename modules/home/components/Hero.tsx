@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 import Link from '@/components/Link'
-import useColors from '../../../common/hooks/useColors'
+import useColors from '@/common/hooks/useColors'
 
 function Hero(props: BoxProps) {
   return (
@@ -57,7 +57,7 @@ function Hero(props: BoxProps) {
           px="6"
           rightIcon={<AiOutlineArrowRight />}
         >
-          Get started
+          Get Started
         </Button>
       </Link>
     </VStack>

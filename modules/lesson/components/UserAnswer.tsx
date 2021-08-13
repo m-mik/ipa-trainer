@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import {
   Box,
-  Center,
   chakra,
   HStack,
   Icon,
@@ -14,9 +13,9 @@ import {
 import useColors from '@/common/hooks/useColors'
 import useKey from '@/common/hooks/useKey'
 import { motion } from 'framer-motion'
-import { Symbol } from '@/data/IPA'
 import { AiOutlineSend } from 'react-icons/ai'
 import { Answer } from '@prisma/client'
+import { Symbol as SymbolType } from '@/data/IPA'
 import { ActionType, activateNextQuestion } from '../store/lessonActions'
 import useLesson from '../hooks/useLesson'
 import { FaArrowDown } from 'react-icons/fa'
@@ -24,6 +23,7 @@ import useSaveQuestionQuery from '../hooks/useSaveQuestionQuery'
 import useLessonQuery, {
   isLessonWithPronunciations,
 } from '../hooks/useLessonQuery'
+import Symbol from './Symbol'
 
 const MotionBox = motion(chakra.div)
 
@@ -39,8 +39,8 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
     symbol: useColors('bg'),
     symbolBg: {
       [Answer.NONE]: useColors('primary'),
-      [Answer.CORRECT]: useColorModeValue('green.600', 'green.400'),
-      [Answer.INCORRECT]: useColorModeValue('red.600', 'red.400'),
+      [Answer.CORRECT]: useColorModeValue('green.600', 'green.200'),
+      [Answer.INCORRECT]: useColorModeValue('red.600', 'red.200'),
     },
     border: useColors('secondary'),
     activeBorder: useColors('highlight'),
@@ -81,7 +81,7 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
       ),
   })
 
-  const handleSymbolRightClick = (symbol: Symbol, index: number) => {
+  const handleSymbolRightClick = (symbol: SymbolType, index: number) => {
     if (activeQuestion?.answer !== Answer.NONE) return
     dispatch({ type: ActionType.RemoveSymbol, index })
     const active = activeSymbolIndex
@@ -92,7 +92,7 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
       dispatch({ type: ActionType.SetActiveSymbolIndex, index: active - 1 })
   }
 
-  const handleSymbolClick = (symbol: Symbol, index: number) => {
+  const handleSymbolClick = (symbol: SymbolType, index: number) => {
     if (isSavingQuestion) return
     if (activeSymbolIndex === index) {
       dispatch({ type: ActionType.ResetActiveSymbolIndex })
@@ -125,7 +125,7 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
 
   const handleContextMenu = (
     e: React.MouseEvent<HTMLDivElement>,
-    symbol: Symbol,
+    symbol: SymbolType,
     index: number
   ) => {
     if (isSavingQuestion) return
@@ -168,7 +168,8 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
                       index={index}
                     >
                       {(provided) => (
-                        <Center
+                        <Symbol
+                          name={symbol.name}
                           border={
                             index === activeSymbolIndex
                               ? '3px solid'
@@ -185,10 +186,6 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
                             ]
                           }
                           color={colors.symbol}
-                          w="50px"
-                          h="50px"
-                          fontSize="2.5em"
-                          userSelect="none"
                           _hover={{ cursor: 'move', fontSize: '2.8em' }}
                           ref={provided.innerRef}
                           aria-label="Select symbol"
@@ -198,9 +195,7 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
                           }
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                        >
-                          {symbol.name}
-                        </Center>
+                        />
                       )}
                     </Draggable>
                   ))}

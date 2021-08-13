@@ -16,18 +16,3 @@ export type QuestionWithPronunciations = {
     ]
   }
 }
-
-export type LessonWithPronunciations = {
-  questions: QuestionWithPronunciations[]
-  error: never
-}
-
-export type LessonResponseError = {
-  error: string
-  questions: never
-}
-
-export type LessonResponseData =
-  | LessonWithPronunciations
-  | LessonResponseError
-  | undefined

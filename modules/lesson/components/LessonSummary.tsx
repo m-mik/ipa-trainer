@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   CircularProgress,
   CircularProgressLabel,
   Heading,
@@ -17,12 +18,29 @@ import { darken } from '@chakra-ui/theme-tools'
 import useLessonQuery from '../hooks/useLessonQuery'
 import AnswerIcon from './AnswerIcon'
 import { CountUp } from 'use-count-up'
+import { LessonStatus } from '@prisma/client'
 import useColors from '@/common/hooks/useColors'
 import { getAnswerCountByType } from '../utils'
 import WordPopover from './WordPopover'
+import { useQueryClient } from 'react-query'
+import useSaveLessonQuery from '../hooks/useSaveLessonQuery'
+import { useEffect } from 'react'
 
 function LessonSummary(props: TableProps) {
+  const { mutate: saveLesson } = useSaveLessonQuery()
+  const queryClient = useQueryClient()
   const { data } = useLessonQuery()
+
+  useEffect(() => {
+    if (data?.status == LessonStatus.ACTIVE) {
+      saveLesson({
+        lessonId: data.id,
+        data: {
+          status: LessonStatus.COMPLETED,
+        },
+      })
+    }
+  }, [data, saveLesson])
 
   const colors = {
     points: useColors('highlight'),
@@ -73,6 +91,14 @@ function LessonSummary(props: TableProps) {
           </CircularProgressLabel>
         </CircularProgress>
         <Text fontSize="1.5em">Accuracy</Text>
+      </Box>
+      <Box>
+        <Button
+          variant="outline"
+          onClick={() => queryClient.invalidateQueries('lesson')}
+        >
+          Try Again
+        </Button>
       </Box>
       <Box w="100%">
         <Table variant="striped" {...props}>

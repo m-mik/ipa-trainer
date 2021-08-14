@@ -9,6 +9,7 @@ export function loginDemoUser(credentials: Credentials) {
     process.env.DEMO_PASSWORD !== password
   )
     return null
+
   return findDemoUser()
 }
 

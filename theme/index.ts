@@ -10,6 +10,8 @@ import Menu from './components/Menu'
 import Tooltip from './components/Tooltip'
 import Table from './components/Table'
 import Popover from './components/Popover'
+import Spinner from './components/Spinner'
+import Container from './components/Container'
 
 const config: ThemeConfig = {
   useSystemColorMode: false,
@@ -29,6 +31,8 @@ const overrides = {
     Tooltip,
     Table,
     Popover,
+    Spinner,
+    Container,
   },
   config,
 }

@@ -1,11 +1,7 @@
 import { Answer, User, Word } from '@prisma/client'
 import prisma from '@/common/db'
-
-export function findUserById(id: string) {
-  return prisma.user.findUnique({
-    where: { id },
-  })
-}
+import { CORRECT_ANSWER_POINTS } from '@/modules/lesson/config'
+import { USERS_PER_PAGE } from '@/modules/leaderboard/config'
 
 export async function calculateUserPoints(userId: User['id']) {
   const correctAnswers = await prisma.question.aggregate({
@@ -17,16 +13,19 @@ export async function calculateUserPoints(userId: User['id']) {
     },
     _count: true,
   })
-  return correctAnswers._count * 50
+  return correctAnswers._count * CORRECT_ANSWER_POINTS
 }
 
-export function findUsers() {
+export function findUsersWithPoints(page: number) {
+  const limit = USERS_PER_PAGE
+  const offset = limit * page - limit
   return prisma.$queryRaw<Word[]>`
-    SELECT w.id FROM "Word" w 
-    JOIN "Pronunciation" p 
-    ON w.id = p."wordId" 
-    GROUP BY w.id
-	  ORDER BY RANDOM()
-	  LIMIT ${limit}
+    SELECT u.id, u.name, COUNT(answer) * ${CORRECT_ANSWER_POINTS} as points FROM "Question" q
+    JOIN "Lesson" l ON l.id = q."lessonId"
+    RIGHT OUTER JOIN "User" u ON u.id = l."userId" AND q.answer = 'CORRECT'
+    GROUP BY u.id
+    ORDER BY points DESC
+    LIMIT ${limit}
+    OFFSET ${offset};
   `
 }

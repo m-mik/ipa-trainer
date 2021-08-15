@@ -14,6 +14,7 @@ import {
   Tr,
   VStack,
 } from '@chakra-ui/react'
+import { useEffect } from 'react'
 import { darken } from '@chakra-ui/theme-tools'
 import useLesson from '../hooks/useLesson'
 import AnswerIcon from './AnswerIcon'
@@ -25,7 +26,7 @@ import { getAnswerCountByType } from '../utils'
 import WordPopover from './WordPopover'
 import { useQueryClient } from 'react-query'
 import useSaveLesson from '../hooks/useSaveLesson'
-import { useEffect } from 'react'
+import { CORRECT_ANSWER_POINTS } from '../config'
 
 function LessonSummary(props: TableProps) {
   const [session, loading, refetchSession] = useSession()
@@ -43,7 +44,7 @@ function LessonSummary(props: TableProps) {
       })
       refetchSession()
     }
-  }, [data, saveLesson])
+  }, [data, saveLesson, refetchSession])
 
   const colors = {
     points: useColors('highlight'),
@@ -55,12 +56,12 @@ function LessonSummary(props: TableProps) {
   if (!data) return null
   const { questions } = data
 
-  const { CORRECT } = getAnswerCountByType(questions)
+  const { CORRECT: correctAnswersCount } = getAnswerCountByType(questions)
   const correctAnswersPercentage = Math.floor(
-    (CORRECT / questions.length) * 100
+    (correctAnswersCount / questions.length) * 100
   )
 
-  const pointsEarned = CORRECT * 50
+  const pointsEarned = correctAnswersCount * CORRECT_ANSWER_POINTS
 
   return (
     <VStack spacing="8">

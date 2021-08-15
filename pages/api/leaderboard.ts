@@ -1,12 +1,18 @@
 import nc from 'next-connect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import errorHandler from '@/common/middlewares/errorHandler'
+import { findUsersWithPoints } from '@/common/services/userService'
 
 const handler = nc<NextApiRequest, NextApiResponse>({
   onError: errorHandler,
-}).post(async (req, res) => {
-  res.json({})
-  //res.json(removeUnansweredQuestionSymbols(lesson))
+}).get(async (req, res) => {
+  const page = Math.max(1, Number(req.query.page))
+  const usersWithPoints = await findUsersWithPoints(page)
+  const nextPageUsersWithPoints = await findUsersWithPoints(page + 1)
+  res.json({
+    users: usersWithPoints,
+    hasMore: !!nextPageUsersWithPoints.length,
+  })
 })
 
 export default handler

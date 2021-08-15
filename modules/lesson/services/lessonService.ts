@@ -10,17 +10,6 @@ import {
   Word,
 } from '@prisma/client'
 
-export function findRandomWordsWithPronunciation(limit: number) {
-  return prisma.$queryRaw<Word[]>`
-    SELECT w.id FROM "Word" w 
-    JOIN "Pronunciation" p 
-    ON w.id = p."wordId" 
-    GROUP BY w.id
-	  ORDER BY RANDOM()
-	  LIMIT ${limit}
-  `
-}
-
 const lessonSelect = {
   id: true,
   status: true,
@@ -44,6 +33,17 @@ const lessonSelect = {
       },
     },
   },
+}
+
+export function findRandomWordsWithPronunciation(limit: number) {
+  return prisma.$queryRaw<Word[]>`
+    SELECT w.id FROM "Word" w 
+    JOIN "Pronunciation" p 
+    ON w.id = p."wordId" 
+    GROUP BY w.id
+	  ORDER BY RANDOM()
+	  LIMIT ${limit}
+  `
 }
 
 export function findActiveLessonForUser(userId: User['id']) {

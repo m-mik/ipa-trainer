@@ -45,6 +45,7 @@ function Question(props: StackProps) {
           onLanguageChange={handleLanguageChange}
         />
       </HStack>
+      <Text fontSize="sm">{activeQuestion.word.definition}</Text>
     </>
   )
 }

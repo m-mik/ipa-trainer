@@ -1,17 +1,15 @@
 import { PartOfSpeech, Pronunciation } from '@prisma/client'
 
-export type FetchedPronunciation = Pick<
-  Pronunciation,
-  'symbols' | 'audio' | 'language'
->
-
-export type FetchedPronunciationList = {
-  [key in PartOfSpeech]?: FetchedPronunciation[]
+export type WordDefinition = {
+  name: string
+  partOfSpeech: PartOfSpeech
+  definition: string
+  pronunciations: Pick<Pronunciation, 'symbols' | 'audio' | 'language'>[]
 }
 
 export interface Dictionary {
   name: string
   baseUrl: string
   searchUrl: string
-  parse: (html: string) => FetchedPronunciationList
+  parse: (html: string) => WordDefinition[]
 }

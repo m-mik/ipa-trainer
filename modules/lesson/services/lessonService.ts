@@ -21,6 +21,7 @@ const lessonSelect = {
         select: {
           name: true,
           partOfSpeech: true,
+          definition: true,
           pronunciations: {
             select: {
               id: true,

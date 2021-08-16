@@ -7,24 +7,25 @@ import { Dictionary } from './types'
 
 export const DEFAULT_DICTIONARY = cambridge
 
-export const buildUrl = (searchUrl: string, word: string) => {
+export const buildUrl = (searchUrl: string, name: string) => {
   const searchStr = '%s'
   if (!searchUrl.includes(searchStr)) {
     throw new Error(`searchUrl must contain search string '${searchStr}'`)
   }
-  return searchUrl.replace(searchStr, word)
+  return searchUrl.replace(searchStr, name)
 }
 
-export const createFetchPronunciations =
+export const createFetchWordDefinition =
   ({ searchUrl, parse }: Dictionary) =>
-  async (word: string, partOfSpeech?: PartOfSpeech) => {
-    const url = buildUrl(searchUrl, word)
+  async ({ name, partOfSpeech }: Word) => {
+    const url = buildUrl(searchUrl, name)
     const res = await axios.get<string>(url)
-    const pronunciationList = parse(res.data)
-    return partOfSpeech ? pronunciationList[partOfSpeech] : pronunciationList
+    return parse(res.data).find(
+      (wordDefnitions) => wordDefnitions.partOfSpeech === partOfSpeech
+    )
   }
 
-export const fetchPronunciations = createFetchPronunciations(DEFAULT_DICTIONARY)
+export const fetchWordDefinition = createFetchWordDefinition(DEFAULT_DICTIONARY)
 
 export type Word = {
   name: string
@@ -32,32 +33,36 @@ export type Word = {
   [key: string]: any
 }
 
-type PronunciationsFetchQueueProps = {
+type FetchWordDefinitionQueueProps = {
   words: Word[]
   options?: Options<PriorityQueue, DefaultAddOptions>
 }
 
-export const createPronunciationsFetchQueue = ({
+export const createFetchWordDefinitionQueue = ({
   words,
   options,
-}: PronunciationsFetchQueueProps) => {
+}: FetchWordDefinitionQueueProps) => {
   const queue = new PQueue(options)
   let count = 0
 
   words.forEach((word) =>
     queue
-      .add(() => fetchPronunciations(word.name, word.partOfSpeech))
-      .then((pronunciations) => {
-        queue.emit<any>('fetchEnd', word, pronunciations)
+      .add(() =>
+        fetchWordDefinition({
+          name: word.name,
+          partOfSpeech: word.partOfSpeech,
+        })
+      )
+      .then((wordDefinitions) => {
+        queue.emit<any>('fetchEnd', word, wordDefinitions)
       })
       .catch((e) => console.error(`Could not fetch word, '${word}': ${e}`))
   )
 
   queue.on('active', () => {
+    const { name, partOfSpeech } = words[count++]
     console.log(
-      `Fetching '${words[count++].name}' pronunciations. Size: ${
-        queue.size
-      } Pending: ${queue.pending}`
+      `Fetching '${name}' (${partOfSpeech}) word definition. Size: ${queue.size} Pending: ${queue.pending}`
     )
   })
 

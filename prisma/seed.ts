@@ -4,16 +4,16 @@ import shuffle from 'lodash.shuffle'
 import prisma from '@/common/db'
 import { createDemoUser, findDemoUser } from '@/modules/auth/authService'
 import { PartOfSpeech } from '@prisma/client'
-import {
-  createPronunciationsFetchQueue,
-  Word,
-} from '@/modules/fetcher/fetchPronunciations'
-import { FetchedPronunciation } from '@/modules/fetcher/types'
+import { WordDefinition } from '@/modules/fetcher/types'
 import {
   createPronunciations,
   createWords,
   findWordsWithoutPronunciation,
 } from '@/common/services/wordService'
+import {
+  createFetchWordDefinitionQueue,
+  Word,
+} from '@/modules/fetcher/fetchWordDefinition'
 
 async function initDemoUser() {
   const demoUser = await findDemoUser()
@@ -32,12 +32,12 @@ async function initWords() {
 }
 
 async function initPronunciations() {
-  const wordsWithoutPronunciation = await findWordsWithoutPronunciation(10)
+  const wordsWithoutPronunciation = await findWordsWithoutPronunciation(5)
   console.log(
     `DB: Found ${wordsWithoutPronunciation.length} word(s) without a pronunciation`
   )
 
-  const pronunciationsFetchQueue = createPronunciationsFetchQueue({
+  const fetchWordDefinitionQueue = createFetchWordDefinitionQueue({
     words: wordsWithoutPronunciation,
     options: {
       concurrency: 1,
@@ -47,27 +47,27 @@ async function initPronunciations() {
     },
   })
 
-  pronunciationsFetchQueue.on<any>(
+  fetchWordDefinitionQueue.on<any>(
     'fetchEnd',
-    async (word: Word, fetchedPronunciations: FetchedPronunciation[]) => {
-      if (!fetchedPronunciations) {
+    async (word: Word, wordDefinition: WordDefinition) => {
+      if (!wordDefinition) {
         return console.log(
-          `Could not find pronunciations for: '${word.name}' (${word.partOfSpeech})`
+          `Could not find word definition for: '${word.name}' (${word.partOfSpeech})`
         )
       }
-      const createdPronunciations = await createPronunciations(
-        fetchedPronunciations.map((fetchedPronunciation) => ({
-          ...fetchedPronunciation,
-          wordId: word.id,
-        }))
-      )
+
+      const [{ count }] = await createPronunciations({
+        ...wordDefinition,
+        wordId: word.id,
+      })
+
       console.log(
-        `DB: Created ${createdPronunciations.count} pronunciations for '${word.name}' (${word.partOfSpeech})`
+        `DB: Created ${count} pronunciations for '${word.name}' (${word.partOfSpeech})`
       )
     }
   )
 
-  pronunciationsFetchQueue.start()
+  fetchWordDefinitionQueue.start()
 }
 
 async function main() {

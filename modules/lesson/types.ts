@@ -5,6 +5,7 @@ export type QuestionWithPronunciations = {
   answer: Answer
   word: {
     name: string
+    definition?: string
     partOfSpeech: PartOfSpeech
     pronunciations: [
       {

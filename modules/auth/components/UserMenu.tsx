@@ -65,7 +65,9 @@ function UserMenu(props: UserMenuProps) {
       </MenuButton>
       <Portal>
         <MenuList>
-          <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
+          <Link href="/settings">
+            <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
+          </Link>
           <MenuDivider />
           <MenuItem icon={<CgLogOut size="18" />} onClick={handleLogOut}>
             Sign Out

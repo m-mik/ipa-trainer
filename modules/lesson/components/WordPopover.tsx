@@ -16,6 +16,7 @@ import { Language } from '@prisma/client'
 import { HiInformationCircle } from 'react-icons/hi'
 import Audio from './Audio'
 import Flag from './Flag'
+import useLessonUi from '../hooks/useLessonUi'
 
 type WordPopoverProps = PopoverProps & {
   word: {
@@ -30,6 +31,10 @@ type WordPopoverProps = PopoverProps & {
 }
 
 function WordPopover({ word, ...rest }: WordPopoverProps) {
+  const {
+    state: { audioVolume },
+  } = useLessonUi()
+
   return (
     <Popover trigger="hover" {...rest}>
       <PopoverTrigger>
@@ -55,7 +60,7 @@ function WordPopover({ word, ...rest }: WordPopoverProps) {
                 </Box>
                 <Box>{symbols}</Box>
                 <Box>
-                  <Audio src={audio} autoPlay={false} />
+                  <Audio src={audio} autoPlay={false} volume={audioVolume} />
                 </Box>
               </HStack>
             ))}

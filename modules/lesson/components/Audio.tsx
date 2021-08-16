@@ -1,13 +1,20 @@
 import { AiFillSound } from 'react-icons/ai'
 import { Box, IconButton } from '@chakra-ui/react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 type AudioProps = React.HTMLProps<HTMLAudioElement> & {
   src?: string
+  volume?: number
 }
 
-function Audio({ src, ...rest }: AudioProps) {
+function Audio({ src, volume = 0.5, ...rest }: AudioProps) {
   const ref = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.volume = volume
+    }
+  }, [volume])
 
   const handleClick = (e: React.MouseEvent) => {
     ref.current?.play()

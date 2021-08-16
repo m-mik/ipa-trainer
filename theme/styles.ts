@@ -9,6 +9,9 @@ const styles = {
       color: mode(light.fg, dark.fg)(props),
       bg: mode(light.bg, dark.bg)(props),
     },
+    h2: {
+      color: mode(light.primary, dark.primary)(props),
+    },
   }),
 }
 

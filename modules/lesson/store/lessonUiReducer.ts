@@ -9,6 +9,9 @@ export type LessonUiState = Readonly<{
   activeSymbolIndex: number | null
   activeQuestion: QuestionWithPronunciations | null
   language: Language
+  audioVolume: number
+  audioAutoPlay: boolean
+  isInitialized: boolean
 }>
 
 export const initialState: LessonUiState = {
@@ -16,10 +19,22 @@ export const initialState: LessonUiState = {
   activeSymbolIndex: null,
   activeQuestion: null,
   language: Language.US,
+  audioVolume: 0.5,
+  audioAutoPlay: true,
+  isInitialized: false,
 }
 
 export function lessonUiReducer(state: LessonUiState, action: LessonUiAction) {
   switch (action.type) {
+    case ActionType.Initialize: {
+      return { ...state, isInitialized: true }
+    }
+    case ActionType.SetAudioVolume: {
+      return { ...state, audioVolume: action.audioVolume }
+    }
+    case ActionType.SetAudioAutoPlay: {
+      return { ...state, audioAutoPlay: action.audioAutoPlay }
+    }
     case ActionType.SetLanguage: {
       return { ...state, language: action.language }
     }

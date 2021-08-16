@@ -3,7 +3,6 @@ import { NextLayoutPage } from 'next'
 import useLeaderboard from '@/modules/leaderboard/hooks/useLeaderboard'
 import { useRouter } from 'next/router'
 import LeaderboardTable from '@/modules/leaderboard/components/LeaderboardTable'
-import useColors from '@/common/hooks/useColors'
 
 const Leaderboard: NextLayoutPage = () => {
   const router = useRouter()
@@ -12,7 +11,7 @@ const Leaderboard: NextLayoutPage = () => {
 
   return (
     <Container maxW="container.lg">
-      <Heading as="h2" mb="5" color={useColors('primary')}>
+      <Heading as="h2" mb="5">
         Leaderboard
       </Heading>
       {isLoading ? <Spinner /> : <LeaderboardTable />}

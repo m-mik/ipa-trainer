@@ -22,3 +22,9 @@ export type LessonWithPronunciations = {
   questions: QuestionWithPronunciations[]
   status: LessonStatus
 }
+
+export type PersistedSettings = {
+  language: Language
+  audioVolume: number
+  audioAutoPlay: boolean
+}

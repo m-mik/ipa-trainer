@@ -3,6 +3,7 @@ import { Answer, Language } from '@prisma/client'
 import { LessonWithPronunciations, QuestionWithPronunciations } from '../types'
 
 export enum ActionType {
+  Initialize = 'INITIALIZE',
   AppendSymbol = 'APPEND_SYMBOL',
   AddSymbol = 'ADD_SYMBOL',
   RemoveSymbol = 'REMOVE_SYMBOL',
@@ -13,6 +14,8 @@ export enum ActionType {
   SetActiveQuestion = 'SET_ACTIVE_QUESTION',
   DropSymbol = 'DROP_SYMBOL',
   SetLanguage = 'SET_LANGUAGE',
+  SetAudioVolume = 'SET_AUDIO_VOLUME',
+  SetAudioAutoPlay = 'SET_AUDIO_AUTO_PLAY',
 }
 
 export const activateNextQuestion = (
@@ -30,7 +33,10 @@ export const activateNextQuestion = (
 }
 
 export type LessonUiAction =
+  | { type: ActionType.Initialize }
   | { type: ActionType.SetLanguage; language: Language }
+  | { type: ActionType.SetAudioVolume; audioVolume: number }
+  | { type: ActionType.SetAudioAutoPlay; audioAutoPlay: boolean }
   | { type: ActionType.AppendSymbol; symbol: Symbol }
   | { type: ActionType.AddSymbol; payload: { symbol: Symbol; index: number } }
   | { type: ActionType.RemoveSymbol; index: number }

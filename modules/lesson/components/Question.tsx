@@ -3,14 +3,14 @@ import Audio from './Audio'
 import { Box, HStack, StackProps, Tag, Text } from '@chakra-ui/react'
 import LanguageControl from './LanguageControl'
 import React from 'react'
-import { Language, Answer } from '@prisma/client'
+import { Answer, Language } from '@prisma/client'
 import { ActionType } from '../store/lessonUiActions'
 import { useIsMutating } from 'react-query'
 
 function Question(props: StackProps) {
   const {
     dispatch,
-    state: { activeQuestion, language },
+    state: { activeQuestion, language, audioVolume, audioAutoPlay },
   } = useLessonUi()
   const isSavingQuestion = useIsMutating({ mutationKey: 'saveQuestion' }) > 0
 
@@ -38,7 +38,7 @@ function Question(props: StackProps) {
         <Box>
           <Tag size="sm">{activeQuestion.word.partOfSpeech}</Tag>
         </Box>
-        <Audio src={audio} />
+        <Audio src={audio} volume={audioVolume} autoPlay={audioAutoPlay} />
         <LanguageControl
           ml="auto"
           selectedLanguage={language}

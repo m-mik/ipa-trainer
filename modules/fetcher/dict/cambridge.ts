@@ -33,12 +33,12 @@ function extractWordDefinitionsFromSection(
       .replace(':', ''),
     pronunciations: [
       {
-        symbols: '.uk .ipa',
+        symbols: '.pos-header .uk .ipa',
         audio: '.uk source:first-of-type',
         language: Language.UK,
       },
       {
-        symbols: '.us .ipa',
+        symbols: '.pos-header .us .ipa',
         audio: '.us source:first-of-type',
         language: Language.US,
       },

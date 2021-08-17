@@ -32,7 +32,7 @@ async function initWords() {
 }
 
 async function initPronunciations() {
-  const wordsWithoutPronunciation = await findWordsWithoutPronunciation(5)
+  const wordsWithoutPronunciation = await findWordsWithoutPronunciation(20)
   console.log(
     `DB: Found ${wordsWithoutPronunciation.length} word(s) without a pronunciation`
   )

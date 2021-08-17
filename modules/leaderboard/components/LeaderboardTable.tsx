@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Box,
   BoxProps,
@@ -12,10 +13,10 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import Link from '@/common/components/Link'
-import useLeaderboard from '../hooks/useLeaderboard'
-import { useRouter } from 'next/router'
-import { USERS_PER_PAGE } from '../config'
 import { GiTrophyCup } from 'react-icons/gi'
+import { useRouter } from 'next/router'
+import useLeaderboard from '../hooks/useLeaderboard'
+import { USERS_PER_PAGE } from '../config'
 
 function LeaderboardTable(props: BoxProps) {
   const router = useRouter()

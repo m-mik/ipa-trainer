@@ -2,6 +2,7 @@ import { Container, Spinner, VStack } from '@chakra-ui/react'
 import { NextLayoutPage } from 'next'
 import React from 'react'
 import dynamic from 'next/dynamic'
+import Error from '@/components/Error'
 import useLessonUi from '@/modules/lesson/hooks/useLessonUi'
 import Keyboard from '@/modules/lesson/components/Keyboard'
 import Question from '@/modules/lesson/components/Question'
@@ -24,7 +25,11 @@ const Learn: NextLayoutPage = () => {
   const {
     state: { activeQuestion },
   } = useLessonUi()
-  const { isLoading, data } = useLesson()
+  const { isLoading, data, error } = useLesson()
+
+  if (error?.response) {
+    return <Error statusCode={error.response.data.code} />
+  }
 
   return (
     <Container maxW="container.lg">

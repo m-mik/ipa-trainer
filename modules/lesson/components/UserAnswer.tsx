@@ -20,7 +20,7 @@ import { ActionType, activateNextQuestion } from '../store/lessonUiActions'
 import useLessonUi from '../hooks/useLessonUi'
 import { FaArrowDown } from 'react-icons/fa'
 import useSaveQuestion from '../hooks/useSaveQuestion'
-import useLesson, { isLessonWithPronunciations } from '../hooks/useLesson'
+import useLesson from '../hooks/useLesson'
 import Symbol from './Symbol'
 
 const MotionBox = motion(chakra.div)
@@ -59,7 +59,7 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
   const confirm = () => {
     if (activeQuestion?.answer === Answer.NONE) {
       sendAnswer()
-    } else if (isLessonWithPronunciations(data)) {
+    } else if (data) {
       dispatch({ type: ActionType.ResetSymbols })
       dispatch(activateNextQuestion(data))
     }

@@ -1,1 +1,1 @@
-export { fetchPronunciations } from './fetchPronunciations'
+export { fetchWordDefinition } from './fetchWordDefinition'

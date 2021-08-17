@@ -43,7 +43,7 @@ export function findRandomWordsWithPronunciation(limit: number) {
     ON w.id = p."wordId" 
     GROUP BY w.id
 	  ORDER BY RANDOM()
-	  LIMIT ${limit}
+	  LIMIT ${limit};
   `
 }
 

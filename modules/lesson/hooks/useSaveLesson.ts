@@ -1,15 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 import { LessonStatus } from '@prisma/client'
-import { isResponseError } from '../utils'
 import { LessonWithPronunciations } from '../types'
-
-export type SaveLessonResponseError = {
-  error: string
-}
-export type SaveLessonResponseData =
-  | SaveLessonOptions['data']
-  | SaveLessonResponseError
 
 export type SaveLessonOptions = {
   lessonId: string
@@ -23,11 +15,12 @@ function useSaveLesson() {
 
   return useMutation(
     ({ data, lessonId }: SaveLessonOptions) =>
-      axios.patch(`/api/lesson/${lessonId}`, data).then((res) => res.data),
+      axios
+        .patch<SaveLessonOptions['data']>(`/api/lesson/${lessonId}`, data)
+        .then((res) => res.data),
     {
       mutationKey: 'saveLesson',
-      onSuccess(data: SaveLessonResponseData) {
-        if (isResponseError(data)) return
+      onSuccess(data) {
         queryClient.setQueryData<LessonWithPronunciations | undefined>(
           ['lesson'],
           (oldData) => {

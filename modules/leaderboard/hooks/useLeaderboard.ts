@@ -1,8 +1,9 @@
-import { useQuery, useQueryClient } from 'react-query'
-import axios from 'axios'
 import { useEffect } from 'react'
+import { useQuery, useQueryClient } from 'react-query'
+import axios, { AxiosError } from 'axios'
+import { ResponseError } from '@/common/types'
 
-export type LeaderboardResponseData = {
+export type Leaderboard = {
   users: Array<{
     id: string
     name: string
@@ -17,13 +18,12 @@ async function fetchLeaderboard(page: number) {
 
 function useLeaderboard(page: number) {
   const queryClient = useQueryClient()
-  const query = useQuery<LeaderboardResponseData>(
+  const query = useQuery<Leaderboard, AxiosError<ResponseError>>(
     ['leaderboard', page],
     () => fetchLeaderboard(page),
     {
       keepPreviousData: true,
       staleTime: 5000,
-      refetchOnWindowFocus: false,
     }
   )
 

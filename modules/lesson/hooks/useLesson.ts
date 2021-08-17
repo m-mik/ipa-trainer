@@ -1,41 +1,30 @@
 import { useQuery } from 'react-query'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import useLessonUi from './useLessonUi'
 import { activateNextQuestion } from '../store/lessonUiActions'
 import { LessonWithPronunciations } from '../types'
+import { ResponseError } from '@/common/types'
 
-export function isLessonWithPronunciations(
-  data: LessonResponseData
-): data is LessonWithPronunciations {
-  return typeof data?.questions !== 'undefined'
+function fetchLesson(): Promise<LessonWithPronunciations> {
+  return axios
+    .post<LessonWithPronunciations>('/api/lesson')
+    .then((res) => res.data)
 }
-
-export type LessonResponseError = {
-  error: string
-  id: never
-  status: never
-  questions: never
-}
-
-export type LessonResponseData =
-  | LessonWithPronunciations
-  | LessonResponseError
-  | undefined
 
 function useLesson() {
   const {
     dispatch,
     state: { activeQuestion },
   } = useLessonUi()
-  return useQuery(
+  return useQuery<LessonWithPronunciations, AxiosError<ResponseError>>(
     'lesson',
-    () => axios.post<LessonResponseData>('/api/lesson').then((res) => res.data),
+    fetchLesson,
     {
       retry: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
       onSuccess(data) {
-        if (isLessonWithPronunciations(data) && !activeQuestion) {
+        if (!activeQuestion) {
           dispatch(activateNextQuestion(data))
         }
       },

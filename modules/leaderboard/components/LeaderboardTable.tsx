@@ -16,7 +16,11 @@ import Link from '@/common/components/Link'
 import { GiTrophyCup } from 'react-icons/gi'
 import { useRouter } from 'next/router'
 import useLeaderboard from '../hooks/useLeaderboard'
-import { USERS_PER_PAGE } from '../config'
+import config from '@/common/config.json'
+
+const {
+  leaderboard: { usersPerPage },
+} = config
 
 function LeaderboardTable(props: BoxProps) {
   const router = useRouter()
@@ -35,7 +39,7 @@ function LeaderboardTable(props: BoxProps) {
   }
 
   const getUserPosition = (index: number) => {
-    return page * USERS_PER_PAGE - USERS_PER_PAGE + index + 1
+    return page * usersPerPage - usersPerPage + index + 1
   }
 
   return (

@@ -10,6 +10,12 @@ import {
   Word,
 } from '@prisma/client'
 
+import config from '@/common/config.json'
+
+const {
+  lesson: { questionsPerLesson },
+} = config
+
 const lessonSelect = {
   id: true,
   status: true,
@@ -58,7 +64,9 @@ export function findActiveLessonForUser(userId: User['id']) {
 }
 
 export async function createLessonForUser(userId: User['id']) {
-  const randomWordsWithPronunciation = await findRandomWordsWithPronunciation(3)
+  const randomWordsWithPronunciation = await findRandomWordsWithPronunciation(
+    questionsPerLesson
+  )
   return prisma.lesson.create({
     data: {
       userId,

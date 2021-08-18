@@ -1,0 +1,9 @@
+{
+  "lesson": {
+    "pointsPerCorrectAnswer": 50,
+    "questionsPerLesson": 3
+  },
+  "leaderboard": {
+    "usersPerPage": 15
+  }
+}

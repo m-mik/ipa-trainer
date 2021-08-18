@@ -26,7 +26,11 @@ import { getAnswerCountByType } from '../utils'
 import WordPopover from './WordPopover'
 import { useQueryClient } from 'react-query'
 import useSaveLesson from '../hooks/useSaveLesson'
-import { CORRECT_ANSWER_POINTS } from '../config'
+import config from '@/common/config.json'
+
+const {
+  lesson: { pointsPerCorrectAnswer },
+} = config
 
 function LessonSummary(props: TableProps) {
   const [session, loading, refetchSession] = useSession()
@@ -61,7 +65,7 @@ function LessonSummary(props: TableProps) {
     (correctAnswersCount / questions.length) * 100
   )
 
-  const pointsEarned = correctAnswersCount * CORRECT_ANSWER_POINTS
+  const pointsEarned = correctAnswersCount * pointsPerCorrectAnswer
 
   return (
     <VStack spacing="8">

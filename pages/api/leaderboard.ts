@@ -1,7 +1,7 @@
 import nc from 'next-connect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import errorHandler from '@/common/middlewares/errorHandler'
-import { findUsersWithPoints } from '@/common/services/userService'
+import { findUsersWithPoints } from '@/modules/leaderboard/services/leaderboardService'
 
 const handler = nc<NextApiRequest, NextApiResponse>({
   onError: errorHandler,

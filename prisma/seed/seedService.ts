@@ -1,5 +1,5 @@
 import { PartOfSpeech, Pronunciation, Word } from '@prisma/client'
-import prisma from '../db'
+import prisma from '@/common/db'
 
 export function createWords(
   words: Array<{ name: string; partOfSpeech: PartOfSpeech }>
@@ -10,7 +10,7 @@ export function createWords(
   })
 }
 
-type CreatePronunciationsOptions = {
+type CreatePronunciationsData = {
   wordId: Word['id']
   name: Word['name']
   definition: Word['definition']
@@ -28,7 +28,7 @@ export function createPronunciations({
   definition,
   partOfSpeech,
   pronunciations,
-}: CreatePronunciationsOptions) {
+}: CreatePronunciationsData) {
   return prisma.$transaction([
     prisma.pronunciation.createMany({
       data: pronunciations.map((pronunciation) => ({

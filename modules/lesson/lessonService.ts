@@ -186,22 +186,3 @@ export function updateLesson({ lessonId, userId, data }: UpdateLessonOptions) {
     data,
   })
 }
-
-export function findLessonsByUserId(userId: User['id'], page: number) {
-  const limit = 20
-  const offset = limit * page - limit
-  return prisma.$queryRaw<LessonWithAnswersCount[]>`
-    SELECT l.id, 
-           l."createdAt",
-           COUNT(CASE WHEN q.answer = 'CORRECT' THEN 1 END) AS "correct", 
-           COUNT(CASE WHEN q.answer = 'INCORRECT' THEN 1 END) AS "incorrect",
-           COUNT(CASE WHEN q.answer = 'NONE' THEN 1 END) AS "none"
-    FROM "Lesson" l
-    JOIN "User" u ON l."userId" = u.id
-    JOIN "Question" q ON q."lessonId" = l.id
-    WHERE u.name = 'demo'
-    GROUP BY l.id
-    LIMIT ${limit}
-    OFFSET ${offset};
-  `
-}

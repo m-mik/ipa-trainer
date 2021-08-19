@@ -68,11 +68,3 @@ export function symbolsToArray(symbols: string) {
   }
   return result
 }
-
-type ResponseError = {
-  error: string
-}
-
-export function isResponseError(data: any): data is ResponseError {
-  return typeof data.error !== 'undefined'
-}

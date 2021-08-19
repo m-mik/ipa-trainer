@@ -2,15 +2,13 @@ import nc from 'next-connect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/client'
 import Joi from 'joi'
-import {
-  findLessonsByUserId,
-  findOrCreateActiveLessonForUser,
-} from '@/modules/lesson/lessonService'
 import errorHandler from '@/middlewares/errorHandler'
 import { requireAuth } from '@/middlewares/requireAuth'
 import { removeUnansweredQuestionSymbols } from '@/modules/lesson/utils'
 import validate from '@/middlewares/validation'
 import { LessonWithPronunciations } from '@/common/types/LessonWithPronunciations'
+import { findLessonsByUserId } from '@/modules/user/userService'
+import { findOrCreateActiveLessonForUser } from '@/modules/lesson/lessonService'
 
 const getLessonsSchema = {
   query: Joi.object({

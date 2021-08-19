@@ -20,6 +20,7 @@
     "@prisma/client": "^2.29.0",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.10",
+    "date-fns": "^2.23.0",
     "eslint-config-prettier": "^8.3.0",
     "framer-motion": "^4.1.17",
     "joi": "^17.4.2",

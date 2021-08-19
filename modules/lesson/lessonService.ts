@@ -67,6 +67,7 @@ export async function createLessonForUser(userId: User['id']) {
   const randomWordsWithPronunciation = await findRandomWordsWithPronunciation(
     questionsPerLesson
   )
+
   return prisma.lesson.create({
     data: {
       userId,
@@ -182,5 +183,24 @@ export function updateLesson({ lessonId, userId, data }: UpdateLessonOptions) {
       status: LessonStatus.ACTIVE,
     },
     data,
+  })
+}
+
+export function findLessonsForUser(userId: User['id'], page: number) {
+  const limit = 20
+  const offset = limit * page - limit
+  return prisma.lesson.findMany({
+    select: {
+      id: true,
+      createdAt: true,
+    },
+    where: {
+      userId,
+    },
+    take: limit,
+    skip: offset,
+    orderBy: {
+      createdAt: 'desc',
+    },
   })
 }

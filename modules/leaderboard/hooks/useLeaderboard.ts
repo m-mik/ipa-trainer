@@ -2,10 +2,15 @@ import { useEffect } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import axios, { AxiosError } from 'axios'
 import { ResponseError } from '@/common/types'
-import { Leaderboard } from '../types'
+import { UserWithPoints } from '@/common/services/userService'
 
 async function fetchLeaderboard(page: number) {
   return axios.get(`/api/leaderboard?page=${page}`).then((res) => res.data)
+}
+
+type Leaderboard = {
+  users: UserWithPoints[]
+  hasMore: boolean
 }
 
 function useLeaderboard(page: number) {

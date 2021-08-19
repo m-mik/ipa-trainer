@@ -29,13 +29,17 @@ function UserMenu(props: UserMenuProps) {
   const queryClient = useQueryClient()
   const [session, loading] = useSession()
   const { dispatch } = useSessionUi()
-  const signInColor = useColors('highlight')
+
+  const colors = {
+    signIn: useColors('highlight'),
+    points: useColors('highlight'),
+  }
 
   if (loading) return <Spinner />
   if (!session || !session.user) {
     return (
       <Link href="/auth/sign-in">
-        <Button variant="link" color={signInColor}>
+        <Button variant="link" color={colors.signIn}>
           Sign In
         </Button>
       </Link>
@@ -57,7 +61,7 @@ function UserMenu(props: UserMenuProps) {
           <UserAvatar src={image ?? undefined} />
           <Box ml="3" textAlign="left">
             <Text fontWeight="bold">{name}</Text>
-            <Text fontWeight="bold" fontSize="sm" color="primary">
+            <Text fontWeight="bold" fontSize="sm" color={colors.points}>
               {points.toLocaleString()} points
             </Text>
           </Box>

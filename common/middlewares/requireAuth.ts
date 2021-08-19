@@ -8,7 +8,7 @@ export async function requireAuth(
 ) {
   const session = await getSession({ req })
   if (!session || !session.user) {
-    return res.status(401).json({ error: 'Unauthorized' })
+    return res.status(401).json({ message: 'Unauthorized', code: 401 })
   }
   next()
 }

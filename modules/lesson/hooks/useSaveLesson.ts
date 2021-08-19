@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 import { LessonStatus } from '@prisma/client'
-import { LessonWithPronunciations } from '../types'
+import { LessonWithPronunciations } from '@/common/types/LessonWithPronunciations'
 
 export type SaveLessonOptions = {
   lessonId: string

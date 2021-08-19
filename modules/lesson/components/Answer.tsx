@@ -8,7 +8,7 @@ import {
 import React from 'react'
 import useLessonUi from '../hooks/useLessonUi'
 import Symbol from './Symbol'
-import useColors from '@/common/hooks/useColors'
+import useColors from '@/hooks/useColors'
 import { symbolsToArray } from '../utils'
 
 function Answer(props: StackProps) {

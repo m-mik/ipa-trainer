@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from 'react'
 import { Box, Spinner, Text } from '@chakra-ui/react'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import useIntersection from 'react-use/lib/useIntersection'
-import useUser from '@/common/hooks/useUser'
-import Error from '@/common/components/Error'
-import UserAvatar from '@/common/components/UserAvatar'
-import useColors from '@/common/hooks/useColors'
-import Card from '@/common/components/Card'
-import useInfiniteLessons from '@/common/hooks/useInfiniteLessons'
+import useUser from '../hooks/useUser'
+import Error from '@/components/Error'
+import UserAvatar from '@/components/UserAvatar'
+import useColors from '@/hooks/useColors'
+import Card from '@/components/Card'
+import useInfiniteLessons from '../hooks/useInfiniteLessons'
 
 type UserProfileProps = {
   userId: string

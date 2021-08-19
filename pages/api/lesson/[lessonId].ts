@@ -4,9 +4,9 @@ import { Session } from 'next-auth'
 import Joi from 'joi'
 import { getSession } from 'next-auth/client'
 import { updateLesson } from '@/modules/lesson/lessonService'
-import errorHandler from '@/common/middlewares/errorHandler'
-import { requireAuth } from '@/common/middlewares/requireAuth'
-import validate from '@/common/middlewares/validation'
+import errorHandler from '@/middlewares/errorHandler'
+import { requireAuth } from '@/middlewares/requireAuth'
+import validate from '@/middlewares/validation'
 import { LessonStatus } from '@prisma/client'
 
 const updateLessonSchema = {

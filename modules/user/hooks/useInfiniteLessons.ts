@@ -1,14 +1,10 @@
 import { useInfiniteQuery } from 'react-query'
 import axios, { AxiosError } from 'axios'
-import { ResponseError } from '../types'
-
-type Lesson = {
-  id: string
-  createdAt: Date
-}
+import { LessonWithAnswersCount } from '@/common/types/LessonWithAnswersCount'
+import { ResponseError } from '@/common/types/ResponseError'
 
 type QueryResult = {
-  data: Lesson[]
+  data: LessonWithAnswersCount[]
   previous: number
   next: number
 }

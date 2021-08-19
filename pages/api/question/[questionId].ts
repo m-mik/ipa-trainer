@@ -4,9 +4,9 @@ import { getSession } from 'next-auth/client'
 import Joi from 'joi'
 import { answerQuestion } from '@/modules/lesson/lessonService'
 import validate from '@/middlewares/validation'
-import errorHandler from '@/common/middlewares/errorHandler'
+import errorHandler from '@/middlewares/errorHandler'
 import { Language } from '@prisma/client'
-import { requireAuth } from '@/common/middlewares/requireAuth'
+import { requireAuth } from '@/middlewares/requireAuth'
 import { Session } from 'next-auth'
 
 const saveQuestionSchema = {

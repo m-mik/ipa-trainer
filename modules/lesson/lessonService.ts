@@ -9,8 +9,8 @@ import {
   User,
   Word,
 } from '@prisma/client'
-
 import config from '@/common/config.json'
+import { LessonWithAnswersCount } from '@/common/types/LessonWithAnswersCount'
 
 const {
   lesson: { questionsPerLesson },
@@ -44,7 +44,8 @@ const lessonSelect = {
 
 export function findRandomWordsWithPronunciation(limit: number) {
   return prisma.$queryRaw<Word[]>`
-    SELECT w.id FROM "Word" w 
+    SELECT w.id 
+    FROM "Word" w 
     JOIN "Pronunciation" p 
     ON w.id = p."wordId" 
     GROUP BY w.id
@@ -186,21 +187,21 @@ export function updateLesson({ lessonId, userId, data }: UpdateLessonOptions) {
   })
 }
 
-export function findLessonsForUser(userId: User['id'], page: number) {
+export function findLessonsByUserId(userId: User['id'], page: number) {
   const limit = 20
   const offset = limit * page - limit
-  return prisma.lesson.findMany({
-    select: {
-      id: true,
-      createdAt: true,
-    },
-    where: {
-      userId,
-    },
-    take: limit,
-    skip: offset,
-    orderBy: {
-      createdAt: 'desc',
-    },
-  })
+  return prisma.$queryRaw<LessonWithAnswersCount[]>`
+    SELECT l.id, 
+           l."createdAt",
+           COUNT(CASE WHEN q.answer = 'CORRECT' THEN 1 END) AS "correct", 
+           COUNT(CASE WHEN q.answer = 'INCORRECT' THEN 1 END) AS "incorrect",
+           COUNT(CASE WHEN q.answer = 'NONE' THEN 1 END) AS "none"
+    FROM "Lesson" l
+    JOIN "User" u ON l."userId" = u.id
+    JOIN "Question" q ON q."lessonId" = l.id
+    WHERE u.name = 'demo'
+    GROUP BY l.id
+    LIMIT ${limit}
+    OFFSET ${offset};
+  `
 }

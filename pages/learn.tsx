@@ -11,7 +11,7 @@ import LessonProgress from '@/modules/lesson/components/LessonProgress'
 import LessonSummary from '@/modules/lesson/components/LessonSummary'
 import Card from '@/components/Card'
 import Answer from '@/modules/lesson/components/Answer'
-import withAuth from '@/common/hocs/withAuth'
+import withAuth from '@/hocs/withAuth'
 import { Answer as AnswerType } from '@prisma/client'
 
 const UserAnswer = dynamic(

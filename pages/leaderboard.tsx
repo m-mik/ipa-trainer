@@ -4,7 +4,7 @@ import { NextLayoutPage } from 'next'
 import { useRouter } from 'next/router'
 import useLeaderboard from '@/modules/leaderboard/hooks/useLeaderboard'
 import LeaderboardTable from '@/modules/leaderboard/components/LeaderboardTable'
-import Error from '@/common/components/Error'
+import Error from '@/components/Error'
 
 const Leaderboard: NextLayoutPage = () => {
   const router = useRouter()

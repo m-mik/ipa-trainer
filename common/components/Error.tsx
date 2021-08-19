@@ -2,7 +2,7 @@ import { Box, BoxProps, Heading, Icon } from '@chakra-ui/react'
 import { VscError } from 'react-icons/vsc'
 import { BiError } from 'react-icons/bi'
 import { IconType } from 'react-icons'
-import useColors from '@/common/hooks/useColors'
+import useColors from '@/hooks/useColors'
 import { NextPageContext } from 'next'
 
 type ErrorProps = BoxProps & {

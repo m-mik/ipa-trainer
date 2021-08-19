@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import { useQuery } from 'react-query'
-import { ResponseError } from '../types'
-import { UserWithPoints } from '../services/userService'
+import { UserWithPoints } from '@/common/types/UserWithPoints'
+import { ResponseError } from '@/common/types/ResponseError'
 
 async function fetchUserById(userId: string) {
   return axios

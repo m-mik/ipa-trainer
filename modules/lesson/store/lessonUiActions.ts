@@ -1,6 +1,7 @@
 import { Symbol } from '@/data/IPA'
 import { Answer, Language } from '@prisma/client'
-import { LessonWithPronunciations, QuestionWithPronunciations } from '../types'
+import { LessonWithPronunciations } from '@/common/types/LessonWithPronunciations'
+import { QuestionWithPronunciations } from '@/common/types/QuestionWithPronunciations'
 
 export enum ActionType {
   Initialize = 'INITIALIZE',

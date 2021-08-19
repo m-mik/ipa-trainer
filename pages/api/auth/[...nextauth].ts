@@ -5,7 +5,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prisma from '@/common/db'
 import { Credentials } from '@/modules/auth/types/Credentials'
 import { loginDemoUser } from '@/modules/auth/authService'
-import { calculateUserPoints } from '@/common/services/userService'
+import { calculateUserPoints } from '@/modules/leaderboard/leaderboardService'
 
 interface NextAuthUserWithStringId extends NextAuthUser {
   id: string

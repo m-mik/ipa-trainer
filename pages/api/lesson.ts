@@ -3,14 +3,14 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/client'
 import Joi from 'joi'
 import {
-  findLessonsForUser,
+  findLessonsByUserId,
   findOrCreateActiveLessonForUser,
 } from '@/modules/lesson/lessonService'
-import errorHandler from '@/common/middlewares/errorHandler'
-import { requireAuth } from '@/common/middlewares/requireAuth'
+import errorHandler from '@/middlewares/errorHandler'
+import { requireAuth } from '@/middlewares/requireAuth'
 import { removeUnansweredQuestionSymbols } from '@/modules/lesson/utils'
-import { LessonWithPronunciations } from '@/modules/lesson/types'
-import validate from '@/common/middlewares/validation'
+import validate from '@/middlewares/validation'
+import { LessonWithPronunciations } from '@/common/types/LessonWithPronunciations'
 
 const getLessonsSchema = {
   query: Joi.object({
@@ -25,8 +25,8 @@ const handler = nc<NextApiRequest, NextApiResponse>({
   .get(validate(getLessonsSchema), async (req, res) => {
     const userId = String(req.query.userId)
     const page = Math.max(1, Number(req.query.page))
-    const lessons = await findLessonsForUser(userId, page)
-    const nextPageLessons = await findLessonsForUser(userId, page + 1)
+    const lessons = await findLessonsByUserId(userId, page)
+    const nextPageLessons = await findLessonsByUserId(userId, page + 1)
     res.json({
       next: nextPageLessons.length ? page + 1 : false,
       data: lessons,

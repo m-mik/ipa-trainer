@@ -10,8 +10,8 @@ import {
   useColorModeValue,
   useOutsideClick,
 } from '@chakra-ui/react'
-import useColors from '@/common/hooks/useColors'
-import useKey from '@/common/hooks/useKey'
+import useColors from '@/hooks/useColors'
+import useKey from '@/hooks/useKey'
 import { motion } from 'framer-motion'
 import { AiOutlineSend } from 'react-icons/ai'
 import { Answer } from '@prisma/client'

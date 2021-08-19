@@ -15,7 +15,7 @@ import Card from '@/components/Card'
 import DividerWithText from '@/components/DividerWithText'
 import LoginForm from '@/modules/auth/components/LoginForm'
 import { Credentials } from '@/modules/auth/types/Credentials'
-import useSession from '@/common/hooks/useSession'
+import useSession from '@/hooks/useSession'
 
 interface Provider {
   name: string

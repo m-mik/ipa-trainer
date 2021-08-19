@@ -1,9 +1,9 @@
 import nc from 'next-connect'
 import { NextApiRequest, NextApiResponse } from 'next'
-import errorHandler from '@/common/middlewares/errorHandler'
-import { findUsers } from '@/common/services/userService'
-import validate from '@/common/middlewares/validation'
 import Joi from 'joi'
+import errorHandler from '@/middlewares/errorHandler'
+import validate from '@/middlewares/validation'
+import { findUsers } from '@/modules/leaderboard/leaderboardService'
 
 const getLeaderboard = {
   query: Joi.object({
@@ -15,11 +15,11 @@ const handler = nc<NextApiRequest, NextApiResponse>({
   onError: errorHandler,
 }).get(validate(getLeaderboard), async (req, res) => {
   const page = Math.max(1, Number(req.query.page))
-  const usersWithPoints = await findUsers(page)
-  const nextPageUsersWithPoints = await findUsers(page + 1)
+  const users = await findUsers(page)
+  const nextPageUsers = await findUsers(page + 1)
   res.json({
-    users: usersWithPoints,
-    hasMore: !!nextPageUsersWithPoints.length,
+    users: users,
+    hasMore: !!nextPageUsers.length,
   })
 })
 

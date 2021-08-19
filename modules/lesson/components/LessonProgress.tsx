@@ -1,7 +1,7 @@
-import { Box, chakra, HStack, useColorModeValue } from '@chakra-ui/react'
+import { chakra, HStack } from '@chakra-ui/react'
 import { Answer, Question } from '@prisma/client'
-import useColors from '@/common/hooks/useColors'
 import { motion } from 'framer-motion'
+import useColors from '@/hooks/useColors'
 import { getAnswerCountByType } from '../utils'
 
 const MotionBox = motion(chakra.div)
@@ -14,12 +14,6 @@ type LessonProgressProps = {
 }
 
 function LessonProgress({ questions }: LessonProgressProps) {
-  const bgColor = {
-    [Answer.NONE]: useColors('primary'),
-    [Answer.CORRECT]: useColorModeValue('green.600', 'green.400'),
-    [Answer.INCORRECT]: useColorModeValue('red.600', 'red.400'),
-  }
-
   const { CORRECT, INCORRECT } = getAnswerCountByType(questions)
   const answeredQuestionsPercentage = Math.floor(
     ((CORRECT + INCORRECT) / questions.length) * 100

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import useLocalStorage from 'react-use/lib/useLocalStorage'
 import useLessonUi from './useLessonUi'
-import { PersistedSettings } from '../types'
+import { PersistedSettings } from '../types/PersistedSettings'
 
 function usePersistSettings() {
   const {

@@ -1,9 +1,9 @@
 import nc from 'next-connect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import Joi from 'joi'
-import errorHandler from '@/common/middlewares/errorHandler'
-import { findUserById } from '@/common/services/userService'
-import validate from '@/common/middlewares/validation'
+import errorHandler from '@/middlewares/errorHandler'
+import validate from '@/middlewares/validation'
+import { findUserById } from '@/modules/user/userService'
 
 const getUserSchema = {
   query: Joi.object({

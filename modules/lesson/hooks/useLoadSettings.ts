@@ -3,7 +3,7 @@ import { Language } from '@prisma/client'
 import useLocalStorage from 'react-use/lib/useLocalStorage'
 import { ActionType } from '../store/lessonUiActions'
 import useLessonUi from './useLessonUi'
-import { PersistedSettings } from '../types'
+import { PersistedSettings } from '../types/PersistedSettings'
 
 function useLoadSettings() {
   const {

@@ -12,7 +12,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import Link from '@/common/components/Link'
+import Link from '@/components/Link'
 import { GiTrophyCup } from 'react-icons/gi'
 import { useRouter } from 'next/router'
 import useLeaderboard from '../hooks/useLeaderboard'

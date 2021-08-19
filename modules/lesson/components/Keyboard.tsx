@@ -13,7 +13,7 @@ import IPA, { Symbol } from '@/data/IPA'
 import useLessonUi from '../hooks/useLessonUi'
 import { ActionType } from '../store/lessonUiActions'
 import SymbolTooltipLabel from './SymbolTooltipLabel'
-import useKey from '@/common/hooks/useKey'
+import useKey from '@/hooks/useKey'
 import { getAlphabetSymbols } from '../utils'
 
 function Keyboard(props: StackProps) {

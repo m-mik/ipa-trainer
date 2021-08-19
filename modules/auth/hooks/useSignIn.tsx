@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query'
 import { signIn } from 'next-auth/client'
 import { Credentials } from '../types/Credentials'
-import useSession from '@/common/hooks/useSession'
+import useSession from '@/hooks/useSession'
 
 function useSignIn() {
   const [session, loading, refetchSession] = useSession()

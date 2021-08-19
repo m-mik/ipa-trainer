@@ -27,6 +27,9 @@
       "@/hooks/*": [
         "common/hooks/*"
       ],
+      "@/hocs/*": [
+        "common/hocs/*"
+      ],
       "@/components/*": [
         "common/components/*"
       ],

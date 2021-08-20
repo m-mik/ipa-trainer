@@ -1,11 +1,15 @@
-export function removeByIndex(array: any[], index: number) {
+export function removeByIndex<T>(array: T[], index: number): T[] {
   return array.filter((_, i) => i !== index)
 }
 
-export function updateByIndex(array: any[], index: number, value: any) {
+export function updateByIndex<T, V>(
+  array: T[],
+  index: number,
+  value: V
+): (T | V)[] {
   return array.map((item, i) => (i === index ? value : item))
 }
 
-export function addToArray(array: any[], value: any) {
+export function addToArray<T, V>(array: T[], value: V): (T | V)[] {
   return [...array, value]
 }

@@ -10,7 +10,6 @@ import {
   Word,
 } from '@prisma/client'
 import config from '@/common/config.json'
-import { LessonWithAnswersCount } from '@/common/types/LessonWithAnswersCount'
 
 const {
   lesson: { questionsPerLesson },

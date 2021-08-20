@@ -15,9 +15,6 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/app/*": [
-        "app/*"
-      ],
       "@/common/*": [
         "common/*"
       ],
@@ -29,6 +26,9 @@
       ],
       "@/hocs/*": [
         "common/hocs/*"
+      ],
+      "@/types/*": [
+        "common/types/*"
       ],
       "@/components/*": [
         "common/components/*"

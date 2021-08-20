@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import axios, { AxiosError } from 'axios'
-import { UserWithPoints } from '@/common/types/UserWithPoints'
-import { ResponseError } from '@/common/types/ResponseError'
+import { UserWithPoints } from '@/types/UserWithPoints'
+import { ResponseError } from '@/types/ResponseError'
 
 async function fetchLeaderboard(page: number) {
   return axios.get(`/api/leaderboard?page=${page}`).then((res) => res.data)

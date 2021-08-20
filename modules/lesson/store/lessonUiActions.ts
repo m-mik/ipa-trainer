@@ -1,12 +1,11 @@
 import { Symbol } from '@/data/IPA'
 import { Answer, Language } from '@prisma/client'
-import { LessonWithPronunciations } from '@/common/types/LessonWithPronunciations'
-import { QuestionWithPronunciations } from '@/common/types/QuestionWithPronunciations'
+import { LessonWithPronunciations } from '@/types/LessonWithPronunciations'
+import { QuestionWithPronunciations } from '@/types/QuestionWithPronunciations'
 
 export enum ActionType {
   Initialize = 'INITIALIZE',
   AppendSymbol = 'APPEND_SYMBOL',
-  AddSymbol = 'ADD_SYMBOL',
   RemoveSymbol = 'REMOVE_SYMBOL',
   SetSymbol = 'SET_SYMBOL',
   ResetSymbols = 'RESET_SYMBOLS',
@@ -39,7 +38,6 @@ export type LessonUiAction =
   | { type: ActionType.SetAudioVolume; audioVolume: number }
   | { type: ActionType.SetAudioAutoPlay; audioAutoPlay: boolean }
   | { type: ActionType.AppendSymbol; symbol: Symbol }
-  | { type: ActionType.AddSymbol; payload: { symbol: Symbol; index: number } }
   | { type: ActionType.RemoveSymbol; index: number }
   | { type: ActionType.SetSymbol; payload: { index: number; symbol: Symbol } }
   | { type: ActionType.ResetSymbols }

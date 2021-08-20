@@ -1,0 +1,35 @@
+module.exports = {
+  collectCoverageFrom: [
+    '**/*.{js,jsx,ts,tsx}',
+    '!**/*.d.ts',
+    '!**/node_modules/**',
+  ],
+  moduleNameMapper: {
+    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+    '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
+    '^.+\\.(jpg|jpeg|png|gif|webp|svg)$': `<rootDir>/__mocks__/fileMock.js`,
+    '^@/common/(.*)$': '<rootDir>/common/$1',
+    '^@/components/(.*)$': '<rootDir>/common/components/$1',
+    '^@/data/(.*)$': '<rootDir>/common/data/$1',
+    '^@/hooks/(.*)$': '<rootDir>/common/hooks/$1',
+    '^@/hocs/(.*)$': '<rootDir>/common/hocs/$1',
+    '^@/types/(.*)$': '<rootDir>/common/types/$1',
+    '^@/utils/(.*)$': '<rootDir>/common/utils/$1',
+    '^@/services/(.*)$': '<rootDir>/common/services/$1',
+    '^@/middlewares/(.*)$': '<rootDir>/common/middlewares/$1',
+    '^@/layouts/(.*)$': '<rootDir>/layouts/$1',
+    '^@/modules/(.*)$': '<rootDir>/modules/$1',
+    '^@/pages/(.*)$': '<rootDir>/pages/$1',
+    '^@/prisma/(.*)$': '<rootDir>/prisma/$1',
+    '^@/theme/(.*)$': '<rootDir>/theme/$1',
+    '^@/public/(.*)$': '<rootDir>/public/$1',
+  },
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
+  },
+  transformIgnorePatterns: [
+    '/node_modules/',
+    '^.+\\.module\\.(css|sass|scss)$',
+  ],
+}

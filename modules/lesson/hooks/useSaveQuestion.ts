@@ -3,8 +3,8 @@ import axios from 'axios'
 import { Language } from '@prisma/client'
 import useLessonUi from './useLessonUi'
 import { ActionType } from '../store/lessonUiActions'
-import { LessonWithPronunciations } from '@/common/types/LessonWithPronunciations'
-import { QuestionWithPronunciations } from '@/common/types/QuestionWithPronunciations'
+import { LessonWithPronunciations } from '@/types/LessonWithPronunciations'
+import { QuestionWithPronunciations } from '@/types/QuestionWithPronunciations'
 
 export type SaveQuestionOptions = {
   questionId: string

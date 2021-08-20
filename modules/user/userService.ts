@@ -1,8 +1,9 @@
 import { User } from 'next-auth'
 import prisma from '@/common/db'
 import config from '@/common/config.json'
-import { UserWithPoints } from '@/common/types/UserWithPoints'
-import { LessonWithAnswersCount } from '@/common/types/LessonWithAnswersCount'
+import { Answer } from '@prisma/client'
+import { UserWithPoints } from '@/types/UserWithPoints'
+import { LessonWithAnswersCount } from '@/types/LessonWithAnswersCount'
 
 const { lesson } = config
 
@@ -30,9 +31,9 @@ export function findLessonsByUserId(userId: User['id'], page: number) {
   return prisma.$queryRaw<LessonWithAnswersCount[]>`
     SELECT l.id, 
            l."createdAt",
-           COUNT(CASE WHEN q.answer = 'CORRECT' THEN 1 END) AS "correct", 
-           COUNT(CASE WHEN q.answer = 'INCORRECT' THEN 1 END) AS "incorrect",
-           COUNT(CASE WHEN q.answer = 'NONE' THEN 1 END) AS "none"
+           COUNT(CASE WHEN q.answer = ${Answer.CORRECT} THEN 1 END) AS "correct", 
+           COUNT(CASE WHEN q.answer = ${Answer.INCORRECT} THEN 1 END) AS "incorrect",
+           COUNT(CASE WHEN q.answer = ${Answer.NONE} THEN 1 END) AS "none"
     FROM "Lesson" l
     JOIN "User" u ON l."userId" = u.id
     JOIN "Question" q ON q."lessonId" = l.id

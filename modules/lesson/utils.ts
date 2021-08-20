@@ -1,6 +1,6 @@
 import { Answer, Language } from '@prisma/client'
 import IPA, { Alphabet, Symbol } from '@/common/data/IPA'
-import { LessonWithPronunciations } from '@/common/types/LessonWithPronunciations'
+import { LessonWithPronunciations } from '@/types/LessonWithPronunciations'
 
 export function getAnswerCountByType(questions: Array<{ answer: Answer }>) {
   return questions.reduce(

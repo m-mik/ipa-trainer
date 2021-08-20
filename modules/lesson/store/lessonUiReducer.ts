@@ -2,7 +2,7 @@ import { addToArray, removeByIndex, updateByIndex } from '@/utils/array'
 import { Symbol } from '@/data/IPA'
 import { Language } from '@prisma/client'
 import { ActionType, LessonUiAction } from './lessonUiActions'
-import { QuestionWithPronunciations } from '@/common/types/QuestionWithPronunciations'
+import { QuestionWithPronunciations } from '@/types/QuestionWithPronunciations'
 
 export type LessonUiState = Readonly<{
   symbols: Symbol[]
@@ -51,12 +51,6 @@ export function lessonUiReducer(state: LessonUiState, action: LessonUiAction) {
       return {
         ...state,
         symbols: addToArray(state.symbols, action.symbol),
-      }
-    }
-    case ActionType.AddSymbol: {
-      return {
-        ...state,
-        symbols: addToArray(state.symbols, action.payload),
       }
     }
     case ActionType.RemoveSymbol: {

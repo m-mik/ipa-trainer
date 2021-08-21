@@ -1,4 +1,4 @@
-import { addToArray, removeByIndex, updateByIndex } from '@/common/utils/array'
+import { addToArray, removeByIndex, updateByIndex } from '@/utils/array'
 
 describe('array utils', () => {
   let array: number[]

@@ -1,4 +1,5 @@
 module.exports = {
+  testEnvironment: 'jsdom',
   collectCoverageFrom: [
     '**/*.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
@@ -23,6 +24,7 @@ module.exports = {
     '^@/prisma/(.*)$': '<rootDir>/prisma/$1',
     '^@/theme/(.*)$': '<rootDir>/theme/$1',
     '^@/public/(.*)$': '<rootDir>/public/$1',
+    'test-utils': '<rootDir>/common/utils/test-utils.tsx',
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
   transform: {
@@ -32,4 +34,5 @@ module.exports = {
     '/node_modules/',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 }

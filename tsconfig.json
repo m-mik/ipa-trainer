@@ -59,6 +59,9 @@
       ],
       "@/public/*": [
         "public/*"
+      ],
+      "test-utils": [
+        "common/utils/test-utils"
       ]
     }
   },

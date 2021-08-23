@@ -11,7 +11,7 @@ describe('fetchWordDefinition', () => {
   let data: Record<string, string>
 
   beforeAll(async () => {
-    const words = ['dog', 'pronunciation', 'are']
+    const words = ['dog', 'pronunciation', 'are', 'honor']
     const filesContents = await Promise.all(
       words.map(
         async (fileName) =>
@@ -133,6 +133,60 @@ describe('fetchWordDefinition', () => {
             'https://dictionary.cambridge.org/media/english/us_pron/a/are/are__/are.mp3',
           language: 'US',
           symbols: 'ɚ',
+        },
+      ],
+    })
+  })
+
+  it(`handles cases where parts of speech are displayed in one line, e.g. HONOR noun, verb [ T ]`, async () => {
+    mockedAxios.get.mockResolvedValue({ data: data.honor })
+
+    const honorVerb = await fetchWordDefinition({
+      name: 'honor',
+      partOfSpeech: PartOfSpeech.VERB,
+    })
+
+    expect(honorVerb).toEqual({
+      definition: 'US spelling of honour',
+      name: 'honor',
+      partOfSpeech: 'VERB',
+      pronunciations: [
+        {
+          audio:
+            'https://dictionary.cambridge.org/media/english/uk_pron/u/ukh/ukhon/ukhonor003.mp3',
+          language: 'UK',
+          symbols: 'ˈɒn.ər',
+        },
+        {
+          audio:
+            'https://dictionary.cambridge.org/media/english/us_pron/h/hon/honor/honor.mp3',
+          language: 'US',
+          symbols: 'ˈɑː.nɚ',
+        },
+      ],
+    })
+
+    const honorNoun = await fetchWordDefinition({
+      name: 'honor',
+      partOfSpeech: PartOfSpeech.NOUN,
+    })
+
+    expect(honorNoun).toEqual({
+      definition: 'US spelling of honour',
+      name: 'honor',
+      partOfSpeech: 'NOUN',
+      pronunciations: [
+        {
+          audio:
+            'https://dictionary.cambridge.org/media/english/uk_pron/u/ukh/ukhon/ukhonor003.mp3',
+          language: 'UK',
+          symbols: 'ˈɒn.ər',
+        },
+        {
+          audio:
+            'https://dictionary.cambridge.org/media/english/us_pron/h/hon/honor/honor.mp3',
+          language: 'US',
+          symbols: 'ˈɑː.nɚ',
         },
       ],
     })

@@ -15,15 +15,13 @@ const cambridge: Dictionary = {
   },
 }
 
-function extractWordDefinitionsFromSection(
+function createWordDefinition(
+  partOfSpeech: PartOfSpeech,
   section: Cheerio<Element>
-): WordDefinition {
+) {
   const wordDefinition = {
     name: section.find('.dhw')?.first().text(),
-    partOfSpeech: section
-      .find('.pos:first-of-type')
-      ?.text()
-      .toUpperCase() as PartOfSpeech,
+    partOfSpeech,
     definition: section
       .find('.def')
       .first()
@@ -73,6 +71,22 @@ function extractWordDefinitionsFromSection(
       (item) => item.symbols
     ),
   }
+}
+
+function extractWordDefinitionsFromSection(
+  section: Cheerio<Element>
+): WordDefinition[] {
+  const partsOfSpeech = section
+    .find('.pos')
+    .map(
+      (index, element) =>
+        cheerio.load(element).text().toUpperCase() as PartOfSpeech
+    )
+    .toArray()
+
+  return partsOfSpeech.map((partOfSpeech) =>
+    createWordDefinition(partOfSpeech, section)
+  )
 }
 
 const buildAudioUrl = (baseUrl: string, audioPath: string | undefined) =>

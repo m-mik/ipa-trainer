@@ -9,6 +9,7 @@
     "lint": "next lint",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\" -r tsconfig-paths/register",
     "seed": "prisma db seed --preview-feature",
+    "add-pronunciations": "npm run ts-node prisma/seed/addPronunciations.ts",
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
     "e2e": "start-server-and-test start http://localhost:3000 cypress",

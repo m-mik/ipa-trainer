@@ -5,6 +5,7 @@ import {
   Button,
   ButtonGroup,
   Icon,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -17,6 +18,7 @@ import { GiTrophyCup } from 'react-icons/gi'
 import { useRouter } from 'next/router'
 import useLeaderboard from '../hooks/useLeaderboard'
 import config from '@/common/config.json'
+import Error from '@/components/Error'
 
 const {
   leaderboard: { usersPerPage },
@@ -25,7 +27,13 @@ const {
 function LeaderboardTable(props: BoxProps) {
   const router = useRouter()
   const page = Math.max(Number(router.query.page ?? 1), 1)
-  const { data, isPreviousData } = useLeaderboard(page)
+  const { data, isPreviousData, error, isLoading } = useLeaderboard(page)
+
+  if (error?.response) {
+    return <Error statusCode={error.response.data.code} />
+  }
+
+  if (isLoading) return <Spinner />
 
   const getTrophy = (position: number) => {
     const trophies = [

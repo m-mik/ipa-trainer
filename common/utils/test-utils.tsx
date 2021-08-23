@@ -3,9 +3,22 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { render, RenderOptions } from '@testing-library/react'
 import { ChakraProvider } from '@chakra-ui/react'
 import { LessonUiProvider } from '@/modules/lesson/providers/LessonUiProvider'
+import { setLogger } from 'react-query'
 import theme from '@/theme/index'
 
-const queryClient = new QueryClient()
+setLogger({
+  log: console.log,
+  warn: console.warn,
+  error: () => {},
+})
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+})
 
 const Providers: FC = ({ children }) => {
   return (

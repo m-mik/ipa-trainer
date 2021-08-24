@@ -52,14 +52,16 @@ export function getAlphabetSymbols(alphabet: Alphabet, language?: Language) {
 }
 
 export function symbolsToArray(symbols: string) {
-  const twoCharacterIpaSymbols = getAlphabetSymbols(IPA)
-    .map((symbol) => symbol.name)
-    .filter((ipaSymbol) => ipaSymbol.length === 2)
+  const twoCharacterIpaSymbols = new Set(
+    getAlphabetSymbols(IPA)
+      .map((symbol) => symbol.name)
+      .filter((ipaSymbol) => ipaSymbol.length === 2)
+  )
   const result = []
   const symbolArray = symbols.split('')
   for (let i = 0; i < symbolArray.length; i++) {
     const twoCharacters = symbolArray[i] + symbolArray[i + 1]
-    if (twoCharacterIpaSymbols.includes(twoCharacters)) {
+    if (twoCharacterIpaSymbols.has(twoCharacters)) {
       result.push(twoCharacters)
       i++
     } else {

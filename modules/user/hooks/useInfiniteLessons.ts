@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from 'react-query'
 import axios, { AxiosError } from 'axios'
-import { LessonWithAnswersCount } from '@/types/LessonWithAnswersCount'
-import { ResponseError } from '@/types/ResponseError'
+import { LessonWithAnswersCount } from '@/common/types'
+import { ResponseError } from '@/common/types'
 
 type QueryResult = {
   data: LessonWithAnswersCount[]

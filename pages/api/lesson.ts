@@ -6,7 +6,7 @@ import errorHandler from '@/middlewares/errorHandler'
 import { requireAuth } from '@/middlewares/requireAuth'
 import { removeUnansweredQuestionSymbols } from '@/modules/lesson/utils'
 import validate from '@/middlewares/validation'
-import { LessonWithPronunciations } from '@/types/LessonWithPronunciations'
+import { LessonWithPronunciations } from '@/common/types'
 import { findLessonsByUserId } from '@/modules/user/userService'
 import { findOrCreateActiveLessonForUser } from '@/modules/lesson/lessonService'
 

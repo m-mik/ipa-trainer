@@ -4,7 +4,7 @@ import {
 } from '@/modules/lesson/store/lessonUiReducer'
 import { Answer, Language, PartOfSpeech } from '@prisma/client'
 import { ActionType } from '@/modules/lesson/store/lessonUiActions'
-import { QuestionWithPronunciations } from '@/common/types/QuestionWithPronunciations'
+import { QuestionWithPronunciations } from '@/common/types'
 
 describe('lessonUiReducer', () => {
   let initialState: LessonUiState

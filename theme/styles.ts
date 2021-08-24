@@ -11,6 +11,7 @@ const styles = {
     },
     h2: {
       color: mode(light.primary, dark.primary)(props),
+      mb: '10',
     },
   }),
 }

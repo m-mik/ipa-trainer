@@ -6,7 +6,7 @@ import {
 } from '@/modules/lesson/utils'
 import { Alphabet } from '@/data/IPA'
 import { Answer, Language, LessonStatus, PartOfSpeech } from '@prisma/client'
-import { LessonWithPronunciations } from '@/types/LessonWithPronunciations'
+import { LessonWithPronunciations } from '@/common/types'
 
 describe('getAnswerCountByType', () => {
   it('returns the correct count', () => {

@@ -14,7 +14,6 @@ module.exports = {
     '^@/data/(.*)$': '<rootDir>/common/data/$1',
     '^@/hooks/(.*)$': '<rootDir>/common/hooks/$1',
     '^@/hocs/(.*)$': '<rootDir>/common/hocs/$1',
-    '^@/types/(.*)$': '<rootDir>/common/types/$1',
     '^@/utils/(.*)$': '<rootDir>/common/utils/$1',
     '^@/services/(.*)$': '<rootDir>/common/services/$1',
     '^@/middlewares/(.*)$': '<rootDir>/common/middlewares/$1',

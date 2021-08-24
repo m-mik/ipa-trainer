@@ -2,8 +2,8 @@ import { User } from 'next-auth'
 import prisma from '@/common/db'
 import config from '@/common/config.json'
 import { Answer } from '@prisma/client'
-import { UserWithPoints } from '@/types/UserWithPoints'
-import { LessonWithAnswersCount } from '@/types/LessonWithAnswersCount'
+import { UserWithPoints } from '@/common/types'
+import { LessonWithAnswersCount } from '@/common/types'
 
 const { lesson } = config
 

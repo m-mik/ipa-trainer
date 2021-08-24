@@ -2,7 +2,7 @@ import { User } from 'next-auth'
 import { Answer } from '@prisma/client'
 import prisma from '@/common/db'
 import config from '@/common/config.json'
-import { UserWithPoints } from '@/types/UserWithPoints'
+import { UserWithPoints } from '@/common/types'
 
 const { leaderboard, lesson } = config
 

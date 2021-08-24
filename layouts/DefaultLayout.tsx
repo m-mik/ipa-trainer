@@ -28,7 +28,7 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
         minH="calc(100vh - 20px)"
       >
         <Header gridArea="header" />
-        <Box gridArea="content" as="main" mt="50px">
+        <Box gridArea="content" as="main" mt="80px">
           {children}
         </Box>
         <Footer gridArea="footer" />

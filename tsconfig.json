@@ -27,9 +27,6 @@
       "@/hocs/*": [
         "common/hocs/*"
       ],
-      "@/types/*": [
-        "common/types/*"
-      ],
       "@/components/*": [
         "common/components/*"
       ],

@@ -2,8 +2,8 @@ import { useQuery } from 'react-query'
 import axios, { AxiosError } from 'axios'
 import useLessonUi from './useLessonUi'
 import { activateNextQuestion } from '../store/lessonUiActions'
-import { ResponseError } from '@/types/ResponseError'
-import { LessonWithPronunciations } from '@/types/LessonWithPronunciations'
+import { ResponseError } from '@/common/types'
+import { LessonWithPronunciations } from '@/common/types'
 
 function fetchLesson(): Promise<LessonWithPronunciations> {
   return axios

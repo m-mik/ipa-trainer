@@ -33,7 +33,7 @@ function SignIn({ demoCredentials }: SignInProps) {
   const router = useRouter()
   const [session] = useSession()
   if (session) {
-    router.replace('/')
+    router.replace('/learn')
     return null
   }
 

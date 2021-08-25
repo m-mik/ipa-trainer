@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Heading,
   HStack,
@@ -19,8 +20,10 @@ import { getAlphabetSymbols } from '@/modules/lesson/utils'
 import LanguageControl from '@/modules/lesson/components/LanguageControl'
 import SymbolTooltipLabel from '@/modules/lesson/components/SymbolTooltipLabel'
 import Audio from '@/modules/lesson/components/Audio'
-import useLessonUi from '../modules/lesson/hooks/useLessonUi'
-import { ActionType } from '../modules/lesson/store/lessonUiActions'
+import useLessonUi from '@/modules/lesson/hooks/useLessonUi'
+import { ActionType } from '@/modules/lesson/store/lessonUiActions'
+import Link from '@/components/Link'
+import Emphasize from '@/components/Emphasize'
 
 const getAudioSrc = (name: string, language: Language) => {
   const baseUrl = 'https://lex-audio.useremarkable.com/mp3'
@@ -60,14 +63,18 @@ const Ipa: NextLayoutPage = () => {
   return (
     <Container maxW="container.lg">
       <Heading as="h2">International Phonetic Alphabet </Heading>
-      <HStack mb="5">
+      <Link href="/learn">
+        <Button>Start learning</Button>
+      </Link>
+
+      <HStack>
         <Box>Language: </Box>
         <LanguageControl
           selectedLanguage={language}
           onLanguageChange={handleLanguageChange}
         />
       </HStack>
-      <Table variant="striped">
+      <Table variant="striped" mt="2em">
         <TableCaption>International Phonetic Alphabet</TableCaption>
         <Thead>
           <Tr>
@@ -91,6 +98,46 @@ const Ipa: NextLayoutPage = () => {
               </Td>
             </Tr>
           ))}
+        </Tbody>
+      </Table>
+      <Table variant="striped" mt="3em">
+        <TableCaption>Special Symbols</TableCaption>
+        <Thead>
+          <Tr>
+            <Th>Special symbol</Th>
+            <Th>Description</Th>
+            <Th>Example</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          <Tr>
+            <Td>ˈ</Td>
+            <Td>main stress</Td>
+            <Td>
+              /ə
+              <Emphasize text="ˈ" />
+              lɝːt/
+            </Td>
+          </Tr>
+          <Tr>
+            <Td>,</Td>
+            <Td>secondary stress</Td>
+            <Td>
+              /ə
+              <Emphasize text="ˌ" />
+              kɑː.məˈdeɪ.ʃən/
+            </Td>
+          </Tr>
+          <Tr>
+            <Td>.</Td>
+            <Td>syllable division</Td>
+            <Td>
+              /ɔːˈræŋ
+              <Emphasize text="." />
+              ə<Emphasize text="." />
+              tæn/
+            </Td>
+          </Tr>
         </Tbody>
       </Table>
     </Container>

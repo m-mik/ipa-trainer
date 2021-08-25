@@ -1,5 +1,5 @@
-import { Text, TextProps } from '@chakra-ui/react'
-import useColors from '@/hooks/useColors'
+import { TextProps } from '@chakra-ui/react'
+import Emphasize from '@/components/Emphasize'
 
 type SymbolTooltipLabelProps = TextProps & {
   text: string
@@ -12,9 +12,7 @@ function SymbolTooltipLabel({ text, ...rest }: SymbolTooltipLabelProps) {
   return (
     <>
       {left}
-      <Text as="strong" color={useColors('primary')} {...rest}>
-        {center}
-      </Text>
+      <Emphasize text={center} {...rest} />
       {right}
     </>
   )

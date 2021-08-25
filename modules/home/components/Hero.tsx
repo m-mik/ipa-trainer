@@ -50,7 +50,7 @@ function Hero(props: BoxProps) {
           with ease
         </Text>
       </Text>
-      <Link href="/learn">
+      <Link href="/ipa">
         <Button
           variant="solid"
           rounded="full"

@@ -134,9 +134,12 @@ const UserAnswer = function SymbolPanel(props: StackProps) {
   if (!activeQuestion) return null
 
   return (
-    <Box minH="50px">
+    <Box minH="85px">
       {!symbols.length ? (
         <MotionBox
+          h="80px"
+          d="flex"
+          alignItems="center"
           animate={{ scale: [1.1, 1, 1.1] }}
           transition={{
             duration: 1.5,

@@ -41,7 +41,7 @@ const Learn: NextLayoutPage = () => {
           <Card>
             <VStack spacing="4" onContextMenu={(e) => e.preventDefault()}>
               <Question />
-              <UserAnswer />
+              <UserAnswer m="1em 0" />
               {activeQuestion?.answer === AnswerType.NONE ? (
                 <Keyboard />
               ) : (

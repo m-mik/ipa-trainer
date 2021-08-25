@@ -22,7 +22,7 @@ import { motion } from 'framer-motion'
 import UserMenu from '@/modules/auth/components/UserMenu'
 import ColorModeSwitch from '@/components/ColorModeSwitch'
 import Link from '@/components/Link'
-import useColors from '../common/hooks/useColors'
+import useColors from '@/hooks/useColors'
 
 interface NavItem {
   text: string
@@ -33,6 +33,10 @@ const NAV_ITEMS: NavItem[] = [
   {
     text: 'Learn',
     href: '/learn',
+  },
+  {
+    text: 'IPA',
+    href: '/ipa',
   },
   {
     text: 'Leaderboard',

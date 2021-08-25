@@ -26,9 +26,9 @@ function StatCard({ label, count, icon }: StatCardProps) {
       borderColor={useColorModeValue('gray.800', 'gray.500')}
       rounded="lg"
     >
-      <Flex justifyContent={'space-between'}>
+      <Flex justifyContent="space-between">
         <Box pl={{ base: 2, md: 4 }}>
-          <StatLabel fontWeight={'medium'} isTruncated>
+          <StatLabel fontWeight="medium" isTruncated>
             {label}
           </StatLabel>
           <StatNumber fontSize="2xl" fontWeight="medium">

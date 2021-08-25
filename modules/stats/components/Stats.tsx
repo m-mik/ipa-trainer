@@ -1,5 +1,7 @@
 import { Spinner, Stack, StackProps } from '@chakra-ui/react'
 import { BsPerson } from 'react-icons/bs'
+import { AiOutlineDatabase } from 'react-icons/ai'
+import { RiQuestionAnswerLine } from 'react-icons/ri'
 import StatCard from './StatCard'
 import useStats from '../hooks/useStats'
 
@@ -17,10 +19,10 @@ function Stats(props: StatsProps) {
   return (
     <Stack spacing="5" {...props} direction={['column', 'row']}>
       <StatCard count={users} icon={BsPerson} label="Users" />
-      <StatCard count={words} icon={BsPerson} label="Words" />
+      <StatCard count={words} icon={AiOutlineDatabase} label="Words" />
       <StatCard
         count={answers.correct + answers.incorrect}
-        icon={BsPerson}
+        icon={RiQuestionAnswerLine}
         label="Answers"
       />
     </Stack>

@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { CgLogOut } from 'react-icons/cg'
 import { FiSettings } from 'react-icons/fi'
+import { BsPerson } from 'react-icons/bs'
 import useColors from '@/hooks/useColors'
 import UserAvatar from '@/components/UserAvatar'
 import Link from '@/components/Link'
@@ -52,7 +53,7 @@ function UserMenu(props: UserMenuProps) {
     dispatch({ type: ActionType.ResetActiveSymbolIndex })
   }
 
-  const { name, image, points } = session.user
+  const { id, name, image, points } = session.user
 
   return (
     <Menu {...props}>
@@ -69,6 +70,9 @@ function UserMenu(props: UserMenuProps) {
       </MenuButton>
       <Portal>
         <MenuList>
+          <Link href={`/user/${id}`}>
+            <MenuItem icon={<BsPerson size="18" />}>Profile</MenuItem>
+          </Link>
           <Link href="/settings">
             <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
           </Link>

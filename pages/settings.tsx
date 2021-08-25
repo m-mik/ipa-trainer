@@ -13,6 +13,7 @@ import LanguageControl from '@/modules/lesson/components/LanguageControl'
 import Audio from '@/modules/lesson/components/Audio'
 import useLessonUi from '@/modules/lesson/hooks/useLessonUi'
 import { ActionType } from '@/modules/lesson/store/lessonUiActions'
+import withAuth from '@/hocs/withAuth'
 
 const VolumeControl = dynamic(
   () => import('@/modules/lesson/components/VolumeControl'),
@@ -81,4 +82,4 @@ const Settings: NextLayoutPage = () => {
   )
 }
 
-export default Settings
+export default withAuth(Settings)

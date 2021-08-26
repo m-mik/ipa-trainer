@@ -21,6 +21,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import useUser from '../hooks/useUser'
 import useInfiniteLessons from '../hooks/useInfiniteLessons'
 import LessonPoints from './LessonPoints'
+import { NextSeo } from 'next-seo'
 
 const {
   lesson: { pointsPerCorrectAnswer },
@@ -63,6 +64,7 @@ function UserProfile({ userId }: UserProfileProps) {
 
   return (
     <>
+      <NextSeo title={`${name}`} description={`${name}'s profile`} />
       <Breadcrumb
         items={{
           Home: '/',

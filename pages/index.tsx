@@ -3,6 +3,7 @@ import { NextLayoutPage } from 'next'
 import { motion } from 'framer-motion'
 import Hero from '@/modules/home/components/Hero'
 import Stats from '@/modules/stats/components/Stats'
+import { NextSeo } from 'next-seo'
 
 const MotionBox = motion(chakra.div)
 
@@ -13,25 +14,28 @@ const Home: NextLayoutPage = () => {
   }
 
   return (
-    <Container maxW="container.lg">
-      <MotionBox
-        initial="hidden"
-        animate="visible"
-        transition={{ duration: 1 }}
-        variants={variants}
-      >
-        <Hero as="section" />
-      </MotionBox>
-      <MotionBox
-        mt="20"
-        initial="hidden"
-        animate="visible"
-        transition={{ duration: 1, delay: 0.5 }}
-        variants={variants}
-      >
-        <Stats as="section" />
-      </MotionBox>
-    </Container>
+    <>
+      <NextSeo description="Improve your English pronunciation with ease" />
+      <Container maxW="container.lg">
+        <MotionBox
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 1 }}
+          variants={variants}
+        >
+          <Hero as="section" />
+        </MotionBox>
+        <MotionBox
+          mt="20"
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 1, delay: 0.5 }}
+          variants={variants}
+        >
+          <Stats as="section" />
+        </MotionBox>
+      </Container>
+    </>
   )
 }
 

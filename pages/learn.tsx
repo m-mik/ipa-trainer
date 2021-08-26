@@ -14,6 +14,7 @@ import Answer from '@/modules/lesson/components/Answer'
 import withAuth from '@/hocs/withAuth'
 import { Answer as AnswerType } from '@prisma/client'
 import Breadcrumb from '../common/components/Breadcrumb'
+import { NextSeo } from 'next-seo'
 
 const UserAnswer = dynamic(
   () => import('@/modules/lesson/components/UserAnswer'),
@@ -33,34 +34,40 @@ const Learn: NextLayoutPage = () => {
   }
 
   return (
-    <Container maxW="container.lg">
-      <Breadcrumb
-        items={{
-          Home: '/',
-          Learn: '/learn',
-        }}
+    <>
+      <NextSeo
+        title="Learn"
+        description="Learn International Phonetic Alphabet"
       />
-      {isLoading ? (
-        <Spinner />
-      ) : data && activeQuestion ? (
-        <>
-          <LessonProgress questions={data.questions} />
-          <Card>
-            <VStack spacing="4" onContextMenu={(e) => e.preventDefault()}>
-              <Question />
-              <UserAnswer m="1em 0" />
-              {activeQuestion?.answer === AnswerType.NONE ? (
-                <Keyboard />
-              ) : (
-                <Answer />
-              )}
-            </VStack>
-          </Card>
-        </>
-      ) : (
-        <LessonSummary />
-      )}
-    </Container>
+      <Container maxW="container.lg">
+        <Breadcrumb
+          items={{
+            Home: '/',
+            Learn: '/learn',
+          }}
+        />
+        {isLoading ? (
+          <Spinner />
+        ) : data && activeQuestion ? (
+          <>
+            <LessonProgress questions={data.questions} />
+            <Card>
+              <VStack spacing="4" onContextMenu={(e) => e.preventDefault()}>
+                <Question />
+                <UserAnswer m="1em 0" />
+                {activeQuestion?.answer === AnswerType.NONE ? (
+                  <Keyboard />
+                ) : (
+                  <Answer />
+                )}
+              </VStack>
+            </Card>
+          </>
+        ) : (
+          <LessonSummary />
+        )}
+      </Container>
+    </>
   )
 }
 

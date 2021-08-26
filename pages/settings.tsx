@@ -15,6 +15,7 @@ import useLessonUi from '@/modules/lesson/hooks/useLessonUi'
 import { ActionType } from '@/modules/lesson/store/lessonUiActions'
 import withAuth from '@/hocs/withAuth'
 import Breadcrumb from '@/components/Breadcrumb'
+import { NextSeo } from 'next-seo'
 
 const VolumeControl = dynamic(
   () => import('@/modules/lesson/components/VolumeControl'),
@@ -49,49 +50,55 @@ const Settings: NextLayoutPage = () => {
   }
 
   return (
-    <Container maxW="container.lg">
-      <Breadcrumb
-        items={{
-          Home: '/',
-          Settings: '/settings',
-        }}
+    <>
+      <NextSeo
+        title="Settings"
+        description="Control your IPA language and audio settings"
       />
-      <Box maxW="60ch" m="0 auto">
-        <Heading as="h2">Settings</Heading>
-        <VStack spacing="5" mt="5">
-          <HStack spacing="3" w="100%" justifyContent="space-between">
-            <Box>IPA Language</Box>
-            <Box>
-              <LanguageControl
-                selectedLanguage={language}
-                onLanguageChange={handleLanguageChange}
-              />
-            </Box>
-          </HStack>
-          <HStack spacing="3" w="100%" justifyContent="space-between">
-            <Box>Audio Volume</Box>
-            <HStack w="30%">
-              <VolumeControl
-                volume={audioVolume}
-                onChangeEnd={handleAudioVolumeChangeEnd}
-              />
-              <Audio
-                autoPlay={false}
-                src={sampleAudioSrc}
-                volume={audioVolume}
-              />
+      <Container maxW="container.lg">
+        <Breadcrumb
+          items={{
+            Home: '/',
+            Settings: '/settings',
+          }}
+        />
+        <Box maxW="60ch" m="0 auto">
+          <Heading as="h2">Settings</Heading>
+          <VStack spacing="5" mt="5">
+            <HStack spacing="3" w="100%" justifyContent="space-between">
+              <Box>IPA Language</Box>
+              <Box>
+                <LanguageControl
+                  selectedLanguage={language}
+                  onLanguageChange={handleLanguageChange}
+                />
+              </Box>
             </HStack>
-            <Checkbox
-              value={+audioAutoPlay}
-              isChecked={audioAutoPlay}
-              onChange={handleAudioAutoPlayChange}
-            >
-              Auto Play
-            </Checkbox>
-          </HStack>
-        </VStack>
-      </Box>
-    </Container>
+            <HStack spacing="3" w="100%" justifyContent="space-between">
+              <Box>Audio Volume</Box>
+              <HStack w="30%">
+                <VolumeControl
+                  volume={audioVolume}
+                  onChangeEnd={handleAudioVolumeChangeEnd}
+                />
+                <Audio
+                  autoPlay={false}
+                  src={sampleAudioSrc}
+                  volume={audioVolume}
+                />
+              </HStack>
+              <Checkbox
+                value={+audioAutoPlay}
+                isChecked={audioAutoPlay}
+                onChange={handleAudioAutoPlayChange}
+              >
+                Auto Play
+              </Checkbox>
+            </HStack>
+          </VStack>
+        </Box>
+      </Container>
+    </>
   )
 }
 

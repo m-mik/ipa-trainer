@@ -36,6 +36,7 @@
     "next-auth": "^3.27.3",
     "next-connect": "^0.10.1",
     "next-joi": "^2.2.1",
+    "next-seo": "^4.26.0",
     "p-queue": "^6.6.2",
     "react": "17.0.2",
     "react-beautiful-dnd": "^13.1.0",

@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { AppLayoutProps } from 'next/app'
+import { DefaultSeo } from 'next-seo'
 import DefaultLayout from '@/layouts/DefaultLayout'
 import { LessonUiProvider } from '@/modules/lesson/providers/LessonUiProvider'
 import theme from '../theme'
@@ -17,6 +18,7 @@ function MyApp({ Component, pageProps }: AppLayoutProps) {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <LessonUiProvider>
+          <DefaultSeo titleTemplate="IPA Trainer - %s" />
           {getLayout(<Component {...pageProps} />)}
         </LessonUiProvider>
       </ChakraProvider>

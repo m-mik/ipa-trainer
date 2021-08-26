@@ -11,7 +11,7 @@ type ErrorProps = BoxProps & {
 
 const statusCodes: { [key: number]: { message: string; icon: IconType } } = {
   404: {
-    message: 'Not Found',
+    message: 'Page Not Found',
     icon: VscError,
   },
   500: {

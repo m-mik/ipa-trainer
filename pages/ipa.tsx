@@ -13,7 +13,7 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { NextLayoutPage } from 'next'
-import React from 'react'
+import { NextSeo } from 'next-seo'
 import { Language } from '@prisma/client'
 import IPA from '@/data/IPA'
 import { getAlphabetSymbols } from '@/modules/lesson/utils'
@@ -63,98 +63,107 @@ const Ipa: NextLayoutPage = () => {
   }
 
   return (
-    <Container maxW="container.lg">
-      <Breadcrumb
-        items={{
-          Home: '/',
-          IPA: '/ipa',
-        }}
+    <>
+      <NextSeo
+        title="International Phonetic Alphabet"
+        description="International Phonetic Alphabet symbols with examples"
       />
-      <Heading as="h2">International Phonetic Alphabet </Heading>
-      <Link href="/learn" _hover={{ textDecoration: 'none' }}>
-        <Button
-          variant="solid"
-          rounded="full"
-          px="6"
-          rightIcon={<IoMdSchool size={30} />}
-        >
-          Start Learning
-        </Button>
-      </Link>
-      <HStack mt="5">
-        <Box>Language: </Box>
-        <LanguageControl
-          selectedLanguage={language}
-          onLanguageChange={handleLanguageChange}
+      <Container maxW="container.lg">
+        <Breadcrumb
+          items={{
+            Home: '/',
+            IPA: '/ipa',
+          }}
         />
-      </HStack>
-      <Table variant="striped" mt="2em">
-        <TableCaption>International Phonetic Alphabet</TableCaption>
-        <Thead>
-          <Tr>
-            <Th>Symbol</Th>
-            <Th>Example</Th>
-            <Th>Audio</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {symbols.map(({ id, name, example }) => (
-            <Tr key={id}>
-              <Td>{name}</Td>
-              <Td>{example && <SymbolTooltipLabel text={example} />}</Td>
+        <Heading as="h2">International Phonetic Alphabet </Heading>
+        <Link href="/learn" _hover={{ textDecoration: 'none' }}>
+          <Button
+            variant="solid"
+            rounded="full"
+            px="6"
+            rightIcon={<IoMdSchool size={30} />}
+          >
+            Start Learning
+          </Button>
+        </Link>
+        <HStack mt="5">
+          <Box>Language: </Box>
+          <LanguageControl
+            selectedLanguage={language}
+            onLanguageChange={handleLanguageChange}
+          />
+        </HStack>
+        <Table variant="striped" mt="2em">
+          <TableCaption>International Phonetic Alphabet</TableCaption>
+          <Thead>
+            <Tr>
+              <Th>Symbol</Th>
+              <Th>Example</Th>
+              <Th>Audio</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {symbols.map(({ id, name, example }) => (
+              <Tr key={id}>
+                <Td>{name}</Td>
+                <Td>{example && <SymbolTooltipLabel text={example} />}</Td>
+                <Td>
+                  {example && (
+                    <Audio
+                      src={getAudioSrc(
+                        example.replace(/[\[\]]/g, ''),
+                        language
+                      )}
+                      autoPlay={false}
+                    />
+                  )}
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+        <Table variant="striped" mt="3em">
+          <TableCaption>Special Symbols</TableCaption>
+          <Thead>
+            <Tr>
+              <Th>Special symbol</Th>
+              <Th>Description</Th>
+              <Th>Example</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            <Tr>
+              <Td>ˈ</Td>
+              <Td>main stress</Td>
               <Td>
-                {example && (
-                  <Audio
-                    src={getAudioSrc(example.replace(/[\[\]]/g, ''), language)}
-                    autoPlay={false}
-                  />
-                )}
+                /ə
+                <Emphasize text="ˈ" />
+                lɝːt/
               </Td>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-      <Table variant="striped" mt="3em">
-        <TableCaption>Special Symbols</TableCaption>
-        <Thead>
-          <Tr>
-            <Th>Special symbol</Th>
-            <Th>Description</Th>
-            <Th>Example</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td>ˈ</Td>
-            <Td>main stress</Td>
-            <Td>
-              /ə
-              <Emphasize text="ˈ" />
-              lɝːt/
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>,</Td>
-            <Td>secondary stress</Td>
-            <Td>
-              /ə
-              <Emphasize text="ˌ" />
-              kɑː.məˈdeɪ.ʃən/
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>.</Td>
-            <Td>syllable division</Td>
-            <Td>
-              /ɔːˈræŋ
-              <Emphasize text="." />
-              ə<Emphasize text="." />
-              tæn/
-            </Td>
-          </Tr>
-        </Tbody>
-      </Table>
-    </Container>
+            <Tr>
+              <Td>,</Td>
+              <Td>secondary stress</Td>
+              <Td>
+                /ə
+                <Emphasize text="ˌ" />
+                kɑː.məˈdeɪ.ʃən/
+              </Td>
+            </Tr>
+            <Tr>
+              <Td>.</Td>
+              <Td>syllable division</Td>
+              <Td>
+                /ɔːˈræŋ
+                <Emphasize text="." />
+                ə<Emphasize text="." />
+                tæn/
+              </Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </Container>
+    </>
   )
 }
 

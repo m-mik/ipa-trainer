@@ -18,6 +18,7 @@ import LoginForm from '@/modules/auth/components/LoginForm'
 import { Credentials } from '@/modules/auth/types/Credentials'
 import useSession from '@/hooks/useSession'
 import Breadcrumb from '@/components/Breadcrumb'
+import { NextSeo } from 'next-seo'
 
 interface Provider {
   name: string
@@ -41,43 +42,49 @@ function SignIn({ demoCredentials }: SignInProps) {
   }
 
   return (
-    <Container maxW="container.lg">
-      <Breadcrumb
-        items={{
-          Home: '/',
-          'Sign In': '/sign-in',
-        }}
+    <>
+      <NextSeo
+        title="Sign In"
+        description="Sign in with your Github or Google account"
       />
-      <Box px={{ base: '4', lg: '8' }}>
-        <Box maxW="md" mx="auto">
-          <Heading size="lg" fontWeight="extrabold" textAlign="center">
-            Sign in to your account
-          </Heading>
-          <Text textAlign="center" size="md" color="['gray.700', 'gray.300']">
-            Test account: {username} / {password}
-          </Text>
+      <Container maxW="container.lg">
+        <Breadcrumb
+          items={{
+            Home: '/',
+            'Sign In': '/sign-in',
+          }}
+        />
+        <Box px={{ base: '4', lg: '8' }}>
+          <Box maxW="md" mx="auto">
+            <Heading size="lg" fontWeight="extrabold" textAlign="center">
+              Sign in to your account
+            </Heading>
+            <Text textAlign="center" size="md" color="['gray.700', 'gray.300']">
+              Test account: {username} / {password}
+            </Text>
 
-          <Card mt="5">
-            <LoginForm />
-            <DividerWithText mt="6">or continue with</DividerWithText>
-            <SimpleGrid mt="6" columns={2} spacing="3">
-              {providers.map(({ name, Icon }) => (
-                <Button
-                  key={name}
-                  color="currentColor"
-                  variant="ghost"
-                  onClick={() => signIn(name.toLowerCase())}
-                  rightIcon={<Icon />}
-                >
-                  <VisuallyHidden>Login with {name}</VisuallyHidden>
-                  {name}
-                </Button>
-              ))}
-            </SimpleGrid>
-          </Card>
+            <Card mt="5">
+              <LoginForm />
+              <DividerWithText mt="6">or continue with</DividerWithText>
+              <SimpleGrid mt="6" columns={2} spacing="3">
+                {providers.map(({ name, Icon }) => (
+                  <Button
+                    key={name}
+                    color="currentColor"
+                    variant="ghost"
+                    onClick={() => signIn(name.toLowerCase())}
+                    rightIcon={<Icon />}
+                  >
+                    <VisuallyHidden>Login with {name}</VisuallyHidden>
+                    {name}
+                  </Button>
+                ))}
+              </SimpleGrid>
+            </Card>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </>
   )
 }
 

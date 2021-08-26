@@ -12,13 +12,14 @@ import {
 } from '@chakra-ui/react'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import useIntersection from 'react-use/lib/useIntersection'
-import useUser from '../hooks/useUser'
 import Error from '@/components/Error'
 import UserAvatar from '@/components/UserAvatar'
 import useColors from '@/hooks/useColors'
 import Card from '@/components/Card'
-import useInfiniteLessons from '../hooks/useInfiniteLessons'
 import config from '@/common/config.json'
+import Breadcrumb from '@/components/Breadcrumb'
+import useUser from '../hooks/useUser'
+import useInfiniteLessons from '../hooks/useInfiniteLessons'
 import LessonPoints from './LessonPoints'
 
 const {
@@ -58,44 +59,53 @@ function UserProfile({ userId }: UserProfileProps) {
 
   if (!user.data) return null
 
-  const { name, points, image } = user.data
+  const { id, name, points, image } = user.data
 
   return (
-    <Card>
-      <UserAvatar src={image} size="2xl" />
-      <Text fontSize="2xl">{name}</Text>
-      <Text fontWeight="bold" fontSize="lg" color={colors.points}>
-        {points.toLocaleString()} points
-      </Text>
-      <Table variant="striped" mt="10">
-        <Thead>
-          <Tr>
-            <Th>Lesson Date</Th>
-            <Th>Points</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {lessons.data?.pages.map((page) => (
-            <React.Fragment key={page.next}>
-              {page.data?.map(({ id, createdAt, correct }) => (
-                <Tr key={id}>
-                  <Td>
-                    {formatDistanceToNow(new Date(createdAt), {
-                      addSuffix: true,
-                    })}
-                  </Td>
-                  <Td>
-                    <LessonPoints value={correct * pointsPerCorrectAnswer} />
-                  </Td>
-                </Tr>
-              ))}
-            </React.Fragment>
-          ))}
-        </Tbody>
-      </Table>
-      {lessons.isFetchingNextPage && <Spinner />}
-      <Box ref={intersectionRef} />
-    </Card>
+    <>
+      <Breadcrumb
+        items={{
+          Home: '/',
+          Leaderboard: '/leaderboard',
+          [name]: `/user/${id}`,
+        }}
+      />
+      <Card mt="5">
+        <UserAvatar src={image} size="2xl" />
+        <Text fontSize="2xl">{name}</Text>
+        <Text fontWeight="bold" fontSize="lg" color={colors.points}>
+          {points.toLocaleString()} points
+        </Text>
+        <Table variant="striped" mt="10">
+          <Thead>
+            <Tr>
+              <Th>Lesson Date</Th>
+              <Th>Points</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {lessons.data?.pages.map((page) => (
+              <React.Fragment key={page.next}>
+                {page.data?.map(({ id, createdAt, correct }) => (
+                  <Tr key={id}>
+                    <Td>
+                      {formatDistanceToNow(new Date(createdAt), {
+                        addSuffix: true,
+                      })}
+                    </Td>
+                    <Td>
+                      <LessonPoints value={correct * pointsPerCorrectAnswer} />
+                    </Td>
+                  </Tr>
+                ))}
+              </React.Fragment>
+            ))}
+          </Tbody>
+        </Table>
+        {lessons.isFetchingNextPage && <Spinner />}
+        <Box ref={intersectionRef} />
+      </Card>
+    </>
   )
 }
 

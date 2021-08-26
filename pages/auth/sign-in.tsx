@@ -5,6 +5,7 @@ import {
   SimpleGrid,
   Text,
   VisuallyHidden,
+  Container,
 } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
@@ -16,11 +17,13 @@ import DividerWithText from '@/components/DividerWithText'
 import LoginForm from '@/modules/auth/components/LoginForm'
 import { Credentials } from '@/modules/auth/types/Credentials'
 import useSession from '@/hooks/useSession'
+import Breadcrumb from '@/components/Breadcrumb'
 
 interface Provider {
   name: string
   Icon: IconType
 }
+
 const providers: Array<Provider> = [
   { name: 'Github', Icon: FaGithub },
   { name: 'Google', Icon: FaGoogle },
@@ -38,35 +41,43 @@ function SignIn({ demoCredentials }: SignInProps) {
   }
 
   return (
-    <Box px={{ base: '4', lg: '8' }}>
-      <Box maxW="md" mx="auto">
-        <Heading size="lg" fontWeight="extrabold" textAlign="center">
-          Sign in to your account
-        </Heading>
-        <Text textAlign="center" size="md" color="['gray.700', 'gray.300']">
-          Test account: {username} / {password}
-        </Text>
+    <Container maxW="container.lg">
+      <Breadcrumb
+        items={{
+          Home: '/',
+          'Sign In': '/sign-in',
+        }}
+      />
+      <Box px={{ base: '4', lg: '8' }}>
+        <Box maxW="md" mx="auto">
+          <Heading size="lg" fontWeight="extrabold" textAlign="center">
+            Sign in to your account
+          </Heading>
+          <Text textAlign="center" size="md" color="['gray.700', 'gray.300']">
+            Test account: {username} / {password}
+          </Text>
 
-        <Card mt="5">
-          <LoginForm />
-          <DividerWithText mt="6">or continue with</DividerWithText>
-          <SimpleGrid mt="6" columns={2} spacing="3">
-            {providers.map(({ name, Icon }) => (
-              <Button
-                key={name}
-                color="currentColor"
-                variant="ghost"
-                onClick={() => signIn(name.toLowerCase())}
-                rightIcon={<Icon />}
-              >
-                <VisuallyHidden>Login with {name}</VisuallyHidden>
-                {name}
-              </Button>
-            ))}
-          </SimpleGrid>
-        </Card>
+          <Card mt="5">
+            <LoginForm />
+            <DividerWithText mt="6">or continue with</DividerWithText>
+            <SimpleGrid mt="6" columns={2} spacing="3">
+              {providers.map(({ name, Icon }) => (
+                <Button
+                  key={name}
+                  color="currentColor"
+                  variant="ghost"
+                  onClick={() => signIn(name.toLowerCase())}
+                  rightIcon={<Icon />}
+                >
+                  <VisuallyHidden>Login with {name}</VisuallyHidden>
+                  {name}
+                </Button>
+              ))}
+            </SimpleGrid>
+          </Card>
+        </Box>
       </Box>
-    </Box>
+    </Container>
   )
 }
 

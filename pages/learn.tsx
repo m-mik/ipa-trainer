@@ -13,6 +13,7 @@ import Card from '@/components/Card'
 import Answer from '@/modules/lesson/components/Answer'
 import withAuth from '@/hocs/withAuth'
 import { Answer as AnswerType } from '@prisma/client'
+import Breadcrumb from '../common/components/Breadcrumb'
 
 const UserAnswer = dynamic(
   () => import('@/modules/lesson/components/UserAnswer'),
@@ -33,6 +34,12 @@ const Learn: NextLayoutPage = () => {
 
   return (
     <Container maxW="container.lg">
+      <Breadcrumb
+        items={{
+          Home: '/',
+          Learn: '/learn',
+        }}
+      />
       {isLoading ? (
         <Spinner />
       ) : data && activeQuestion ? (

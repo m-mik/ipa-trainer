@@ -24,6 +24,8 @@ import useLessonUi from '@/modules/lesson/hooks/useLessonUi'
 import { ActionType } from '@/modules/lesson/store/lessonUiActions'
 import Link from '@/components/Link'
 import Emphasize from '@/components/Emphasize'
+import Breadcrumb from '@/components/Breadcrumb'
+import { IoMdSchool } from 'react-icons/io'
 
 const getAudioSrc = (name: string, language: Language) => {
   const baseUrl = 'https://lex-audio.useremarkable.com/mp3'
@@ -62,12 +64,24 @@ const Ipa: NextLayoutPage = () => {
 
   return (
     <Container maxW="container.lg">
+      <Breadcrumb
+        items={{
+          Home: '/',
+          IPA: '/ipa',
+        }}
+      />
       <Heading as="h2">International Phonetic Alphabet </Heading>
-      <Link href="/learn">
-        <Button>Start learning</Button>
+      <Link href="/learn" _hover={{ textDecoration: 'none' }}>
+        <Button
+          variant="solid"
+          rounded="full"
+          px="6"
+          rightIcon={<IoMdSchool size={30} />}
+        >
+          Start Learning
+        </Button>
       </Link>
-
-      <HStack>
+      <HStack mt="5">
         <Box>Language: </Box>
         <LanguageControl
           selectedLanguage={language}

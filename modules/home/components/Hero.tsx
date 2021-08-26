@@ -50,7 +50,7 @@ function Hero(props: BoxProps) {
           with ease
         </Text>
       </Text>
-      <Link href="/ipa">
+      <Link href="/ipa" _hover={{ textDecoration: 'none' }}>
         <Button
           variant="solid"
           rounded="full"

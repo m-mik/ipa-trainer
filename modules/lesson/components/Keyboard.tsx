@@ -50,7 +50,7 @@ function Keyboard(props: StackProps) {
 
   const additionalKeys = [
     { value: 'ˈ', label: 'main stress', handleClick },
-    { value: ',', label: 'secondary stress', handleClick },
+    { value: 'ˌ', label: 'secondary stress', handleClick },
     { value: '.', label: 'syllable division', handleClick },
     { value: '🗑', label: 'delete symbol', handleClick: deleteSymbol },
   ]

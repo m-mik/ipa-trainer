@@ -45,9 +45,9 @@ function Hero(props: BoxProps) {
         IPA Trainer
       </Heading>
       <Text fontSize="3xl" fontWeight="800" color={useColors('fg')}>
-        Improve your English pronunciation{' '}
+        Improve your{' '}
         <Text as="span" color={useColors('highlight')}>
-          with ease
+          English pronunciation
         </Text>
       </Text>
       <Link href="/ipa" _hover={{ textDecoration: 'none' }}>

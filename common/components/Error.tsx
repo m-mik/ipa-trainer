@@ -24,7 +24,7 @@ function Error({ statusCode, ...rest }: ErrorProps) {
   const { message, icon } = statusCodes[statusCode] ?? statusCodes[500]
 
   return (
-    <Box p="5" {...rest}>
+    <Box p="5" textAlign="center" {...rest}>
       <Heading as="h2">{message}</Heading>
 
       <Icon as={icon} boxSize="10em" color={useColors('highlight')} mt="1em" />

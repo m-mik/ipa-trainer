@@ -1,4 +1,3 @@
-import React from 'react'
 import { Container } from '@chakra-ui/react'
 import { NextPageContext } from 'next'
 import ErrorComponent from '@/components/Error'

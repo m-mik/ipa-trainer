@@ -4,18 +4,19 @@ import {
   Stat,
   StatLabel,
   StatNumber,
+  StatProps,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { IconType } from 'react-icons'
 import useColors from '@/common/hooks/useColors'
 
-type StatCardProps = {
+type StatCardProps = StatProps & {
   label: string
   count: number
   icon: IconType
 }
 
-function StatCard({ label, count, icon }: StatCardProps) {
+function StatCard({ label, count, icon, ...rest }: StatCardProps) {
   const Icon = icon
   return (
     <Stat
@@ -25,6 +26,7 @@ function StatCard({ label, count, icon }: StatCardProps) {
       border="1px solid"
       borderColor={useColorModeValue('gray.800', 'gray.500')}
       rounded="lg"
+      {...rest}
     >
       <Flex justifyContent="space-between">
         <Box pl={{ base: 2, md: 4 }}>

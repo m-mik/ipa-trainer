@@ -8,7 +8,7 @@ export async function getStats() {
 
   return {
     users: await prisma.user.count(),
-    words: await prisma.word.count(),
+    lessons: await prisma.lesson.count(),
     answers: answers.reduce(
       (result, { answer, _count }) => ({
         ...result,
@@ -16,5 +16,7 @@ export async function getStats() {
       }),
       {}
     ),
+    words: await prisma.word.count(),
+    pronunciations: await prisma.pronunciation.count(),
   }
 }

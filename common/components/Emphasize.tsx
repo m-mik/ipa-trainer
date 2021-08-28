@@ -1,4 +1,3 @@
-import React from 'react'
 import { Text, TextProps } from '@chakra-ui/react'
 import useColors from '@/hooks/useColors'
 

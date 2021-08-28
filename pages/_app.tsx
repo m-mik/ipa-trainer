@@ -18,7 +18,10 @@ function MyApp({ Component, pageProps }: AppLayoutProps) {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <LessonUiProvider>
-          <DefaultSeo titleTemplate="IPA Trainer - %s" />
+          <DefaultSeo
+            titleTemplate="IPA Trainer - %s"
+            description="Improve your English pronunciation"
+          />
           {getLayout(<Component {...pageProps} />)}
         </LessonUiProvider>
       </ChakraProvider>

@@ -5,9 +5,8 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
-import React from 'react'
 import useLessonUi from '../hooks/useLessonUi'
-import Symbol from './Symbol'
+import Symbol from '@/components/Symbol'
 import useColors from '@/hooks/useColors'
 import { symbolsToArray } from '../utils'
 

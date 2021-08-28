@@ -1,4 +1,3 @@
-import React from 'react'
 import { Container, Heading } from '@chakra-ui/react'
 import { NextLayoutPage } from 'next'
 import LeaderboardTable from '@/modules/leaderboard/components/LeaderboardTable'

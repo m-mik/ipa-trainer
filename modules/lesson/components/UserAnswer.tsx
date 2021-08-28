@@ -21,7 +21,7 @@ import useLessonUi from '../hooks/useLessonUi'
 import { FaArrowDown } from 'react-icons/fa'
 import useSaveQuestion from '../hooks/useSaveQuestion'
 import useLesson from '../hooks/useLesson'
-import Symbol from './Symbol'
+import Symbol from '@/components/Symbol'
 
 const MotionBox = motion(chakra.div)
 

@@ -47,6 +47,8 @@ export type UserWithPoints = {
 export type Stats = {
   users: number
   words: number
+  lessons: number
+  pronunciations: number
   answers: {
     none: number
     correct: number

@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { Box, Grid } from '@chakra-ui/react'
 import Footer from './Footer'
 import Header from './Header'
@@ -15,9 +14,6 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
 
   return (
     <>
-      <Head>
-        <title>IPA Trainer</title>
-      </Head>
       <Grid
         templateAreas={{
           base: "'header' 'content' 'footer'",

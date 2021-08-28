@@ -1,6 +1,5 @@
 import { Container, Spinner, VStack } from '@chakra-ui/react'
 import { NextLayoutPage } from 'next'
-import React from 'react'
 import dynamic from 'next/dynamic'
 import Error from '@/components/Error'
 import useLessonUi from '@/modules/lesson/hooks/useLessonUi'

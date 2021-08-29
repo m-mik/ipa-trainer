@@ -11,12 +11,12 @@ describe('fetchWordDefinition', () => {
   let data: Record<string, string>
 
   beforeAll(async () => {
-    const words = ['dog', 'pronunciation', 'are', 'honor']
+    const words = ['dog', 'pronunciation', 'are', 'honor', 'read', 'woman']
     const filesContents = await Promise.all(
       words.map(
         async (fileName) =>
           await fs.readFile(
-            path.join(__dirname, 'responses', `${fileName}.html`),
+            path.join(__dirname, 'responses', `${fileName}`),
             'utf-8'
           )
       )
@@ -187,6 +187,64 @@ describe('fetchWordDefinition', () => {
             'https://dictionary.cambridge.org/media/english/us_pron/h/hon/honor/honor.mp3',
           language: 'US',
           symbols: 'ˈɑː.nɚ',
+        },
+      ],
+    })
+  })
+
+  it(`does not fetch the past forms of the verb`, async () => {
+    mockedAxios.get.mockResolvedValue({ data: data.read })
+
+    const wordDefinition = await fetchWordDefinition({
+      name: 'read',
+      partOfSpeech: PartOfSpeech.VERB,
+    })
+
+    expect(wordDefinition).toEqual({
+      definition: 'to look at words or symbols and understand what they mean',
+      name: 'read',
+      partOfSpeech: 'VERB',
+      pronunciations: [
+        {
+          audio:
+            'https://dictionary.cambridge.org/media/english/uk_pron/u/ukr/ukray/ukrayon025.mp3',
+          language: 'UK',
+          symbols: 'riːd',
+        },
+        {
+          audio:
+            'https://dictionary.cambridge.org/media/english/us_pron/r/rea/read_/read.mp3',
+          language: 'US',
+          symbols: 'riːd',
+        },
+      ],
+    })
+  })
+
+  it(`does not fetch the plural forms`, async () => {
+    mockedAxios.get.mockResolvedValue({ data: data.woman })
+
+    const wordDefinition = await fetchWordDefinition({
+      name: 'woman',
+      partOfSpeech: PartOfSpeech.NOUN,
+    })
+
+    expect(wordDefinition).toEqual({
+      definition: 'an adult female human being',
+      name: 'woman',
+      partOfSpeech: 'NOUN',
+      pronunciations: [
+        {
+          audio:
+            'https://dictionary.cambridge.org/media/english/uk_pron/u/ukw/ukwit/ukwitte026.mp3',
+          language: 'UK',
+          symbols: 'ˈwʊm.ən',
+        },
+        {
+          audio:
+            'https://dictionary.cambridge.org/media/english/us_pron/w/wom/woman/woman.mp3',
+          language: 'US',
+          symbols: 'ˈwʊm.ən',
         },
       ],
     })

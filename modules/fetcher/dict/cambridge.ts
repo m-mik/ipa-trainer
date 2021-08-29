@@ -31,12 +31,12 @@ function createWordDefinition(
       .replace(':', ''),
     pronunciations: [
       {
-        symbols: '.pos-header .uk .ipa',
+        symbols: '.pos-header > .uk .ipa',
         audio: '.uk source:first-of-type',
         language: Language.UK,
       },
       {
-        symbols: '.pos-header .us .ipa',
+        symbols: '.pos-header > .us .ipa',
         audio: '.us source:first-of-type',
         language: Language.US,
       },

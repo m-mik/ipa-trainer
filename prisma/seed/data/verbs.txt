@@ -673,7 +673,6 @@ struggle
 hire
 conceal
 recruit
-co-operate
 wander
 emphasize
 weigh
@@ -796,7 +795,6 @@ differentiate
 advertise
 reconcile
 project
-co-ordinate
 snap
 damn
 bake

@@ -44,7 +44,6 @@ majestic
 tart
 deranged
 warlike
-far-flung
 noxious
 malicious
 heady
@@ -88,7 +87,6 @@ second
 efficient
 testy
 vulgar
-well-off
 pastoral
 irritable
 worried
@@ -148,7 +146,6 @@ outgoing
 quixotic
 cloudy
 soggy
-well-made
 nutty
 ludicrous
 odd
@@ -213,7 +210,6 @@ mature
 convincing
 many
 yummy
-long-term
 aboriginal
 confused
 thoughtless
@@ -227,7 +223,6 @@ habitual
 clumsy
 nosy
 fancy
-old-fashioned
 grumpy
 incandescent
 half
@@ -299,7 +294,6 @@ hanging
 aloof
 jealous
 rampant
-black-and-white
 harsh
 diminutive
 hungry
@@ -440,9 +434,7 @@ brown
 little
 deep
 aboard
-blue-eyed
 omniscient
-ill-informed
 billowy
 long
 jumbled
@@ -473,7 +465,6 @@ troubled
 tawdry
 quaint
 ratty
-wide-eyed
 new
 horrible
 fast
@@ -618,7 +609,6 @@ glorious
 upset
 white
 venomous
-well-groomed
 silky
 honorable
 inquisitive
@@ -659,7 +649,6 @@ nervous
 gainful
 skinny
 accurate
-ill-fated
 last
 obscene
 hushed
@@ -724,7 +713,6 @@ terrible
 mountainous
 macho
 mute
-high-pitched
 false
 curly
 keen
@@ -733,7 +721,6 @@ economic
 highfalutin
 arrogant
 dear
-teeny-tiny
 fallacious
 slimy
 blushing
@@ -756,7 +743,6 @@ extensive
 lewd
 elegant
 convoluted
-second-hand
 left
 quack
 glamorous
@@ -768,7 +754,6 @@ beautiful
 hideous
 tall
 oceanic
-bite-sized
 nine
 immense
 quarrelsome
@@ -785,7 +770,6 @@ ossified
 substantial
 clueless
 cluttered
-hard-to-find
 gigantic
 brainy
 busy
@@ -848,7 +832,6 @@ upbeat
 rapid
 understood
 lopsided
-well-to-do
 rare
 chilly
 big

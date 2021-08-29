@@ -39,7 +39,6 @@ export function createPronunciations({
     }),
     prisma.word.update({
       data: {
-        name,
         definition,
         partOfSpeech,
       },

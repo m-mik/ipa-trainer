@@ -34,14 +34,20 @@ async function addPronunciations() {
         )
       }
 
-      const [{ count }] = await createPronunciations({
-        ...wordDefinition,
-        wordId: word.id,
-      })
+      try {
+        const [{ count }] = await createPronunciations({
+          ...wordDefinition,
+          wordId: word.id,
+        })
 
-      console.log(
-        `DB: Created ${count} pronunciations for '${word.name}' (${word.partOfSpeech})`
-      )
+        console.log(
+          `DB: Created ${count} pronunciations for '${word.name}' (${word.partOfSpeech})`
+        )
+      } catch (e) {
+        console.error(
+          `DB: Could not create pronunciations for '${word.name}' (${word.partOfSpeech}): ${e}`
+        )
+      }
     }
   )
 

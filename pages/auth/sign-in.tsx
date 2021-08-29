@@ -1,15 +1,15 @@
 import {
   Box,
   Button,
+  Container,
   Heading,
   SimpleGrid,
   Text,
   VisuallyHidden,
-  Container,
 } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import { FaGithub, FaGoogle } from 'react-icons/fa'
+import { FaGithub } from 'react-icons/fa'
 import { signIn } from 'next-auth/client'
 import { IconType } from 'react-icons'
 import Card from '@/components/Card'
@@ -25,10 +25,7 @@ interface Provider {
   Icon: IconType
 }
 
-const providers: Array<Provider> = [
-  { name: 'Github', Icon: FaGithub },
-  { name: 'Google', Icon: FaGoogle },
-]
+const providers: Array<Provider> = [{ name: 'Github', Icon: FaGithub }]
 
 type SignInProps = { demoCredentials: Credentials }
 
@@ -66,7 +63,7 @@ function SignIn({ demoCredentials }: SignInProps) {
             <Card mt="5">
               <LoginForm />
               <DividerWithText mt="6">or continue with</DividerWithText>
-              <SimpleGrid mt="6" columns={2} spacing="3">
+              <SimpleGrid mt="6" spacing="3">
                 {providers.map(({ name, Icon }) => (
                   <Button
                     key={name}

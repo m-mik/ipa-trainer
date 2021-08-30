@@ -56,7 +56,7 @@ function Keyboard(props: StackProps) {
   ]
 
   return (
-    <VStack spacing="2" p="2" d="inline-flex" {...props}>
+    <VStack d="inline-flex" {...props}>
       <Flex justifyContent="center" wrap="wrap" draggable="false">
         {symbolKeys.map((symbol) => (
           <Tooltip

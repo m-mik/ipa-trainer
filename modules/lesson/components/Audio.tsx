@@ -1,5 +1,5 @@
 import { AiFillSound } from 'react-icons/ai'
-import { Box, IconButton } from '@chakra-ui/react'
+import { Box, chakra, IconButton } from '@chakra-ui/react'
 import { useEffect, useRef } from 'react'
 
 type AudioProps = React.HTMLProps<HTMLAudioElement> & {
@@ -31,7 +31,15 @@ function Audio({ src, volume = 0.5, ...rest }: AudioProps) {
         size="sm"
         variant="ghost"
       />
-      {<audio autoPlay src={src} ref={ref} {...rest} />}
+      {
+        <audio
+          autoPlay
+          src={src}
+          ref={ref}
+          style={{ display: 'none' }}
+          {...rest}
+        />
+      }
     </Box>
   )
 }

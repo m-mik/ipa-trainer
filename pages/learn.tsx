@@ -38,7 +38,7 @@ const Learn: NextLayoutPage = () => {
         title="Learn"
         description="Learn International Phonetic Alphabet"
       />
-      <Container maxW="container.lg">
+      <Container maxW="container.lg" p="2">
         <Breadcrumb
           items={{
             Home: '/',

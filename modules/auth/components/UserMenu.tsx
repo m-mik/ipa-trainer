@@ -47,10 +47,15 @@ function UserMenu(props: UserMenuProps) {
     )
   }
 
-  const handleLogOut = async () => {
+  const handleSignOut = async () => {
     await signOut({ redirect: false })
     queryClient.setQueryData('session', null)
-    dispatch({ type: ActionType.ResetActiveSymbolIndex })
+    setTimeout(() => {
+      queryClient.clear()
+      dispatch({ type: ActionType.ResetActiveSymbolIndex })
+      dispatch({ type: ActionType.ResetSymbols })
+      dispatch({ type: ActionType.ResetActiveQuestion })
+    }, 0)
   }
 
   const { id, name, image, points } = session.user
@@ -77,7 +82,7 @@ function UserMenu(props: UserMenuProps) {
             <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
           </Link>
           <MenuDivider />
-          <MenuItem icon={<CgLogOut size="18" />} onClick={handleLogOut}>
+          <MenuItem icon={<CgLogOut size="18" />} onClick={handleSignOut}>
             Sign Out
           </MenuItem>
         </MenuList>

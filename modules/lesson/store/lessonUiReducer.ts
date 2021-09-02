@@ -76,6 +76,9 @@ export function lessonUiReducer(state: LessonUiState, action: LessonUiAction) {
       newSymbols.splice(destinationIndex, 0, state.symbols[sourceIndex])
       return { ...state, symbols: newSymbols }
     }
+    case ActionType.ResetActiveQuestion: {
+      return { ...state, activeQuestion: null }
+    }
     default:
       return state
   }

@@ -16,6 +16,7 @@ export enum ActionType {
   SetLanguage = 'SET_LANGUAGE',
   SetAudioVolume = 'SET_AUDIO_VOLUME',
   SetAudioAutoPlay = 'SET_AUDIO_AUTO_PLAY',
+  ResetActiveQuestion = 'RESET_ACTIVE_QUESTION',
 }
 
 export const activateNextQuestion = (
@@ -51,3 +52,4 @@ export type LessonUiAction =
       type: ActionType.DropSymbol
       payload: { sourceIndex: number; destinationIndex: number }
     }
+  | { type: ActionType.ResetActiveQuestion }

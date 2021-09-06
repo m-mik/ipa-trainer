@@ -1,8 +1,8 @@
-import axios from 'axios'
-import cambridge from './dict/cambridge'
 import { PartOfSpeech } from '@prisma/client'
+import axios from 'axios'
 import PQueue, { DefaultAddOptions, Options } from 'p-queue'
 import PriorityQueue from 'p-queue/dist/priority-queue'
+import cambridge from './dict/cambridge'
 import { Dictionary } from './types'
 
 export const DEFAULT_DICTIONARY = cambridge
@@ -21,7 +21,7 @@ export const createFetchWordDefinition =
     const url = buildUrl(searchUrl, name)
     const res = await axios.get<string>(url)
     return parse(res.data).find(
-      (wordDefnitions) => wordDefnitions.partOfSpeech === partOfSpeech
+      (wordDefinition) => wordDefinition.partOfSpeech === partOfSpeech
     )
   }
 

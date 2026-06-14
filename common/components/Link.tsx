@@ -1,18 +1,32 @@
-import NextLink, { LinkProps as NextLinkProps } from 'next/link'
+import NextLink from 'next/link'
+import type { UrlObject } from 'url'
 import {
   Link as ChakraLink,
   LinkProps as ChakraLinkProps,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import React, { ReactNode } from 'react'
+import React from 'react'
 
-type LinkProps = React.PropsWithChildren<ChakraLinkProps> &
-  Pick<NextLinkProps, 'href'> & { styleActive?: boolean }
+type LinkProps = Omit<ChakraLinkProps, 'href'> & {
+  href: string | UrlObject
+  styleActive?: boolean
+}
 
 function Link({ children, href, styleActive = true, ...props }: LinkProps) {
   const router = useRouter()
-  const isActive = router.pathname === href
-  const shouldStyleActive = styleActive && isActive
+
+  if (!href) {
+    return <>{children}</>
+  }
+
+  const hrefPath =
+    typeof href === 'string'
+      ? href
+      : href?.pathname ?? ''
+
+  const isActive =
+    styleActive && router.pathname === hrefPath
+
   const activeProps = {
     borderBottom: '2px',
   }
@@ -20,15 +34,14 @@ function Link({ children, href, styleActive = true, ...props }: LinkProps) {
   return (
     <NextLink href={href} passHref>
       <ChakraLink {...props}>
-        {React.Children.map<ReactNode, ReactNode>(children, (child) => {
+        {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
             return React.cloneElement(
               child,
-              shouldStyleActive ? activeProps : {}
+              isActive ? activeProps : {}
             )
-          } else {
-            return child
           }
+          return child
         })}
       </ChakraLink>
     </NextLink>

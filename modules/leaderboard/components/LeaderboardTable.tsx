@@ -25,7 +25,11 @@ const {
 
 function LeaderboardTable(props: BoxProps) {
   const router = useRouter()
-  const page = Math.max(Number(router.query.page ?? 1), 1)
+  const pageParam = router.query.page
+  const page =
+  Number.isFinite(Number(pageParam)) && Number(pageParam) > 0
+    ? Number(pageParam)
+    : 1
   const { data, isPreviousData, error, isLoading } = useLeaderboard(page)
 
   if (error?.response) {

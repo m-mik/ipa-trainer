@@ -70,7 +70,7 @@ function LeaderboardTable(props: BoxProps) {
                 #{getUserPosition(index)} {getTrophy(getUserPosition(index))}
               </Td>
               <Td>
-                <Link href={`/user/${id}`}>{name}</Link>
+                {id && <Link href={`/user/${id}`}>{name}</Link>}
               </Td>
               <Td isNumeric>{points}</Td>
             </Tr>

@@ -69,7 +69,7 @@ function UserProfile({ userId }: UserProfileProps) {
         items={{
           Home: '/',
           Leaderboard: '/leaderboard',
-          [name]: `/user/${id}`,
+          [name]: `/user/${id ?? ""}`,
         }}
       />
       <Card mt="5">

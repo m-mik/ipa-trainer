@@ -75,9 +75,9 @@ function UserMenu(props: UserMenuProps) {
       </MenuButton>
       <Portal>
         <MenuList>
-          <Link href={`/user/${id}`}>
+          {id && <Link href={`/user/${id}`}>
             <MenuItem icon={<BsPerson size="18" />}>Profile</MenuItem>
-          </Link>
+          </Link>}
           <Link href="/settings">
             <MenuItem icon={<FiSettings size="18" />}>Settings</MenuItem>
           </Link>

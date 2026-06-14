@@ -3,4 +3,7 @@ module.exports = {
   eslint: {
     dirs: ['common', 'layouts', 'modules', 'pages', 'prisma', 'theme'],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 }

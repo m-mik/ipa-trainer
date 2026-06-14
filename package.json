@@ -18,7 +18,7 @@
     "e2e": "start-server-and-test start http://localhost:3000 cypress",
     "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
     "test": "jest --watch",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "vercel-build": "next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.5",

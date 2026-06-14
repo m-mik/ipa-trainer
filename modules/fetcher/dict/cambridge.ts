@@ -1,4 +1,5 @@
-import cheerio, { Cheerio, Element } from 'cheerio'
+import * as cheerio from 'cheerio'
+import type { Element } from 'domhandler'
 import { Language, PartOfSpeech } from '@prisma/client'
 import { Dictionary, WordDefinition } from '../types'
 
@@ -17,7 +18,7 @@ const cambridge: Dictionary = {
 
 function createWordDefinition(
   partOfSpeech: PartOfSpeech,
-  section: Cheerio<Element>
+  section: cheerio.Cheerio<Element>
 ) {
   const wordDefinition = {
     name: section.find('.dhw')?.first().text(),
@@ -74,7 +75,7 @@ function createWordDefinition(
 }
 
 function extractWordDefinitionsFromSection(
-  section: Cheerio<Element>
+  section: cheerio.Cheerio<Element>
 ): WordDefinition[] {
   const partsOfSpeech = section
     .find('.pos')
